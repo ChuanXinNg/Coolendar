@@ -3,8 +3,8 @@ import coolendarLogo from './Coolendar logo.jpg';
 import './App.css';
 
 function App() {
-  const [email, setEmail] = useState('Email is not filled');
-  const [password, setPassword] = useState('Password is not filled');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
 
   const logInButtonHandler = () => {
@@ -21,8 +21,8 @@ function App() {
   };
 
   const clearButtonHandler = () => {
-    setEmail('Email is not filled');
-    setPassword('Password is not filled');
+    setEmail('');
+    setPassword('');
     setLoginStatus('');
   };
 
