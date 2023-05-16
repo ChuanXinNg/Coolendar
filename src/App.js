@@ -3,86 +3,77 @@ import coolendarLogo from './Coolendar logo.jpg';
 import './App.css';
 
 function App() {
-    // React States
-  const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [email, setEmail] = useState('Email is not filled');
+  const [password, setPassword] = useState('Password is not filled');
+  const [loginStatus, setLoginStatus] = useState('');
 
-  // User Login info
-  const database = [
-    {
-      username: "user1",
-      password: "pass1"
-    },
-    {
-      username: "user2",
-      password: "pass2"
-    }
-  ];
-
-  const errors = {
-    uname: "invalid username",
-    pass: "invalid password"
+  const logInButtonHandler = () => {
+    setLoginStatus('You have successfully logged in with ' + email);
   };
 
-  const handleSubmit = (event) => {
-    //Prevent page reload
-    event.preventDefault();
-
-    var { uname, pass } = document.forms[0];
-
-    // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
-
-    // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        setIsSubmitted(true);
-      }
-    } else {
-      // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
-    }
-  };
-
-  // Generate JSX code for error message
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
+  const signUpButtonHandler = () => {
+    setLoginStatus(
+      'You have successfully signed up with ' +
+        email +
+        ' and your password is ' +
+        password
     );
+  };
 
-  // JSX code for login form
-  const renderForm = (
-    <div className="form">
-      <form onSubmit={handleSubmit}>
-        <div className="input-container">
-          <label>Username </label>
-          <input type="text" name="uname" required />
-          {renderErrorMessage("uname")}
-        </div>
-        <div className="input-container">
-          <label>Password </label>
-          <input type="password" name="pass" required />
-          {renderErrorMessage("pass")}
-        </div>
-        <div className="button-container">
-          <input type="submit" />
-        </div>
-      </form>
-    </div>
-  );
+  const clearButtonHandler = () => {
+    setEmail('Email is not filled');
+    setPassword('Password is not filled');
+    setLoginStatus('');
+  };
 
   return (
-    <div className="App">
+    <div className="Coolendar-App">
       <header className="App-header">
         <img src={coolendarLogo} className="App-logo" alt="logo" />
 
         <div className="login-form">
           <div className="title">Sign In</div>
-          {isSubmitted ? <div>User is successfully logged in</div> : renderForm}
         </div>
+
+        <div className="container">
+          <h2>Enter Email:</h2>
+          <input
+            type="text"
+            className="inputContainer"
+            placeholder="Enter your Email here"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <h2>Enter password:</h2>
+          <input
+            type="password"
+            className="inputContainer"
+            placeholder="Enter your password here"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <p>{loginStatus}</p>
+
+          <div className="buttonContainer">
+            <button onClick={logInButtonHandler}>Log In</button>
+          </div>
+
+          <div className="buttonContainer">
+            <button onClick={signUpButtonHandler}>Sign Up</button>
+          </div>
+
+          <div className="buttonContainer">
+            <button onClick={clearButtonHandler}>Clear</button>
+          </div>
+
+          <p>--------------------</p>
+          <p>For checking purpose</p>
+          <p>Current Email: {email}</p>
+          <p>Current Password: {password}</p>
+        </div>
+
       </header>
     </div>
   );
