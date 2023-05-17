@@ -64,39 +64,39 @@ function App() {
 
   
   return (
-    <div className="Coolendar-App">
-      <header className="App-header">
+    <div className="CoolendarLogin-App">
+      <header className="AppLogin-header">
         <img src={coolendarLogo} className="App-logo" alt="logo" />
 
         
         <div className="login-form">
-          <div className="title">Sign In</div>
+          <div className="login-title">Sign In</div>
           
-          <div className="container">
-            <div className="enter">Email:</div>
+          <div className="login-container">
+            <div className="enterLogin">Email:</div>
             <input
             id="user-email"
             type="text"
-            className="inputContainer"
+            className="login-inputContainer"
             placeholder="Enter your Email here"
             />
           </div>
 
-          <div className="container">
-            <div className="enter">Password:</div>
+          <div className="login-container">
+            <div className="enterLogin">Password:</div>
             <input
               id="user-password"
               type="password"
-              className="inputContainer"
+              className="login-inputContainer"
               placeholder="Enter your password here"
             />
           </div>
 
-          <div className="buttonContainer">
+          <div>
             <button className="sign-in-buttons" onClick={logIn}>Log In</button>
           </div>
 
-          <div className="buttonContainer">
+          <div>
             <button className="sign-in-buttons" onClick={signUp}>Sign Up</button>
           </div>
 

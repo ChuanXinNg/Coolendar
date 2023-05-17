@@ -1,13 +1,13 @@
-.Coolendar-App {
+.CoolendarLogin-App {
   text-align: center;
 }
 
-.App-logo {
+.AppLogin-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
-.App-header {
+.AppLogin-header {
   background-color: white;
   min-height: 100vh;
   display: flex;  
@@ -25,7 +25,7 @@
   border-style: dotted;
   padding: 15px;
 }
-.title {
+.login-title {
   font-size: 30px;
   margin-bottom: 10px;
   font-weight: bold;
@@ -37,7 +37,7 @@
   flex: 1;
 }
 
-.container {
+.login-container {
   font-size: 16px;
   display: flex;
   flex-direction: row;
@@ -45,7 +45,7 @@
   justify-content: center;
 }
 
-.inputContainer {
+.login-inputContainer {
   border-width: 1px;
   border-color: #777;
   padding: 8px;
