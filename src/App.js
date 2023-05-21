@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Calendar from 'react-calendar'; 
 import coolendarLogo from './Coolendar logo.jpg';
+import Todo from "./todo";
 import './App.css';
 
 function App() {
   const [user, setUserPair] = useState({});
   const [loggedIn, setLoggedIn] = useState(false); // Track login state
   const [date, setDate] = useState(new Date());
+  const [todoListVisible, setTodoListVisible] = useState(false);
 
   function signUp() {
     const email = document.getElementById('user-email').value;
@@ -68,11 +70,27 @@ function App() {
 
         <div>
           <div className="calendar-container">
-            <Calendar className="calendar" onChange={setDate} value={date} selectRange={true} />
+            <Calendar 
+              className="calendar" 
+              onChange={setDate} 
+              value={date} 
+              // selectRange={true} 
+              onClickDay={() => setTodoListVisible(true)}/>
           </div>
-          <div className="text-center">
-            Selected date: {date.toDateString()}
-          </div>
+          {date.length > 0 ? (
+            <p>
+              <span>Start:</span>{' '} {date[0].toDateString()}
+              &nbsp; to &nbsp;
+              <span>End:</span> {date[1].toDateString()}
+            </p>
+                  ) : (
+            <p>
+              <span>Default selected date:</span>{' '} {date.toDateString()}
+            </p>
+          )}
+
+          <Todo todoListVisible={todoListVisible} date={date}/>
+
         </div>
       </div>
     );
@@ -95,7 +113,7 @@ function App() {
               placeholder="Enter your Email here"
             />
           </div>
-
+          
           <div className="login-container">
             <div className="enterLogin">Password:</div>
             <input
@@ -106,13 +124,26 @@ function App() {
             />
           </div>
 
+
+          <div className="text-forgot">          
+            <div className="remember-me">
+                <input type="checkbox"/>
+                Remember me
+            </div>
+
+            <span className="forgot-password">Forgot password?</span>
+
+          </div>
+          
           <div>
             <button className="sign-in-buttons" onClick={logIn}>Log In</button>
           </div>
 
-          <div>
-            <button className="sign-in-buttons" onClick={signUp}>Sign Up</button>
+          <div className="no-account">
+            Don&#39;t have an account? 
+            <span className="sign-up" onClick={signUp}> Sign up</span>
           </div>
+
         </div>
 
         <div id="testing"></div>

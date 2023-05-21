@@ -27,6 +27,7 @@
   border-style: dotted;
   padding: 15px;
 }
+
 .login-title {
   font-size: 30px;
   margin-bottom: 10px;
@@ -47,15 +48,49 @@
   justify-content: center;
 }
 
+.remember-me {
+  display: inline;
+  font-size: 14px;
+  float: left;
+  
+}
+
+.forgot-password {
+  display: inline;
+  font-size: 14px;
+  color: grey;
+  float: right;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+  color: red;
+}
+
+.no-account {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.sign-up {
+  color: red;
+}
+
+.sign-up:hover {
+  text-decoration: underline;
+}
+
 .login-inputContainer {
   border-width: 1px;
   border-color: #777;
   padding: 8px;
-  margin: 10px;
   width: 200px;
+  margin-left: 10px;
+  margin-bottom: 5px;
 }
 
 .sign-in-buttons {
+  margin: 15px;
   background-color: white;
   border-color: grey;
   border-style: solid;
@@ -63,14 +98,13 @@
   color: black;
   border-radius: 5px;
   cursor: pointer;
-  padding: 3px;
+  padding: 10px;
+  padding-left: 120px;
+  padding-right: 120px;
 }
 
 .sign-in-buttons:hover{
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
+  background-color: pink;
 }
 
 .sign-in-buttons:active{
