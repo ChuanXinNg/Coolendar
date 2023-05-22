@@ -2,12 +2,9 @@ import React from "react";
 import coolendarLogo from './images/Coolendar logo.jpg';
 import './css/login.css';
 import '../supabase'
+import { Link } from "react-router-dom";
 
 function loginScreen() {
-
-  function signUp() {
-    console.log('sign up');
-  }
 
   function logIn() {
     const email = document.getElementById('user-email').value;
@@ -77,7 +74,7 @@ function loginScreen() {
 
           <div className="no-account">
             Don&#39;t have an account? 
-            <span className="sign-up" onClick={signUp}> Sign up</span>
+            <span className="sign-up"> <Link to="/signup">Sign up</Link></span>
           </div>
 
         </div>

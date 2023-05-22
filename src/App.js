@@ -1,24 +1,19 @@
 import React from "react";
-import loginScreen from "./components/loginScreen";
-import calendarScreen from "./components/calendarScreen";
+import SignupScreen from "./components/SignupScreen";
+import CalendarScreen from "./components/CalendarScreen";
+import LoginScreen from "./components/LoginScreen";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
-  const isLoggedIn = false;
-
-  if (isLoggedIn) {
-    return (
-      <div>
-        {calendarScreen()}
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        {loginScreen()}
-      </div>
-    );
-  }
-
+  return (
+    <div>
+      <Routes>
+        <Route path={"/"} element={<LoginScreen/>} />
+        <Route path={"/signup"} element={<SignupScreen/>} />
+        <Route path={"/calendar"} element={<CalendarScreen/>} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;

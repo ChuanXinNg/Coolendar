@@ -5,8 +5,10 @@
 }
 
 .AppLogin-logo {
-  height: 60vmin;
   pointer-events: none;
+  display: block;
+  margin: auto;
+  width: 250px;
 }
 
 .AppLogin-header {
