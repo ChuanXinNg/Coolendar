@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
-import './App.css';
+import './css/App.css';
 
 function Todo({ todoListVisible, date }) {
   const [todos, setTodos] = useState([]);
