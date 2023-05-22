@@ -1,19 +1,39 @@
 import React from "react";
 import coolendarLogo from './images/Coolendar logo.jpg';
 import './css/login.css';
+import '../supabase'
 
 function loginScreen() {
-  
+
   function signUp() {
     console.log('sign up');
-
-    // Clear input fields after signing up
-    document.getElementById('user-email').value = '';
-    document.getElementById('user-password').value = ''; 
   }
 
   function logIn() {
+    const email = document.getElementById('user-email').value;
+    const password = document.getElementById('user-password').value; 
+    const remember = document.getElementById('remember').checked;
+    const userDetails = {
+      email: email,
+      password: password,
+      remember: remember
+    };
+
+    console.log(userDetails);
     console.log("logged in");
+
+    clear();
+  }
+
+  function forgotPassword() {
+    console.log("forgot password");
+  }
+
+  function clear() {
+    // Clear input fields after signing up
+    document.getElementById('user-email').value = '';
+    document.getElementById('user-password').value = ''; 
+    document.getElementById('remember').checked = false;
   }
 
   return (
@@ -24,34 +44,30 @@ function loginScreen() {
         <div className="login-form">
           <div className="login-title">Sign In</div>
           
-          <div className="login-container">
-            <div className="enterLogin">Email:</div>
-            <input
+          <input
               id="user-email"
               type="text"
               className="login-inputContainer"
-              placeholder="Enter your Email here"
+              placeholder="Email"
             />
-          </div>
           
-          <div className="login-container">
-            <div className="enterLogin">Password:</div>
-            <input
-              id="user-password"
-              type="password"
-              className="login-inputContainer"
-              placeholder="Enter your password here"
-            />
-          </div>
+          <input
+            id="user-password"
+            type="password"
+            className="login-inputContainer"
+            placeholder="Password"
+          />
 
 
           <div className="text-forgot">          
             <div className="remember-me">
-                <input type="checkbox"/>
-                Remember me
+              <input id="remember" type="checkbox"/>
+              Remember me
             </div>
 
-            <span className="forgot-password">Forgot password?</span>
+            <span className="forgot-password" onClick={forgotPassword}>
+              Forgot password?
+            </span>
 
           </div>
           
