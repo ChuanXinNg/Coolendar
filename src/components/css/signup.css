@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Kalam&family=Roboto&family=Shadows+Into+Light&display=swap');
 
-.signup-title {
+.title {
   font-size: 30px;
   margin-bottom: 10px;
   font-weight: bold;
@@ -53,7 +54,7 @@
   background-color: pink;
 }
 
-.have-account {
+.account {
   display: block;
   text-align: center;
 }
@@ -63,5 +64,31 @@
 }
 
 .sign-in:hover {
+  text-decoration: underline;
+}
+
+.form {
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.forgot-password {
+  display: block;
+  text-align: center;
+  color: grey;
+}
+
+.forgot-password:hover {
+  color: red;
+  text-decoration: underline;
+}
+
+.sign-up {
+  color: red;
+}
+
+.sign-up:hover {
   text-decoration: underline;
 }

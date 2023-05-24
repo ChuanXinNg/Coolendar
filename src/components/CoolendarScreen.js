@@ -3,15 +3,27 @@ import Calendar from 'react-calendar';
 import coolendarLogo from './images/Coolendar logo.jpg';
 import Todo from "./todo";
 import './css/App.css';
+import { useNavigate } from "react-router-dom";
 
-function calendarScreen() {
+function calendarScreen({token}) {
+
+  let navigate = useNavigate();
+
   const [date, setDate] = useState(new Date());
   const [todoListVisible, setTodoListVisible] = useState(false);
+
+  function handleLogOut() {
+    sessionStorage.removeItem('token');
+    navigate('/');
+
+  }
 
     return (
       <div className="Coolendar-App">
         <div className="header">
           <img className="App-logo" src={coolendarLogo} alt="logo" />
+          Welcome back, {token.user.user_metadata.name}
+          <button onClick={handleLogOut}>Log out</button>
         </div>
 
         <div>
