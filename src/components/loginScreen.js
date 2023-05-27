@@ -1,74 +1,78 @@
-import React from "react";
+import React, { useState } from "react";
 import coolendarLogo from './images/Coolendar logo.jpg';
-import './css/login.css';
+import './css/signup.css';
+import { supabase } from '../supabase';
+import { Link, useNavigate } from "react-router-dom";
 
-function loginScreen() {
-  
-  function signUp() {
-    console.log('sign up');
+function loginScreen({setToken}) {
 
-    // Clear input fields after signing up
-    document.getElementById('user-email').value = '';
-    document.getElementById('user-password').value = ''; 
+  let navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+  function handleLogin(event) {
+    const { name, value } = event.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: value
+    }));
   }
 
-  function logIn() {
-    console.log("logged in");
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    try {
+      
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      })
+
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      setToken(data);
+      navigate('/coolendar');
+        
+    } catch (error) {
+      alert(error.message);
+    }
   }
+
+  function forgotPassword() {
+    console.log("forgot password");
+  }
+
 
   return (
-    <div className="CoolendarLogin-App">
-      <header className="AppLogin-header">
-        <img src={coolendarLogo} className="AppLogin-logo" alt="logo" />
+    <div className="page">
+      <img src={coolendarLogo} className="logo" alt="Coolendar Logo" />
 
-        <div className="login-form">
-          <div className="login-title">Sign In</div>
-          
-          <div className="login-container">
-            <div className="enterLogin">Email:</div>
-            <input
-              id="user-email"
-              type="text"
-              className="login-inputContainer"
-              placeholder="Enter your Email here"
-            />
-          </div>
-          
-          <div className="login-container">
-            <div className="enterLogin">Password:</div>
-            <input
-              id="user-password"
-              type="password"
-              className="login-inputContainer"
-              placeholder="Enter your password here"
-            />
-          </div>
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="title">Sign In</div>
+          <input id="email" className="user-details" type='text' name="email" placeholder="Email" onChange={handleLogin}/>
+          <input id="password" className="user-details" type='password' name="password" placeholder="Password" onChange={handleLogin}/>
+          <button className="submit" type='submit'>Log in</button>
+        </form>
 
-
-          <div className="text-forgot">          
-            <div className="remember-me">
-                <input type="checkbox"/>
-                Remember me
-            </div>
-
-            <span className="forgot-password">Forgot password?</span>
-
-          </div>
-          
-          <div>
-            <button className="sign-in-buttons" onClick={logIn}>Log In</button>
-          </div>
-
-          <div className="no-account">
+        <div className="no-account">
+          <span className="forgot-password" onClick={forgotPassword}>
+            Forgot password?
+          </span>
+          <div className="account">
             Don&#39;t have an account? 
-            <span className="sign-up" onClick={signUp}> Sign up</span>
+            <span className="sign-up"> <Link to="/signup">Sign up</Link></span>
           </div>
-
         </div>
-
-        <div id="testing"></div>
-      </header>
     </div>
+
+    
+
+
   );
 
 }
