@@ -1,0 +1,50 @@
+Database details
+Since we are using local host (which we will change it later), below are the information of the table
+
+CREATE TABLE todotable (
+	todo_id INT PRIMARY KEY AUTO_INCREMENT,
+	todo_task TEXT NOT NULL,
+	deadline_date DATE,
+	deadline_time TIME,
+	created_date DATE,
+	created_time TIME,
+	creator_id VARCHAR(100)
+);
+
+*/
+const token = req.headers.authorization;
+const userIdFromToken = token.user.id;
+*/
+
+SELECT deadline_date, deadline_time, todo_task 
+FROM todotable
+WHERE creator_id = ${userIdFromToken}
+ORDER BY deadline_date ASC, deadline_time ASC, created_date DSC, created_time DSC;
+
+CREATE TRIGGER auto_insertion_created_date_created_time_todotable
+BEFORE UPDATE ON todotable
+FOR EACH ROW
+SET NEW.created_date = CURRENT_DATE();
+SET NEW.created_time = CURRENT_TIME();
+
+
+
+Node.js operations 
+app.get(path, callback)
+`path`: the URL path or route that the client requests.
+`callback`: the function that will be executed when a GET request is made to the specified path. 
+It takes two parameters: req (the request object) and res (the response object). 
+Inside the callback function, you can perform operations based on the received request and send a response back to the client using the res object.
+
+Basically, you 'get' something from the server
+
+app.post(path, callback)
+`path`: the URL path or route that the client requests.
+`callback`: the function that will be executed when a POST request is made to the specified path. 
+It takes two parameters: req (the request object) and res (the response object). 
+Inside the callback function, you can perform operations based on the received request data and send a response back to the client using the res object.
+
+Basically, you 'post' data to the backend server
+
+
+
