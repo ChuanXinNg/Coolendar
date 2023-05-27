@@ -18,12 +18,16 @@ function calendarScreen({token}) {
 
   }
 
+  console.log(token);
+
+
     return (
       <div className="Coolendar-App">
         <div className="header">
           <img className="App-logo" src={coolendarLogo} alt="logo" />
           Welcome back, {token.user.user_metadata.name}
           <button onClick={handleLogOut}>Log out</button>
+          {token.user.id}
         </div>
 
         <div>
@@ -33,7 +37,8 @@ function calendarScreen({token}) {
               onChange={setDate} 
               value={date} 
               // selectRange={true} 
-              onClickDay={() => setTodoListVisible(true)}/>
+              onClickDay={() => setTodoListVisible(true)}
+              />
           </div>
           {date.length > 0 ? (
             <p>
