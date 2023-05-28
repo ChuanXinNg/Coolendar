@@ -12,22 +12,17 @@ function calendarScreen({token}) {
   const [date, setDate] = useState(new Date());
   const [todoListVisible, setTodoListVisible] = useState(false);
 
-  function handleLogOut() {
-    sessionStorage.removeItem('token');
-    navigate('/');
-
-  }
-
   console.log(token);
 
+  function toUserScreen() {
+    navigate('/user');
+  }
 
     return (
       <div className="Coolendar-App">
         <div className="header">
-          <img className="App-logo" src={coolendarLogo} alt="logo" />
+          <img className="App-logo" src={coolendarLogo} alt="logo" onClick={toUserScreen}/>
           Welcome back, {token.user.user_metadata.name}
-          <button onClick={handleLogOut}>Log out</button>
-          {token.user.id}
         </div>
 
         <div>
@@ -52,7 +47,7 @@ function calendarScreen({token}) {
             </p>
           )}
 
-          <Todo todoListVisible={todoListVisible} date={date}/>
+          <Todo todoListVisible={todoListVisible}/>
 
         </div>
       </div>

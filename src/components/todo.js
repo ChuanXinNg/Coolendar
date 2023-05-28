@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import './css/App.css';
 
-function Todo({ todoListVisible, date }) {
+function Todo({ todoListVisible}) {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -59,7 +59,6 @@ function Todo({ todoListVisible, date }) {
       {todoListVisible && (
         <div>
           <div className="header">
-            {date.toDateString()}
             <input id="todo-title" type="text" />
             <input id="date-picker" type="time" />
 

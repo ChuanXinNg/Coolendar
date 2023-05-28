@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SignupScreen from "./components/SignupScreen";
 import CoolendarScreen from "./components/CoolendarScreen";
 import LoginScreen from "./components/LoginScreen";
+import UserScreen from "./components/UserScreen";
 import { Route, Routes } from "react-router-dom";
 import { supabase } from "./supabase";
 
@@ -46,6 +47,7 @@ function App() {
         <Route path={"/"} element={<LoginScreen setToken={setToken}/>} />
         <Route path={"/signup"} element={<SignupScreen/>} />
         {token ? <Route path={"/coolendar"} element={<CoolendarScreen token={token}/>} /> : ""}
+        <Route path={"/user"} element={<UserScreen token={token}/>} />
       </Routes>
     </div>
   );
