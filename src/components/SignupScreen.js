@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import coolendarLogo from './images/Coolendar logo.jpg';
-import { supabase } from '../supabase';
+import {supabase} from "../supabase";
 import './css/signup.css';
 import { Link } from "react-router-dom";
 

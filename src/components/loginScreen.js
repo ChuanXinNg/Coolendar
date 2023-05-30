@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import coolendarLogo from './images/Coolendar logo.jpg';
 import './css/signup.css';
-import { supabase } from '../supabase';
+import {supabase} from "../supabase";
 import { Link, useNavigate } from "react-router-dom";
 
 function loginScreen({setToken}) {

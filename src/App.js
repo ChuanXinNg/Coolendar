@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import SignupScreen from "./components/SignupScreen";
 import CoolendarScreen from "./components/CoolendarScreen";
 import LoginScreen from "./components/LoginScreen";
+import TodotestScreen from "./components/TodotestScreen";
 import UserScreen from "./components/UserScreen";
 import { Route, Routes } from "react-router-dom";
-import { supabase } from "./supabase";
+import {supabase} from "./supabase";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
         <Route path={"/signup"} element={<SignupScreen/>} />
         {token ? <Route path={"/coolendar"} element={<CoolendarScreen token={token}/>} /> : ""}
         <Route path={"/user"} element={<UserScreen token={token}/>} />
+        <Route path={"/todotest"} element={<TodotestScreen token={token}/>} />
       </Routes>
     </div>
   );
