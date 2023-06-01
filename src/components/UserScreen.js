@@ -1,5 +1,5 @@
 import React from "react";
-import coolendarLogo from './images/Coolendar logo.jpg';
+import coolendarLogo from './images/Coolander logo light cropped.png';
 import { useNavigate } from "react-router-dom";
 import './css/user.css';
 
