@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import coolendarLogo from './images/Coolendar logo.jpg';
+import coolendarLogo from './images/Coolander logo light cropped.png';
 import './css/signup.css';
 import {supabase} from "../supabase";
 import { Link, useNavigate } from "react-router-dom";
