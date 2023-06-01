@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Calendar from 'react-calendar'; 
-import coolendarLogo from './images/Coolendar logo.jpg';
+import coolendarLogo from './images/Coolander logo light cropped.png';
 import Todo from "./todo";
 import './css/App.css';
 import { useNavigate } from "react-router-dom";
