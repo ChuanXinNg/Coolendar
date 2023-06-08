@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Calendar from 'react-calendar';
-import axios from "axios";
-import coolendarLogo from "../images/Coolendar logo light cropped.png";
-// ori: import coolendarLogo from "./images/Coolendar logo light cropped.png";
-import Todo from "./todo";
-// todo not changed
 import "../css/App.css";
-// ori: import "./css/App.css";
+import { supabase } from '../../supabase';
+import Navbar from "./Navbar";
+import Logo from "./Logo";
 
 
 function calendarScreen({ token }) {
@@ -15,21 +12,25 @@ function calendarScreen({ token }) {
   let navigate = useNavigate();
 
   const [date, setDate] = useState(new Date());
-  const [todoListVisible, setTodoListVisible] = useState(false);
+  // const [todoListVisible, setTodoListVisible] = useState(false);
   const [todo, setTodo] = useState([]);
 
   console.log(token);
 
-  function toUserScreen() {
-    navigate('/user');
-  }
-
   useEffect(() => {
     const fetchtodo = async () => {
       try {
-        const res = await axios.get("http://localhost:8800/todotable");
-        console.log(res);
-        setTodo(res.data);
+        const { data, error } = await supabase
+        .from('todo')
+        .select('*')
+
+        if (error) {
+          throw error;
+        }
+
+        setTodo(data);
+        console.log(data);
+
       } catch (err) {
         console.log(err);
       }
@@ -43,11 +44,8 @@ function calendarScreen({ token }) {
 
   return (
     <div className="Coolendar-App">
-      <div className="header">
-        <img className="App-logo" src={coolendarLogo} alt="logo" onClick={toUserScreen} />
-        Welcome back, {token.user.user_metadata.name}
-      </div>
-
+      <Logo/>
+      Welcome back, {token.user.user_metadata.name}
       <div>
         <div className="calendar-container">
           <Calendar
@@ -55,7 +53,7 @@ function calendarScreen({ token }) {
             onChange={setDate}
             value={date}
             // selectRange={true} 
-            onClickDay={() => setTodoListVisible(true)}
+            // onClickDay={() => setTodoListVisible(true)}
           />
         </div>
         {date.length > 0 ? (
@@ -79,9 +77,13 @@ function calendarScreen({ token }) {
           ))}
         </div>
 
-        <Todo todoListVisible={todoListVisible} />
+        {/* <Todo todoListVisible={todoListVisible} /> */}
 
         <button onClick={totestpage}>try insert todo</button>
+
+        <React.Fragment>
+          <Navbar />
+        </React.Fragment>
 
       </div>
     </div>

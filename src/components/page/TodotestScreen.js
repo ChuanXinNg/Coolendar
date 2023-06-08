@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import coolendarLogo from "../images/Coolendar logo light cropped.png";
 // ori: import coolendarLogo from "./images/Coolendar logo light cropped.png";
 import "../css/App.css";
 // ori: import "./css/App.css";
+import { supabase } from '../../supabase';
 
 
 function todotestScreen({ token }) {
@@ -30,11 +31,22 @@ function todotestScreen({ token }) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const todoData = {
-        ...testtodo,
-        token: token
-      };
-      await axios.post("http://localhost:8800/todotable", todoData);
+      // const todoData = {
+      //   ...testtodo,
+      //   token: token
+      // };
+      
+      const { data, error } = await supabase
+      .from('todo')
+      .insert([
+        { user_id: testtodo.user_id, task: testtodo.todo_task },
+      ])
+
+      if (error) {
+        throw error;
+      }
+
+      console.log(data);
       navigate("/coolendar");
     } catch (err) {
       console.log(err);
@@ -52,7 +64,7 @@ function todotestScreen({ token }) {
     <div className="Coolendar-App">
       <div className="header">
         <img className="App-logo" src={coolendarLogo} alt="logo" onClick={toUserScreen} />
-        Hi, {token.user.user_metadata.name}, {token.user.id}
+        Hi, {token.user.user_metadata.name}
       </div>
 
       <form className="form" onSubmit={handleSubmit}>

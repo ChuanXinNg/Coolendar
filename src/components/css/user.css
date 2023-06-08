@@ -1,6 +1,7 @@
 .Coolendar-App {
   display: flex;
   flex-direction: column;
+  margin-bottom: 50px;
 }
 
 .App-logo{
@@ -37,5 +38,26 @@
 }
 
 .button:hover {
+  background-color: pink;
+}
+
+.logoutbutton {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: block;
+  background-color: rgb(173, 236, 255);
+  border-color: grey;
+  border-style: solid;
+  border-width: 2px;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px;
+  width: 250px;
+}
+
+.logoutbutton:hover {
   background-color: pink;
 }

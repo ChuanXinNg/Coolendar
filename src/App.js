@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
-import SignupScreen from "./components/SignupScreen";
-import CoolendarScreen from "./components/CoolendarScreen";
-import LoginScreen from "./components/LoginScreen";
-import TodotestScreen from "./components/TodotestScreen";
-import UserScreen from "./components/UserScreen";
+import SignupScreen from "./components/page/SignupScreen";
+import CoolendarScreen from "./components/page/CoolendarScreen";
+import LoginScreen from "./components/page/loginScreen";
+import TodotestScreen from "./components/page/TodotestScreen";
+import UserScreen from "./components/page/UserScreen";
 import { Route, Routes } from "react-router-dom";
 import {supabase} from "./supabase";
+
+import DairyPage from "./components/page/DairyPage";
+import EventPage from "./components/page/EventPage";
+import NotePage from "./components/page/NotePage";
+import TodoPage from "./components/page/TodoPage";
+import NewEventPage from "./components/page/NewEventPage";
+
 
 
 function App() {
@@ -48,8 +55,13 @@ function App() {
         <Route path={"/"} element={<LoginScreen setToken={setToken}/>} />
         <Route path={"/signup"} element={<SignupScreen/>} />
         {token ? <Route path={"/coolendar"} element={<CoolendarScreen token={token}/>} /> : ""}
-        <Route path={"/user"} element={<UserScreen token={token}/>} />
-        <Route path={"/todotest"} element={<TodotestScreen token={token}/>} />
+        {token ? <Route path={"/diary"} element={<DairyPage token={token}/>} /> : ""}
+        {token ? <Route path={"/event"} element={<EventPage token={token}/>} /> : ""}
+        {token ? <Route path={"/newevent"} element={<NewEventPage token={token}/>} /> : ""}
+        {token ? <Route path={"/note"} element={<NotePage token={token}/>} /> : ""}
+        {token ? <Route path={"/todo"} element={<TodoPage token={token}/>} /> : ""}
+        {token ? <Route path={"/user"} element={<UserScreen token={token}/>} /> : ""}
+        {token ? <Route path={"/todotest"} element={<TodotestScreen token={token}/>} /> : ""}        
       </Routes>
     </div>
   );

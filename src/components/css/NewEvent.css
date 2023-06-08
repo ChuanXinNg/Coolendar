@@ -1,0 +1,78 @@
+.NewEventPage{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 50px;
+}
+
+form {
+  font-weight: initial;
+  font-size: medium;
+  margin: auto;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  border: solid;
+  border-width: 1px;
+  padding: 5px;
+}
+
+.details {
+  font-size: 14px;
+  text-align: center;
+  border-width: 1px;
+  border-radius: 3px;
+  border-color: #777;
+  padding: 2px;
+  width: 250px;
+  height: 30px;
+  align-self: center;
+  margin: 2px;
+}
+
+.horizontal-scroll{
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 95%;
+  padding: 10px;
+  background-color: white;
+}
+
+.RangeForm{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  background-color: aliceblue;
+  margin: 2px;
+}
+
+@media screen and (max-width: 360px) {
+  .NewEventPage{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 50px;
+    width: 100%;
+  }
+
+  form {
+    font-weight: initial;
+    font-size: medium;
+    margin: auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    padding: 5px;
+  }
+}
