@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Kalam&family=Roboto&family=Shadows+Into+Light&display=swap');
 
-.App-logo{
+.App-logo {
   height: 100px;
 }
 
-.calendar-container{
+.calendar-container {
   vertical-align: middle;
   margin: 10px;
 }
 
-.calendar{
+.calendar {
   vertical-align: middle;
   margin-left: auto;
   margin-right: auto;
@@ -37,7 +37,7 @@
   margin: -0.5em;
 }
 
-.react-calendar--doubleView .react-calendar__viewContainer > * {
+.react-calendar--doubleView .react-calendar__viewContainer>* {
   width: 50%;
   margin: 0.5em;
 }
