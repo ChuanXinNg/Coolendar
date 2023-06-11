@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import coolendarLogo from "../images/Coolendar logo light cropped.png";
-// ori: import coolendarLogo from "./images/Coolendar logo light cropped.png";
 import { supabase } from "../../supabase";
-// ori: import { supabase } from "../supabase";
 import "../css/signup.css";
-// ori: import "./css/signup.css";
 
 
 function loginScreen({ setToken }) {

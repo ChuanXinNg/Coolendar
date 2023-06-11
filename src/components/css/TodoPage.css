@@ -1,26 +1,29 @@
-.insert-todo{
+.insert-todo {
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   border: solid;
   border-radius: 3px;
   border-width: 1px;
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: 300px;
   margin: auto;
   align-self: center;
 }
 
-input{
-  margin: 5px;
+input {
+  margin: 10px;
   height: 30px;
 }
 
-button{
-  margin: 5px;
+button {
+  margin: 15px;
   font-size: 14px;
   text-align: center;
   padding: 2px;
   align-self: center;
-  width: 95%;
+  width: 80%;
   background-color: white;
   border-color: grey;
   border-style: solid;
@@ -30,6 +33,6 @@ button{
   cursor: pointer;
 }
 
-button:hover{
+button:hover {
   background-color: pink;
 }

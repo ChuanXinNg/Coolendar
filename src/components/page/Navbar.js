@@ -2,6 +2,13 @@ import React from "react";
 import "../css/Navbar.css";
 import { useNavigate } from "react-router-dom";
 
+// Import your icon images
+import todoIcon from "../icons/black icons/todo black icon.png";
+import eventIcon from "../icons/black icons/event black icon.png";
+import homeIcon from "../icons/black icons/home black icon.png";
+import noteIcon from "../icons/black icons/note black icon.png";
+import diaryIcon from "../icons/black icons/diary black icon.png";
+
 function Navbar() {
   const navigate = useNavigate();
 
@@ -9,23 +16,57 @@ function Navbar() {
     navigate(path);
   };
 
+  // words
+  // return (
+  //   <nav>
+  //     <ul>
+  //       <li>
+  //         <button className="navbutton" onClick={() => handleNavigation("/todo")}>Todo</button>
+  //       </li>
+  //       <li>
+  //         <button className="navbutton" onClick={() => handleNavigation("/event")}>Event</button>
+  //       </li>
+  //       <li>
+  //         <button className="navbutton" onClick={() => handleNavigation("/coolendar")}>Home</button>
+  //       </li>
+  //       <li>
+  //         <button className="navbutton" onClick={() => handleNavigation("/note")}>Notes</button>
+  //       </li>
+  //       <li>
+  //         <button className="navbutton" onClick={() => handleNavigation("/diary")}>Diary</button>
+  //       </li>
+  //     </ul>
+  //   </nav>
+  // );
+
+  // icons
   return (
     <nav>
       <ul>
         <li>
-          <button className="navbutton" onClick={() => handleNavigation("/todo")}>Todo</button>
+          <button className="navbutton" onClick={() => handleNavigation("/todo")}>
+            <img className="navicon" src={todoIcon} alt="Todo" />
+          </button>
         </li>
         <li>
-          <button className="navbutton" onClick={() => handleNavigation("/event")}>Event</button>
+          <button className="navbutton" onClick={() => handleNavigation("/event")}>
+            <img className="navicon" src={eventIcon} alt="Event" />
+          </button>
         </li>
         <li>
-          <button className="navbutton" onClick={() => handleNavigation("/coolendar")}>Home</button>
+          <button className="navbutton" onClick={() => handleNavigation("/coolendar")}>
+            <img className="navicon" src={homeIcon} alt="Home" />
+          </button>
         </li>
         <li>
-          <button className="navbutton" onClick={() => handleNavigation("/note")}>Notes</button>
+          <button className="navbutton" onClick={() => handleNavigation("/note")}>
+            <img className="navicon" src={noteIcon} alt="Notes" />
+          </button>
         </li>
         <li>
-          <button className="navbutton" onClick={() => handleNavigation("/diary")}>Diary</button>
+          <button className="navbutton" onClick={() => handleNavigation("/diary")}>
+            <img className="navicon" src={diaryIcon} alt="Diary" />
+          </button>
         </li>
       </ul>
     </nav>

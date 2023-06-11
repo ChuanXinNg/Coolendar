@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import coolendarLogo from "../images/Coolendar logo light cropped.png";
-// ori: import coolendarLogo from "./images/Coolendar logo.jpg";
 import { supabase } from "../../supabase";
-// ori: import { supabase } from "../supabase";
 import "../css/signup.css";
-// ori: import "./css/signup.css";
 
 
 export default function SignupScreen() {
