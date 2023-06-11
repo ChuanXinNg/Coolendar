@@ -1,58 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from '../../supabase';
 // import axios from "axios";
 import coolendarLogo from "../images/Coolendar logo light cropped.png";
-// ori: import coolendarLogo from "./images/Coolendar logo light cropped.png";
+import Navbar from "./Navbar";
+import Logo from "./Logo";
 import "../css/App.css";
-// ori: import "./css/App.css";
-import { supabase } from '../../supabase';
 
 
 function todotestScreen({ token }) {
 
+  // navigation purposes
   let navigate = useNavigate();
 
-  const [testtodo, setTesttodo] = useState({
-    user_id: "",
+  // read data from database
+  const [todo, setTodoTable] = useState([]);
+  useEffect(() => {
+    const fetchTodoTable = async () => {
+      try {
+
+        const user_id = token.user.id;
+        const { data, error } = await supabase
+          .from('todotable')
+          .select()
+          .eq('creator_id', user_id);
+
+        if (error) {
+          throw error;
+        }
+
+        setTodoTable(data);
+        console.log(data);
+
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchTodoTable();
+  }, [])
+
+  // const to insert todoTask
+  const [todoTask, setTodoTask] = useState({
+    creator_id: "",
     todo_task: "",
-    todo_date: ""
+    todo_deadline_date: "",
+    todo_deadline_time: ""
   });
 
-  function handleLogin(event) {
+  // function to handle changes to input
+  function handleTodoChange(event) {
     const { name, value } = event.target;
-    setTesttodo(prevFormData => ({
+    setTodoTask(prevFormData => ({
       ...prevFormData,
-      user_id: token.user.id,
+      creator_id: token.user.id,
       [name]: value
     }));
   }
 
-
-  async function handleSubmit(e) {
+  // function to insert data to database
+  async function handleAddTodoTask(e) {
     e.preventDefault();
     try {
-      // const todoData = {
-      //   ...testtodo,
-      //   token: token
-      // };
-      
+
       const { data, error } = await supabase
-      .from('todo')
-      .insert([
-        { user_id: testtodo.user_id, task: testtodo.todo_task },
-      ])
+        .from('todotable')
+        .insert([
+          {
+            creator_id: todoTask.creator_id,
+            todo_task: todoTask.todo_task,
+            deadline_date: todoTask.todo_deadline_date,
+            deadline_time: (todoTask.todo_deadline_time == null ? null : todoTask.todo_deadline_time)
+          },
+        ])
 
       if (error) {
         throw error;
       }
 
       console.log(data);
-      navigate("/coolendar");
+
+      // automatic refresh the page
+      location.reload();
+
     } catch (err) {
       console.log(err);
     }
   }
-
 
   console.log(token);
 
@@ -64,15 +97,42 @@ function todotestScreen({ token }) {
     <div className="Coolendar-App">
       <div className="header">
         <img className="App-logo" src={coolendarLogo} alt="logo" onClick={toUserScreen} />
-        Hi, {token.user.user_metadata.name}
+        Heylo, {token.user.user_metadata.name}, {token.user.id}
       </div>
 
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="title">todo</div>
-        <input type='text' name="todo_task" placeholder="todo_task" onChange={handleLogin} />
-        <input type='text' name="todo_date" placeholder="todo_date" onChange={handleLogin} />
-        <button className="submit" type='submit'>submit</button>
+      <form className="form" onSubmit={handleAddTodoTask}>
+        <div className="title"> Insert Todo Here</div>
+        <div>
+          Task: <input type='text' name="todo_task" placeholder="Enter your task here!" onChange={handleTodoChange} />
+        </div>
+        <div>
+          Due Date: <input type='date' name="todo_deadline_date" onChange={handleTodoChange} />
+        </div>
+        <div>
+          Due Time: <input type='time' name="todo_deadline_time" onChange={handleTodoChange} />
+        </div>
+        <button className="submit" type='submit'>Add Todo Task</button>
       </form>
+
+      <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
+        <Logo />
+        Your Todos :)
+
+        <div className="todolist">
+          {todo.map(x => (
+            // eslint-disable-next-line react/jsx-key
+            <div>
+              <div> Task: {x.todo_task} </div>
+              <div> Due Date: {x.deadline_date} </div>
+              <div> Due Time: {x.deadline_time != null ? x.deadline_time : 'Time is not set.'} </div>
+            </div>
+          ))}
+        </div>
+
+        <React.Fragment>
+          <Navbar />
+        </React.Fragment>
+      </div>
 
     </div>
   );
