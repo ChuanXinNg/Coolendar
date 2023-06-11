@@ -5,7 +5,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(46, 20, 141);
+  background-color: rgb(255, 255, 255);
   width: 100%;
   padding: 5px;
   z-index: 999;
@@ -15,13 +15,13 @@ nav {
   border: none;
   color: white;
   font-size: 16px;
-  background-color: rgb(46, 20, 141);
-  height: 20px;
+  background-color: rgb(255, 255, 255);
+  height: 35px;
 }
 
-.navbutton:hover{
+.navbutton:hover {
   color: yellow;
-  background-color: rgb(46, 20, 141);
+  background-color: pink;
 }
 
 nav ul {
@@ -35,6 +35,11 @@ nav li {
   position: relative;
 }
 
+.navicon {
+  width: 30px;
+  height: 30px;
+}
+
 @media screen and (max-width: 400px) {
   nav {
     position: fixed;
@@ -45,32 +50,37 @@ nav li {
     left: 0;
     display: flex;
     align-items: center;
-    background-color: rgb(46, 20, 141);
+    background-color: rgb(255, 255, 255);
     z-index: 999;
   }
-  
+
 
   .navbutton {
     border: none;
     color: white;
     font-size: 16px;
-    background-color: rgb(46, 20, 141);
+    background-color: rgb(255, 255, 255);
     height: 20px;
   }
-  
-  .navbutton:hover{
+
+  .navbutton:hover {
     color: yellow;
-    background-color: rgb(46, 20, 141);
+    background-color: pink;
   }
-  
+
   nav ul {
     display: flex;
     padding: 0px;
   }
-  
+
   nav li {
     list-style: none;
     padding: 0 5px;
     position: relative;
+  }
+
+  .navicon {
+    width: 20px;
+    height: 20px;
   }
 }
