@@ -10,7 +10,6 @@ import { supabase } from "./supabase";
 import DairyPage from "./components/page/DairyPage";
 import EventPage from "./components/page/EventPage";
 import NotePage from "./components/page/NotePage";
-// import TodoPage from "./components/page/TodoPage";
 import NewEventPage from "./components/page/NewEventPage";
 
 

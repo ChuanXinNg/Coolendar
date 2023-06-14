@@ -10,7 +10,7 @@ function EventPage({ token }) {
   // navigation purposes
   // let navigate = useNavigate();
 
-  // i have no idea what this is
+  // i have no idea what this is (To check that token is valid)
   EventPage.propTypes = {
     token: PropTypes.shape({
       user: PropTypes.shape({

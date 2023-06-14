@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from '../../supabase';
-// import axios from "axios";
-import coolendarLogo from "../images/Coolendar logo light cropped.png";
 import Navbar from "./Navbar";
 import Logo from "./Logo";
 import "../css/App.css";
 
 
 function todotestScreen({ token }) {
-
-  // navigation purposes
-  let navigate = useNavigate();
 
   // read data from database
   const [todo, setTodoTable] = useState([]);
@@ -89,14 +83,9 @@ function todotestScreen({ token }) {
 
   console.log(token);
 
-  function toUserScreen() {
-    navigate('/user');
-  }
-
   return (
     <div className="Coolendar-App">
       <div className="header">
-        <img className="App-logo" src={coolendarLogo} alt="logo" onClick={toUserScreen} />
         Heylo, {token.user.user_metadata.name}, {token.user.id}
       </div>
 
