@@ -2,12 +2,12 @@ import React from "react";
 import Navbar from "./Navbar";
 import Logo from "./Logo";
 
-function DairyPage() {
+function DiaryPage() {
   
   return (
     <div>
       <Logo/>
-      DairyPage
+      DiaryPage
       <React.Fragment>
         <Navbar/>
       </React.Fragment>
@@ -15,4 +15,4 @@ function DairyPage() {
   );
 }
 
-export default DairyPage;
+export default DiaryPage;
