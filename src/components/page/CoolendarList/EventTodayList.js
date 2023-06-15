@@ -3,8 +3,8 @@ import { supabase } from '../../../supabase';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-function EventTodayList({ token }) {
-
+// eslint-disable-next-line react/prop-types
+function EventTodayList({ token, date }) {
     // navigation purposes
     // let navigate = useNavigate();
 
@@ -24,7 +24,7 @@ function EventTodayList({ token }) {
             try {
 
                 const user_id = token.user.id;
-                const currentDate = format(new Date(), 'yyyy-MM-dd');
+                const currentDate = format(date, 'yyyy-MM-dd');
                 const { data, error } = await supabase
                     .from('eventtable')
                     .select()
@@ -43,7 +43,7 @@ function EventTodayList({ token }) {
             }
         }
         fetchEventTable();
-    }, [])
+    }, [date])
 
 
     function formatTime(timeString) {
@@ -80,8 +80,8 @@ function EventTodayList({ token }) {
                 eventTable.map(x => (
                     <div key={x.id}>
                         <div> Task: {x.event_info} </div>
-                        <div> Due Date: {x.event_date} </div>
-                        <div> Due Time: {formatTime(x.event_time)} </div>
+                        <div> Date: {x.event_date} </div>
+                        <div> Time: {formatTime(x.event_time)} </div>
                     </div>
                 ))
             )}

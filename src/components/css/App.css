@@ -21,6 +21,19 @@
   margin: auto;
 }
 
+.todayData {
+  display: flex;
+  flex-direction: row;
+}
+
+.todoList {
+  margin: 5px;
+}
+
+.eventList{
+  margin: 5px;
+}
+
 .react-calendar {
   border: none;
   font-family: Kalam;

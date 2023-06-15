@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import { supabase } from '../../supabase';
 import PropTypes from 'prop-types';
 import Calendar from 'react-calendar';
 import coolendarLogo from "../images/Coolendar logo light cropped.png";
@@ -9,12 +8,12 @@ import TodoUndoneList from "./CoolendarList/TodoUndoneList";
 import TodoDoneList from "./CoolendarList/TodoDoneList";
 import EventTodayList from "./CoolendarList/EventTodayList";
 import EventNext7daysList from "./CoolendarList/EventNext7daysList";
+import { format } from 'date-fns';
 import "../css/App.css";
 
 
 function CalendarScreen({ token }) {
-
-  // i have no idea what this is
+  // to ensure token is valid
   CalendarScreen.propTypes = {
     token: PropTypes.shape({
       user: PropTypes.shape({
@@ -27,7 +26,7 @@ function CalendarScreen({ token }) {
   let navigate = useNavigate();
 
   function toUserScreen() {
-    navigate('./user');
+    navigate('/user');
     console.log(token.user.id)
   }
 
@@ -36,18 +35,25 @@ function CalendarScreen({ token }) {
   }
 
   function toEventScreen() {
-    navigate('event');
+    navigate('/event');
   }
 
   const [date, setDate] = useState(new Date());
 
+  useEffect(() => {
+    // Perform any necessary actions when the date changes
+    console.log("Date changed:", date);
+    // Add your logic here to update the necessary data based on the new date
+    // For example, fetch events for the new date and update the state or perform any other side effect
+
+  }, [date]);
 
   return (
     <div className="Coolendar-App">
       <div className="header">
         <img className="App-logo" src={coolendarLogo} alt="logo" onClick={toUserScreen} />
-        {/* Welcome back, {token.user.user_metadata.name}, {token.user.id} */}
-        Welcome
+        {/*eslint-disable-next-line react/prop-types*/}
+        Welcome {token.user.user_metadata.name}
       </div>
 
       <div>
@@ -72,33 +78,33 @@ function CalendarScreen({ token }) {
           </p>
         )}
 
-        <div className="todoList">
-          <strong>Todo list</strong>
-          <button onClick={() => toTodoScreen()}> To Todo </button>
-          <div className="listTitle">
-            <div> <strong> Undone Todo Tasks </strong> </div>
-            <TodoUndoneList token={token} />
+        <div className="todayData">
+          <div className="todoList">
+            <strong>Todo list</strong>
+            <button onClick={() => toTodoScreen()}> To Todo </button>
+            <div className="listTitle">
+              <div> <strong> Undone Todo Tasks </strong> </div>
+              <TodoUndoneList token={token} />
+            </div>
+            <div className="listTitle">
+              <div> <strong> Done Todo Tasks </strong> </div>
+              <TodoDoneList token={token} />
+            </div>
           </div>
-          <div className="listTitle">
-            <div> <strong> Done Todo Tasks </strong> </div>
-            <TodoDoneList token={token} />
+
+          <div className="eventList">
+            <strong>Event list</strong>
+            <button onClick={() => toEventScreen()}> To Event </button>
+            <div className="listTitle">
+              <div> <strong> {format(date, 'yyyy-MM-dd')}&apos;s Event </strong> </div>
+              <EventTodayList token={token} date={date}/>
+            </div>
+            <div className="listTitle">
+              <div> <strong> Next 7 Day&apos;s Events </strong> </div>
+              <EventNext7daysList token={token} date={date}/>
+            </div>
           </div>
         </div>
-
-        <div className="eventList">
-          <strong>Event list</strong>
-          <button onClick={() => toEventScreen()}> To Event </button>
-          <div className="listTitle">
-            <div> <strong> Today&apos;s Event </strong> </div>
-            <EventTodayList token={token} />
-          </div>
-          <div className="listTitle">
-            <div> <strong> Next 7 Day&apos;s Events </strong> </div>
-            <EventNext7daysList token={token} />
-          </div>
-        </div>
-
-        {/* <Todo todoListVisible={todoListVisible} /> */}
 
 
       </div>

@@ -3,7 +3,8 @@ import { supabase } from '../../../supabase';
 import { format, addDays } from 'date-fns';
 import PropTypes from 'prop-types';
 
-function EventNext7daysList({ token }) {
+// eslint-disable-next-line react/prop-types
+function EventNext7daysList({ token, date }) {
 
     // navigation purposes
     // let navigate = useNavigate();
@@ -24,8 +25,8 @@ function EventNext7daysList({ token }) {
             try {
 
                 const user_id = token.user.id;
-                const currentDate = format(new Date(), 'yyyy-MM-dd');
-                const seventhDay = addDays(new Date(), 7);
+                const currentDate = format(date, 'yyyy-MM-dd');
+                const seventhDay = addDays(date, 7);
                 const seventhDayFormatted = format(seventhDay, 'yyyy-MM-dd');
                 const { data, error } = await supabase
                     .from('eventtable')
@@ -47,7 +48,7 @@ function EventNext7daysList({ token }) {
             }
         }
         fetchEventTable();
-    }, [])
+    }, [date])
 
 
     function formatTime(timeString) {
@@ -84,8 +85,8 @@ function EventNext7daysList({ token }) {
                 eventTable.map(x => (
                     <div key={x.id}>
                         <div> Task: {x.event_info} </div>
-                        <div> Due Date: {x.event_date} </div>
-                        <div> Due Time: {formatTime(x.event_time)} </div>
+                        <div> Date: {x.event_date} </div>
+                        <div> Time: {formatTime(x.event_time)} </div>
                     </div>
                 ))
             )}
