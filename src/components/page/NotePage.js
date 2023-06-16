@@ -29,7 +29,7 @@ function NotePage({ token }) {
 
   // fetching data from database
   useEffect(() => {
-    const fetchTodoTable = async () => {
+    const fetchNoteTable = async () => {
       try {
         const user_id = token.user.id;
         const { data, error } = await supabase
@@ -49,7 +49,7 @@ function NotePage({ token }) {
         console.log(err);
       }
     };
-    fetchTodoTable();
+    fetchNoteTable();
   }, []);
 
   // button handler to setNote for insert
@@ -62,7 +62,7 @@ function NotePage({ token }) {
     }));
   }
 
-  // button handler to Add Todo Task or Edit Todo Task
+  // button handler to Add Note or Edit Note Task
   async function handleNote(e) {
     e.preventDefault();
     try {
@@ -177,10 +177,10 @@ function NotePage({ token }) {
   }
 
   // function for checkNote
-    async function checkNote(event) {
+  async function checkNote(event) {
     const idToCheck = event.target.id;
     console.log(event);
-  
+
     try {
       const user_id = token.user.id;
       const { data, error } = await supabase
@@ -188,11 +188,11 @@ function NotePage({ token }) {
         .select()
         .eq('creator_id', user_id)
         .eq('id', idToCheck);
-  
+
       if (error) {
         throw error;
       }
-  
+
       if (data.length > 0) {
         setSelectedNoteContent(data[0].note_content);
       } else {
@@ -266,7 +266,7 @@ function NotePage({ token }) {
             <div>
               Selected Note Content:
               <div>{selectedNoteContent}</div>
-              <button 
+              <button
                 style={{ marginLeft: '12px' }}
                 onClick={handleCloseNote}
               >close</button>
