@@ -274,7 +274,7 @@ function EventPage({ token }) {
         </form>
       ) : (
         <form className="form" onSubmit={handleEvent}>
-          <div className="title"> Write your day</div>
+          <div className="title"> Add new Event </div>
           <div>
             Name:{" "}
             <input type="text"
