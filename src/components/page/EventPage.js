@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
 import { supabase } from '../../supabase';
 import PropTypes from 'prop-types';
-import Navbar from "./Navbar";
 import Logo from "./Logo";
+import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
+// import { format } from 'date-fns';
 
 function EventPage({ token }) {
-
   // navigation purposes
-  // let navigate = useNavigate();
+  const navigate = useNavigate();
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
 
-  // i have no idea what this is (To check that token is valid)
+  // i have no idea what this is
   EventPage.propTypes = {
     token: PropTypes.shape({
       user: PropTypes.shape({
@@ -19,41 +22,46 @@ function EventPage({ token }) {
     }).isRequired
   };
 
-  // read data from database
+  // const select and delete
   const [eventTable, setEventTable] = useState([]);
+  // const update
+  const [editingEvent, setEditingEvent] = useState(null);
+  // const insert
+  const [event, setEvent] = useState({
+    creator_id: "",
+    event_name: "",
+    event_info: ""
+  });
+  const [selectedEventContent, setSelectedEventContent] = useState('');
+
+  // fetching data from database
   useEffect(() => {
+    // const currentDate = format(date, 'yyyy-MM-dd');
     const fetchEventTable = async () => {
       try {
-
         const user_id = token.user.id;
         const { data, error } = await supabase
           .from('eventtable')
           .select()
+          .order('event_date', { ascending: false })
+          // .eq('event', currentDate)
           .eq('creator_id', user_id);
 
         if (error) {
           throw error;
         }
 
-        setEventTable(data);
+        setEventTable(data.map(item => ({ ...item, id: item.id })));
         console.log(data);
 
       } catch (err) {
         console.log(err);
       }
-    }
+    };
     fetchEventTable();
-  }, [])
+  }, []);
 
-  // const to insert todoTask
-  const [event, setEvent] = useState({
-    creator_id: "",
-    event_info: "",
-    event_date: "",
-    event_time: ""
-  });
-
-  // function to handle changes to input
+  // button handler to setEvent for insert
   function handleEventChange(event) {
     const { name, value } = event.target;
     setEvent(prevFormData => ({
@@ -63,21 +71,80 @@ function EventPage({ token }) {
     }));
   }
 
-  // function to insert data to database
-  async function handleAddEvent(e) {
+  // button handler to Add Event or Edit Event
+  async function handleEvent(e) {
     e.preventDefault();
     try {
+      if (editingEvent) {
+        // Update existing task
+        await handleUpdateEvent(e);
+      } else {
+        // Add new task
+        const { data, error } = await supabase
+          .from('eventtable')
+          .insert([
+            {
+              creator_id: event.creator_id,
+              event_name: event.event_name,
+              event_info: event.event_info
+            },
+          ]);
+        if (error) {
+          throw error;
+        }
+        console.log(data);
+        location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
+  // button handler to execute setEditingEvent and setEvent for update
+  function handleEditEvent(e) {
+    setEditingEvent(e);
+    setEvent({
+      creator_id: e.creator_id,
+      event_name: e.event_name,
+      event_info: e.event_info
+    });
+  }
+
+  async function handleUpdateEvent(e) {
+    e.preventDefault();
+    try {
       const { data, error } = await supabase
         .from('eventtable')
-        .insert([
-          {
-            creator_id: event.creator_id,
-            event_info: event.event_info,
-            event_date: event.event_date,
-            event_time: event.event_time
-          },
-        ])
+        .update({
+          event_name: event.event_name,
+          event_info: event.event_info
+        })
+        .eq('id', editingEvent.id);
+
+      if (error) {
+        throw error;
+      }
+
+      console.log(data);
+      location.reload();
+
+      setEditingEvent(null);
+      setEvent({
+        creator_id: "",
+        event_name: "",
+        event_content: "",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleDeleteEvent(id) {
+    try {
+      const { data, error } = await supabase
+        .from('eventtable')
+        .delete()
+        .eq('id', id);
 
       if (error) {
         throw error;
@@ -85,50 +152,181 @@ function EventPage({ token }) {
 
       console.log(data);
 
-      // automatic refresh the page
-      location.reload();
-
+      const updatedEvent = eventTable.filter(item => item.id !== id);
+      setEventTable(updatedEvent);
     } catch (err) {
       console.log(err);
     }
   }
 
+  async function handleTogglePin(id, pin) {
+    try {
+      const { data, error } = await supabase
+        .from('eventtable')
+        .update({ pin: !pin })
+        .eq('id', id);
 
+      if (error) {
+        throw error;
+      }
+
+      console.log(data);
+
+      const updatedEvent = eventTable.map(item => {
+        if (item.id === id) {
+          return { ...item, pin: !pin };
+        }
+        return item;
+      });
+
+      setEventTable(updatedEvent);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  function formatTime(timeString) {
+    const [hours, minutes] = timeString.split(':');
+    let formattedHours = parseInt(hours, 10);
+    if (formattedHours >= 0 && formattedHours < 10) {
+      // morning before 10am
+      return `0${formattedHours}:${minutes}am`;
+    } else if (formattedHours >= 10 && formattedHours < 12) {
+      // morning after 10am and before afternoon 12pm
+      return `${formattedHours}:${minutes}pm`;
+    } else if (formattedHours == 12) {
+      // afternoon on 12pm
+      return `${formattedHours}:${minutes}pm`;
+    } else if (formattedHours > 12 && formattedHours < 22) {
+      // afternoon after 12pm and before 10pm
+      formattedHours = formattedHours - 12;
+      return `0${formattedHours}:${minutes}pm`;
+    } else if (formattedHours >= 22 && formattedHours < 24) {
+      // afternoon after 10pm
+      formattedHours = formattedHours - 12;
+      return `${formattedHours}:${minutes}pm`;
+    } else {
+      return 'Bad Timing. Invalid Timing input.'
+    }
+  }
+
+  // function for checkEvent
+  async function checkEvent(event) {
+    const idToCheck = event.target.id;
+    console.log(event);
+
+    try {
+      const user_id = token.user.id;
+      const { data, error } = await supabase
+        .from('eventtable')
+        .select()
+        .eq('creator_id', user_id)
+        .eq('id', idToCheck);
+
+      if (error) {
+        throw error;
+      }
+
+      if (data.length > 0) {
+        setSelectedEventContent(data[0].event_info);
+      } else {
+        setSelectedEventContent('');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  function handleCloseEvent() {
+    setSelectedEventContent('');
+  }
 
   return (
     <div>
-      <div> <Logo /> </div>
+      <Logo />
 
-      <div>Add your events herre!</div>
+      <div id="neweventButton">
+        <button onClick={() => handleNavigation("/newevent")}>
+          Add Event
+        </button>
+      </div>
 
-      <form className="form" onSubmit={handleAddEvent}>
-        <div className="title"> Add events form</div>
-        <div>
-          Event: <input type='text' name="event_info" placeholder="Add event here!" onChange={handleEventChange} />
-        </div>
-        <div>
-          Due Date: <input type='date' name="event_date" onChange={handleEventChange} />
-        </div>
-        <div>
-          Due Time: <input type='time' name="event_time" onChange={handleEventChange} />
-        </div>
-        <button className="submit" type='submit'>Add Event</button>
-      </form>
-
-      <div>EventPage</div>
-
-      <div> Your Events :)</div>
-
-
-      <div className="eventlist">
-        {eventTable.map(x => (
-          // eslint-disable-next-line react/jsx-key
+      {editingEvent ? (
+        <form className="form" onSubmit={handleUpdateEvent}>
+          <div className="title"> Edit Event</div>
           <div>
-            <div> Task: {x.event_info} </div>
-            <div> Due Date: {x.event_date} </div>
-            <div> Due Time: {x.event_time} </div>
+            New Name:{" "}
+            <input type="text"
+              name="event_name"
+              value={event.event_name}
+              onChange={handleEventChange} />
           </div>
-        ))}
+          <div>
+            New Info:{" "}
+            <input type="text"
+              name="event_info"
+              value={event.event_info}
+              onChange={handleEventChange} />
+          </div>
+          <button className="submit" type="submit">
+            Edit Event
+          </button>
+        </form>
+      ) : (
+        <form className="form" onSubmit={handleEvent}>
+          <div className="title"> Write your day</div>
+          <div>
+            Name:{" "}
+            <input type="text"
+              name="event_name"
+              value={event.event_name}
+              onChange={handleEventChange} />
+          </div>
+          <div>
+            Info:{" "}
+            <input type="text"
+              name="event_info"
+              value={event.event_info}
+              onChange={handleEventChange} />
+          </div>
+          <button className="submit" type="submit">
+            Add Event
+          </button>
+        </form>
+      )}
+
+      <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }} >
+
+        Your Event List :)
+
+        <div>
+          {selectedEventContent && (
+            <div>
+              Event info:
+              <div>{selectedEventContent}</div>
+              <button
+                style={{ marginLeft: '12px' }}
+                onClick={handleCloseEvent}
+              >Close</button>
+            </div>
+          )}
+        </div>
+
+        <div className="eventlist">
+          {eventTable.map(x => (
+            <div key={x.id}>
+              <div> Due Date: {x.event_date}, {formatTime(x.event_time)} </div>
+              <div> {x.event_name} </div>
+
+              <button id={x.id} onClick={checkEvent}> Check </button>
+              <button onClick={() => handleDeleteEvent(x.id)}>Delete</button>
+              <button onClick={() => handleEditEvent(x)}>Edit</button>
+              <button onClick={() => handleTogglePin(x.id, x.pin)}>
+                {x.pin ? "Bookmark this event!" : "Remove bookmark"}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
       <React.Fragment>
         <Navbar />
