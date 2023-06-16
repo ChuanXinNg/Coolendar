@@ -97,11 +97,11 @@ function CalendarScreen({ token }) {
             <button onClick={() => toEventScreen()}> To Event </button>
             <div className="listTitle">
               <div> <strong> {format(date, 'yyyy-MM-dd')}&apos;s Event </strong> </div>
-              <EventTodayList token={token} date={date}/>
+              <EventTodayList token={token} date={date} />
             </div>
             <div className="listTitle">
               <div> <strong> Next 7 Day&apos;s Events </strong> </div>
-              <EventNext7daysList token={token} date={date}/>
+              <EventNext7daysList token={token} date={date} />
             </div>
           </div>
         </div>
