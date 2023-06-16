@@ -30,7 +30,9 @@ function EventPage({ token }) {
   const [event, setEvent] = useState({
     creator_id: "",
     event_name: "",
-    event_info: ""
+    event_info: "",
+    event_date: "",
+    event_time: ""
   });
   const [selectedEventContent, setSelectedEventContent] = useState('');
 
@@ -86,7 +88,9 @@ function EventPage({ token }) {
             {
               creator_id: event.creator_id,
               event_name: event.event_name,
-              event_info: event.event_info
+              event_info: event.event_info,
+              event_date: event.event_date,
+              event_time: event.event_time
             },
           ]);
         if (error) {
@@ -106,7 +110,9 @@ function EventPage({ token }) {
     setEvent({
       creator_id: e.creator_id,
       event_name: e.event_name,
-      event_info: e.event_info
+      event_info: e.event_info,
+      event_date: e.event_date,
+      event_time: e.event_time
     });
   }
 
@@ -133,6 +139,8 @@ function EventPage({ token }) {
         creator_id: "",
         event_name: "",
         event_content: "",
+        event_date: "",
+        event_time: "",
       });
     } catch (err) {
       console.log(err);
@@ -268,13 +276,27 @@ function EventPage({ token }) {
               value={event.event_info}
               onChange={handleEventChange} />
           </div>
+          <div>
+            New Date:{" "}
+            <input type="date"
+              name="event_date"
+              value={event.event_date}
+              onChange={handleEventChange} />
+          </div>
+          <div>
+            New Time:{" "}
+            <input type="time"
+              name="event_time"
+              value={event.event_time}
+              onChange={handleEventChange} />
+          </div>
           <button className="submit" type="submit">
             Edit Event
           </button>
         </form>
       ) : (
         <form className="form" onSubmit={handleEvent}>
-          <div className="title"> Add new Event </div>
+          <div className="title"> Write your day</div>
           <div>
             Name:{" "}
             <input type="text"
@@ -287,6 +309,20 @@ function EventPage({ token }) {
             <input type="text"
               name="event_info"
               value={event.event_info}
+              onChange={handleEventChange} />
+          </div>
+          <div>
+            Date:{" "}
+            <input type="date"
+              name="event_date"
+              value={event.event_date}
+              onChange={handleEventChange} />
+          </div>
+          <div>
+            Time:{" "}
+            <input type="time"
+              name="event_time"
+              value={event.event_time}
               onChange={handleEventChange} />
           </div>
           <button className="submit" type="submit">
@@ -336,3 +372,171 @@ function EventPage({ token }) {
 }
 
 export default EventPage;
+
+// import React, { useState, useEffect } from "react";
+// // import { useNavigate } from "react-router-dom";
+// import { supabase } from '../../supabase';
+// import { format } from 'date-fns';
+// import PropTypes from 'prop-types';
+// import Navbar from "./Navbar";
+// import Logo from "./Logo";
+
+// function EventPage({ token }) {
+
+//   // navigation purposes
+//   // let navigate = useNavigate();
+
+//   // i have no idea what this is
+//   EventPage.propTypes = {
+//     token: PropTypes.shape({
+//       user: PropTypes.shape({
+//         id: PropTypes.string.isRequired
+//       }).isRequired
+//     }).isRequired
+//   };
+
+//   // read data from database
+//   const [eventTable, setEventTable] = useState([]);
+//   useEffect(() => {
+//     const fetchEventTable = async () => {
+//       try {
+
+//         const user_id = token.user.id;
+//         const currentDate = format(new Date(), 'yyyy-MM-dd');
+//         const { data, error } = await supabase
+//           .from('eventtable')
+//           .select()
+//           .gte('event_date', currentDate)
+//           .order('event_date', { ascending: true })
+//           .eq('creator_id', user_id);
+
+//         if (error) {
+//           throw error;
+//         }
+
+//         setEventTable(data);
+//         console.log(data);
+
+//       } catch (err) {
+//         console.log(err);
+//       }
+//     }
+//     fetchEventTable();
+//   }, [])
+
+//   // const to insert todoTask
+//   const [event, setEvent] = useState({
+//     creator_id: "",
+//     event_info: "",
+//     event_date: "",
+//     event_time: ""
+//   });
+
+//   // function to handle changes to input
+//   function handleEventChange(event) {
+//     const { name, value } = event.target;
+//     setEvent(prevFormData => ({
+//       ...prevFormData,
+//       creator_id: token.user.id,
+//       [name]: value
+//     }));
+//   }
+
+//   // function to insert data to database
+//   async function handleAddEvent(e) {
+//     e.preventDefault();
+//     try {
+
+//       const { data, error } = await supabase
+//         .from('eventtable')
+//         .insert([
+//           {
+//             creator_id: event.creator_id,
+//             event_info: event.event_info,
+//             event_date: event.event_date,
+//             event_time: event.event_time
+//           },
+//         ])
+
+//       if (error) {
+//         throw error;
+//       }
+
+//       console.log(data);
+
+//       // automatic refresh the page
+//       location.reload();
+
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   }
+
+//   function formatTime(timeString) {
+//     const [hours, minutes] = timeString.split(':');
+//     let formattedHours = parseInt(hours, 10);
+//     if (formattedHours >= 0 && formattedHours < 10) {
+//       // morning before 10am
+//       return `0${formattedHours}:${minutes}am`;
+//     } else if (formattedHours >= 10 && formattedHours < 12) {
+//       // morning after 10am and before afternoon 12pm
+//       return `${formattedHours}:${minutes}pm`;
+//     } else if (formattedHours == 12) {
+//       // afternoon on 12pm
+//       return `${formattedHours}:${minutes}pm`;
+//     } else if (formattedHours > 12 && formattedHours < 22) {
+//       // afternoon after 12pm and before 10pm
+//       formattedHours = formattedHours - 12;
+//       return `0${formattedHours}:${minutes}pm`;
+//     } else if (formattedHours >= 22 && formattedHours < 24) {
+//       // afternoon after 10pm
+//       formattedHours = formattedHours - 12;
+//       return `${formattedHours}:${minutes}pm`;
+//     } else {
+//       return 'Bad Timing. Invalid Timing input.'
+//     }
+//   }
+
+//   return (
+//     <div>
+//       <div> <Logo /> </div>
+
+//       <div>Add your events herre!</div>
+
+//       <form className="form" onSubmit={handleAddEvent}>
+//         <div className="title"> Add events form</div>
+//         <div>
+//           Event: <input type='text' name="event_info" placeholder="Add event here!" onChange={handleEventChange} />
+//         </div>
+//         <div>
+//           Date: <input type='date' name="event_date" onChange={handleEventChange} />
+//         </div>
+//         <div>
+//           Time: <input type='time' name="event_time" onChange={handleEventChange} />
+//         </div>
+//         <button className="submit" type='submit'>Add Event</button>
+//       </form>
+
+//       <div>EventPage</div>
+
+//       <div> Your Events :)</div>
+
+
+//       <div className="eventlist">
+//         {eventTable.map(x => (
+//           // eslint-disable-next-line react/jsx-key
+//           <div>
+//             <div> Task: {x.event_info} </div>
+//             <div> Due Date: {x.event_date} </div>
+//             <div> Due Time: {formatTime(x.event_time)} </div>
+//           </div>
+//         ))}
+//       </div>
+//       <React.Fragment>
+//         <Navbar />
+//       </React.Fragment>
+//     </div>
+//   );
+// }
+
+// export default EventPage;
