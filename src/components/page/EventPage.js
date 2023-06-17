@@ -42,12 +42,13 @@ function EventPage({ token }) {
     const fetchEventTable = async () => {
       try {
         const user_id = token.user.id;
+        const currentDate = new Date().toISOString().split('T')[0]; // Get the current date in the format 'yyyy-MM-dd'
         const { data, error } = await supabase
           .from('eventtable')
           .select()
-          .order('event_date', { ascending: false })
-          // .eq('event', currentDate)
-          .eq('creator_id', user_id);
+          .eq('creator_id', user_id)
+          .gte('event_date', currentDate)
+          .order('event_date', { ascending: false });
 
         if (error) {
           throw error;
@@ -236,10 +237,21 @@ function EventPage({ token }) {
       }
 
       if (data.length > 0) {
-        setSelectedEventContent(data[0].event_info);
+        const { event_date, event_time, event_name, event_info } = data[0];
+        const formattedTime = formatTime(event_time);
+
+        setSelectedEventContent(
+          <React.Fragment>
+            <div>Event Name: {event_name}</div>
+            <div> Date: {event_date}, {formattedTime} </div>
+            <div>{event_info}</div>
+          </React.Fragment>
+        );
       } else {
         setSelectedEventContent('');
       }
+
+
     } catch (err) {
       console.log(err);
     }
@@ -249,87 +261,89 @@ function EventPage({ token }) {
     setSelectedEventContent('');
   }
 
+
   return (
     <div>
-      <Logo />
+      <div><Logo /></div>
 
       <div id="neweventButton">
         <button onClick={() => handleNavigation("/newevent")}>
           Add Event
         </button>
       </div>
-
-      {editingEvent ? (
-        <form className="form" onSubmit={handleUpdateEvent}>
-          <div className="title"> Edit Event</div>
-          <div>
-            New Name:{" "}
-            <input type="text"
-              name="event_name"
-              value={event.event_name}
-              onChange={handleEventChange} />
-          </div>
-          <div>
-            New Info:{" "}
-            <input type="text"
-              name="event_info"
-              value={event.event_info}
-              onChange={handleEventChange} />
-          </div>
-          <div>
-            New Date:{" "}
-            <input type="date"
-              name="event_date"
-              value={event.event_date}
-              onChange={handleEventChange} />
-          </div>
-          <div>
-            New Time:{" "}
-            <input type="time"
-              name="event_time"
-              value={event.event_time}
-              onChange={handleEventChange} />
-          </div>
-          <button className="submit" type="submit">
-            Edit Event
-          </button>
-        </form>
-      ) : (
-        <form className="form" onSubmit={handleEvent}>
-          <div className="title"> Add new Event </div>
-          <div>
-            Name:{" "}
-            <input type="text"
-              name="event_name"
-              value={event.event_name}
-              onChange={handleEventChange} />
-          </div>
-          <div>
-            Info:{" "}
-            <input type="text"
-              name="event_info"
-              value={event.event_info}
-              onChange={handleEventChange} />
-          </div>
-          <div>
-            Date:{" "}
-            <input type="date"
-              name="event_date"
-              value={event.event_date}
-              onChange={handleEventChange} />
-          </div>
-          <div>
-            Time:{" "}
-            <input type="time"
-              name="event_time"
-              value={event.event_time}
-              onChange={handleEventChange} />
-          </div>
-          <button className="submit" type="submit">
-            Add Event
-          </button>
-        </form>
-      )}
+      <div>
+        {editingEvent ? (
+          <form className="form" onSubmit={handleUpdateEvent}>
+            <div className="title"> Edit Event</div>
+            <div>
+              New Name:{" "}
+              <input type="text"
+                name="event_name"
+                value={event.event_name}
+                onChange={handleEventChange} />
+            </div>
+            <div>
+              New Info:{" "}
+              <input type="text"
+                name="event_info"
+                value={event.event_info}
+                onChange={handleEventChange} />
+            </div>
+            <div>
+              New Date:{" "}
+              <input type="date"
+                name="event_date"
+                value={event.event_date}
+                onChange={handleEventChange} />
+            </div>
+            <div>
+              New Time:{" "}
+              <input type="time"
+                name="event_time"
+                value={event.event_time}
+                onChange={handleEventChange} />
+            </div>
+            <button className="submit" type="submit">
+              Edit Event
+            </button>
+          </form>
+        ) : (
+          <form className="form" onSubmit={handleEvent}>
+            <div className="title"> Add new Event </div>
+            <div>
+              Name:{" "}
+              <input type="text"
+                name="event_name"
+                value={event.event_name}
+                onChange={handleEventChange} />
+            </div>
+            <div>
+              Info:{" "}
+              <input type="text"
+                name="event_info"
+                value={event.event_info}
+                onChange={handleEventChange} />
+            </div>
+            <div>
+              Date:{" "}
+              <input type="date"
+                name="event_date"
+                value={event.event_date}
+                onChange={handleEventChange} />
+            </div>
+            <div>
+              Time:{" "}
+              <input type="time"
+                name="event_time"
+                value={event.event_time}
+                onChange={handleEventChange} />
+            </div>
+            <button className="submit" type="submit">
+              Add Event
+            </button>
+          </form>
+        )}
+      </div>
 
       <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }} >
 
@@ -338,7 +352,7 @@ function EventPage({ token }) {
         <div>
           {selectedEventContent && (
             <div>
-              Event info:
+              <b>Event info:</b>
               <div>{selectedEventContent}</div>
               <button
                 style={{ marginLeft: '12px' }}
@@ -348,17 +362,38 @@ function EventPage({ token }) {
           )}
         </div>
 
-        <div className="eventlist">
+        <div className="pinnedEventList">
+          <b>Pinned Events:</b>
           {eventTable.map(x => (
             <div key={x.id}>
-              <div> Due Date: {x.event_date}, {formatTime(x.event_time)} </div>
-              <div> {x.event_name} </div>
+              {x.pin ? (
+                <React.Fragment>
+                  <div> Event Name: {x.event_name} </div>
+                  <div> Due Date: {x.event_date}, {formatTime(x.event_time)} </div>
+                  <button id={x.id} onClick={checkEvent}> Check </button>
+                  <button onClick={() => handleDeleteEvent(x.id)}>Delete</button>
+                  <button onClick={() => handleEditEvent(x)}>Edit</button>
+                  <button onClick={() => handleTogglePin(x.id, x.pin)}>
+                    {x.pin ? "Unpin this event" : "Pin this event"}
+                  </button>
+                </React.Fragment>
+              ) : null}
+            </div>
+          ))}
+        </div>
+
+        <div className="eventlist">
+          <b>All Events:</b>
+          {eventTable.map(x => (
+            <div key={x.id}>
+              <div>Event Name: {x.event_name} </div>
+              <div> Date: {x.event_date}, {formatTime(x.event_time)} </div>
 
               <button id={x.id} onClick={checkEvent}> Check </button>
               <button onClick={() => handleDeleteEvent(x.id)}>Delete</button>
               <button onClick={() => handleEditEvent(x)}>Edit</button>
               <button onClick={() => handleTogglePin(x.id, x.pin)}>
-                {x.pin ? "Bookmark this event!" : "Remove bookmark"}
+                {x.pin ? "Unpin this event" : "Pin this event"}
               </button>
             </div>
           ))}

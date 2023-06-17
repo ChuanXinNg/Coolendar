@@ -41,8 +41,8 @@ function DiaryPage({ token }) {
                 const { data, error } = await supabase
                     .from('diarytable')
                     .select()
-                    .order('created_at', { ascending: false })
-                    .eq('creator_id', user_id);
+                    .eq('creator_id', user_id)
+                    .order('created_at', { ascending: false });
 
                 if (error) {
                     throw error;
@@ -196,7 +196,15 @@ function DiaryPage({ token }) {
             }
 
             if (data.length > 0) {
-                setSelectedDiaryContent(data[0].diary_content);
+                const { diary_date, diary_time, diary_content } = data[0];
+                const formattedTime = formatTime(diary_time);
+
+                setSelectedDiaryContent(
+                    <React.Fragment>
+                        <div>Created on: {diary_date}, {formattedTime} </div>
+                        <div>{diary_content}</div>
+                    </React.Fragment>
+                );
             } else {
                 setSelectedDiaryContent('');
             }
@@ -281,7 +289,7 @@ function DiaryPage({ token }) {
                 <div>
                     {selectedDiaryContent && (
                         <div>
-                            Your Diary:
+                            <b>Selected Diary:</b>
                             <div>{selectedDiaryContent}</div>
                             <button
                                 style={{ marginLeft: '12px' }}
@@ -291,20 +299,45 @@ function DiaryPage({ token }) {
                     )}
                 </div>
 
+                <div className="favouriteDiaryList">
+                    <b>Favourite Diaries:</b>
+                    {diaryTable.map(x => (
+                        <div key={x.id}>
+                            {x.pin ? (
+                                <React.Fragment>
+                                    <div>
+                                        Created on: {x.diary_date}, {formatTime(x.diary_time)}
+                                    </div>
+                                    <div> {x.diary_content} </div>
+                                    <div> {x.pin ? "Favourite!" : ""} </div>
+
+                                    <button id={x.id} onClick={checkDiary}> Check </button>
+                                    <button onClick={() => handleDeleteDiary(x.id)}>Delete</button>
+                                    <button onClick={() => handleEditDiary(x)}>Edit</button>
+                                    <button onClick={() => handleTogglePin(x.id, x.pin)}>
+                                        {x.pin ? "Remove from favourite" : "Set as favourite!"}
+                                    </button>
+                                </React.Fragment>
+                            ) : null}
+                        </div>
+                    ))}
+                </div>
+
                 <div className="diarylist">
+                    <b>All Diaries:</b>
                     {diaryTable.map(x => (
                         <div key={x.id}>
                             <div>
                                 Created on: {x.diary_date}, {formatTime(x.diary_time)}
                             </div>
                             <div> {x.diary_content} </div>
-                            <div> {x.pin ? "Important!" : ""} </div>
+                            <div> {x.pin ? "Favourite!" : ""} </div>
 
                             <button id={x.id} onClick={checkDiary}> Check </button>
                             <button onClick={() => handleDeleteDiary(x.id)}>Delete</button>
                             <button onClick={() => handleEditDiary(x)}>Edit</button>
                             <button onClick={() => handleTogglePin(x.id, x.pin)}>
-                                {x.pin ? "Set as favourite!" : "Remove from favourite"}
+                                {x.pin ? "Remove from favourite" : "Set as favourite!"}
                             </button>
                         </div>
                     ))}

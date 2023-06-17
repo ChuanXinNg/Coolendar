@@ -35,8 +35,8 @@ function NotePage({ token }) {
         const { data, error } = await supabase
           .from('notetable')
           .select()
-          .order('created_at', { ascending: false })
-          .eq('creator_id', user_id);
+          .eq('creator_id', user_id)
+          .order('created_at', { ascending: false });
 
         if (error) {
           throw error;
@@ -194,7 +194,14 @@ function NotePage({ token }) {
       }
 
       if (data.length > 0) {
-        setSelectedNoteContent(data[0].note_content);
+        const { note_name, note_content, last_edited_at } = data[0];
+
+        setSelectedNoteContent(
+          <React.Fragment>
+            <div>Note: {note_name}</div>
+            <div>Created on: {new Date(last_edited_at).toLocaleDateString()}, {new Date(last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>         <div>{note_content}</div>
+          </React.Fragment>
+        );
       } else {
         setSelectedNoteContent('');
       }
@@ -209,7 +216,7 @@ function NotePage({ token }) {
 
   return (
     <div>
-      <Logo />
+      <div><Logo /></div>
 
       {editingNote ? (
         <form className="form" onSubmit={handleUpdateNote}>
@@ -264,17 +271,43 @@ function NotePage({ token }) {
         <div>
           {selectedNoteContent && (
             <div>
-              Selected Note Content:
+              <b>Selected Note Content:</b>
               <div>{selectedNoteContent}</div>
               <button
                 style={{ marginLeft: '12px' }}
                 onClick={handleCloseNote}
-              >close</button>
+              >Close</button>
             </div>
           )}
         </div>
 
-        <div className="notelist">
+        <div className="bookmarkedNoteList">
+          <b>Bookmarked Notes:</b>
+          {noteTable.map(x => (
+            <div key={x.id}>
+              {x.pin ? (
+                <React.Fragment>
+                  <div> Note: {x.note_name} </div>
+                  <div>
+                    Created on: {new Date(x.last_edited_at).toLocaleDateString()}, {new Date(x.last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </div>
+                  <div> {x.note_content} </div>
+                  <div> {x.pin ? "Bookmarked!" : ""} </div>
+
+                  <button id={x.id} onClick={checkNote}> Check </button>
+                  <button onClick={() => handleDeleteNote(x.id)}>Delete</button>
+                  <button onClick={() => handleEditNote(x)}>Edit</button>
+                  <button onClick={() => handleTogglePin(x.id, x.pin)}>
+                    {x.pin ? "Remove bookmark" : "Bookmark this"}
+                  </button>
+                </React.Fragment>
+              ) : null}
+            </div>
+          ))}
+        </div>
+
+        <div className="noteList">
+          <b>All Notes:</b>
           {noteTable.map(x => (
             <div key={x.id}>
               <div> Note: {x.note_name} </div>
@@ -282,13 +315,13 @@ function NotePage({ token }) {
                 Created on: {new Date(x.last_edited_at).toLocaleDateString()}, {new Date(x.last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
               <div> {x.note_content} </div>
-              <div> {x.pin ? "Important!" : ""} </div>
+              <div> {x.pin ? "Bookmarked!" : ""} </div>
 
               <button id={x.id} onClick={checkNote}> Check </button>
               <button onClick={() => handleDeleteNote(x.id)}>Delete</button>
               <button onClick={() => handleEditNote(x)}>Edit</button>
               <button onClick={() => handleTogglePin(x.id, x.pin)}>
-                {x.pin ? "Set as unimportant!" : "Set as important"}
+                {x.pin ? "Remove bookmark" : "Bookmark this"}
               </button>
             </div>
           ))}
