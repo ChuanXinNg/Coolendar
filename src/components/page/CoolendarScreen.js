@@ -27,7 +27,6 @@ function CalendarScreen({ token }) {
 
   function toUserScreen() {
     navigate('/user');
-    console.log(token.user.id)
   }
 
   function toTodoScreen() {
@@ -41,11 +40,7 @@ function CalendarScreen({ token }) {
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    // Perform any necessary actions when the date changes
     console.log("Date changed:", date);
-    // Add your logic here to update the necessary data based on the new date
-    // For example, fetch events for the new date and update the state or perform any other side effect
-
   }, [date]);
 
   return (
@@ -88,7 +83,7 @@ function CalendarScreen({ token }) {
             </div>
             <div className="listTitle">
               <div> <strong> Done Todo Tasks </strong> </div>
-              <TodoDoneList token={token} />
+              <TodoDoneList token={token} date={date}/>
             </div>
           </div>
 

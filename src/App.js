@@ -9,6 +9,7 @@ import DiaryPage from "./components/page/DiaryPage";
 import EventPage from "./components/page/EventPage";
 import NotePage from "./components/page/NotePage";
 import TodoPage from "./components/page/TodoPage";
+import NoteContentPage from "./components/page/NoteContentPage";
 import NewEventPage from "./components/page/NewEventPage";
 
 
@@ -59,6 +60,7 @@ function App() {
         {token ? <Route path={"/note"} element={<NotePage token={token} />} /> : ""}
         {token ? <Route path={"/todo"} element={<TodoPage token={token} />} /> : ""}
         {token ? <Route path={"/user"} element={<UserScreen token={token} />} /> : ""}
+        {token ? <Route path={"/content"} element={<NoteContentPage token={token} />} /> : ""}
       </Routes>
     </div>
   );

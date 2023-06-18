@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from '../../../supabase';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-function TodoDoneList({ token }) {
+// eslint-disable-next-line react/prop-types
+function TodoDoneList({ token, date }) {
 
     // i have no idea what this is
     TodoDoneList.propTypes = {
@@ -22,9 +24,11 @@ function TodoDoneList({ token }) {
         const fetchTodoTable = async () => {
             try {
                 const user_id = token.user.id;
+                const currentDate = format(date, 'yyyy-MM-dd');
                 const { data, error } = await supabase
                     .from('todotable')
                     .select()
+                    .gte('deadline_date', currentDate)
                     .order('deadline_date', { ascending: true })
                     .order('deadline_time', { ascending: true })
                     .order('id', { ascending: false })
@@ -43,7 +47,7 @@ function TodoDoneList({ token }) {
             }
         };
         fetchTodoTable();
-    }, []);
+    }, [date]);
 
     async function handleToggleTodoDone(id, done) {
         try {

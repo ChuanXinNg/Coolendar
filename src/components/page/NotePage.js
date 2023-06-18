@@ -3,6 +3,8 @@ import { supabase } from '../../supabase';
 import PropTypes from 'prop-types';
 import Logo from "./Logo";
 import Navbar from "./Navbar";
+// import { useNavigate } from "react-router-dom";
+
 
 function NotePage({ token }) {
 
@@ -14,6 +16,8 @@ function NotePage({ token }) {
       }).isRequired
     }).isRequired
   };
+
+  // const navigate = useNavigate();
 
   // const select and delete
   const [noteTable, setNoteTable] = useState([]);
@@ -180,7 +184,9 @@ function NotePage({ token }) {
     async function checkNote(event) {
     const idToCheck = event.target.id;
     console.log(event);
-  
+
+    // navigate("/content", { state: { idToCheck } });
+
     try {
       const user_id = token.user.id;
       const { data, error } = await supabase
@@ -281,7 +287,7 @@ function NotePage({ token }) {
               <div>
                 Created on: {new Date(x.last_edited_at).toLocaleDateString()}, {new Date(x.last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
-              <div> {x.note_content} </div>
+
               <div> {x.pin ? "Important!" : ""} </div>
 
               <button id={x.id} onClick={checkNote}> Check </button>
@@ -294,6 +300,7 @@ function NotePage({ token }) {
           ))}
         </div>
       </div>
+
       <React.Fragment>
         <Navbar />
       </React.Fragment>
