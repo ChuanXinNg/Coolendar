@@ -69,32 +69,32 @@ function DiaryPage({ token }) {
     }
 
     // button handler to Add Diary or Edit Diary
-    async function handleDiary(e) {
-        e.preventDefault();
-        try {
-            if (editingDiary) {
-                // Update existing task
-                await handleUpdateDiary(e);
-            } else {
-                // Add new task
-                const { data, error } = await supabase
-                    .from('diarytable')
-                    .insert([
-                        {
-                            creator_id: diary.creator_id,
-                            diary_content: diary.diary_content
-                        },
-                    ]);
-                if (error) {
-                    throw error;
-                }
-                console.log(data);
-                location.reload();
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // async function handleDiary(e) {
+    //     e.preventDefault();
+    //     try {
+    //         if (editingDiary) {
+    //             // Update existing task
+    //             await handleUpdateDiary(e);
+    //         } else {
+    //             // Add new task
+    //             const { data, error } = await supabase
+    //                 .from('diarytable')
+    //                 .insert([
+    //                     {
+    //                         creator_id: diary.creator_id,
+    //                         diary_content: diary.diary_content
+    //                     },
+    //                 ]);
+    //             if (error) {
+    //                 throw error;
+    //             }
+    //             console.log(data);
+    //             location.reload();
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
     // button handler to execute setEditingDiary and setDiary for update
     function handleEditDiary(d) {
@@ -267,19 +267,24 @@ function DiaryPage({ token }) {
                     </button>
                 </form>
             ) : (
-                <form className="form" onSubmit={handleDiary}>
-                    <div className="title"> Write your day</div>
-                    <div>
-                        Content:{" "}
-                        <input type="text"
-                            name="diary_content"
-                            value={diary.diary_content}
-                            onChange={handleDiaryChange} />
-                    </div>
-                    <button className="submit" type="submit">
-                        Add Diary
-                    </button>
-                </form>
+                <div>
+                    {/*eslint-disable-next-line react/prop-types*/}
+                    Hello {token.user.user_metadata.name}
+                </div>
+
+                // <form className="form" onSubmit={handleDiary}>
+                //     <div className="title"> Write your day</div>
+                //     <div>
+                //         Content:{" "}
+                //         <input type="text"
+                //             name="diary_content"
+                //             value={diary.diary_content}
+                //             onChange={handleDiaryChange} />
+                //     </div>
+                //     <button className="submit" type="submit">
+                //         Add Diary
+                //     </button>
+                // </form>
             )}
 
             <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }} >

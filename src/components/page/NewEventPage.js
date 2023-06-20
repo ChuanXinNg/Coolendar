@@ -7,10 +7,10 @@ function NewEventPage() {
   return (
     <div className="NewEventPage">
       <Logo/>
-      
-      New Event
 
-      <form>
+      Add your new event here!! 
+
+      {/* <form>
         <input className="details" type="text" placeholder="Enter Event Title"/>
         
         <input className="details" type="text" placeholder="Enter Details"/>
@@ -48,7 +48,7 @@ function NewEventPage() {
           Color: &emsp; <input type="color"/>
         </div>
 
-      </form>
+      </form> */}
     </div>
   );
 }

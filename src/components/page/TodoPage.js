@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { supabase } from '../../supabase';
-import coolendarLogo from "../images/Coolendar logo light cropped.png";
+// import coolendarLogo from "../images/Coolendar logo light cropped.png";
 import Navbar from "./Navbar";
 import Logo from "./Logo";
 import "../css/App.css";
@@ -9,7 +9,7 @@ import "../css/App.css";
 function todoPage({ token }) {
 
   // for navigation purposes
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
   // const select and delete
   const [todoTable, setTodoTable] = useState([]);
@@ -205,21 +205,22 @@ function todoPage({ token }) {
     }
   }
 
-  // trigger user screen (can be deleted if not using header)
-  function toUserScreen() {
-    navigate('/user');
-  }
+  // // trigger user screen (can be deleted if not using header)
+  // function toUserScreen() {
+  //   navigate('/user');
+  // }
 
   return (
     <div className="Coolendar-App">
       <div className="header">
-        <img
+        <Logo />
+        {/* <img
           className="App-logo"
           src={coolendarLogo}
           alt="logo"
           onClick={toUserScreen}
-        />
-        Heylo, {token.user.user_metadata.name}, {token.user.id}
+        /> */}
+        Heylo, {token.user.user_metadata.name}
       </div>
 
       {editingTask ? (
@@ -286,7 +287,6 @@ function todoPage({ token }) {
       )}
 
       <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }} >
-        <Logo />
         Your Todos :)
 
         <div className="undoneTodolist">

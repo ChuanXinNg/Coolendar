@@ -86,7 +86,7 @@ function todotestScreen({ token }) {
   return (
     <div className="Coolendar-App">
       <div className="header">
-        Heylo, {token.user.user_metadata.name}, {token.user.id}
+        Heylo, {token.user.user_metadata.name}
       </div>
 
       <form className="form" onSubmit={handleAddTodoTask}>

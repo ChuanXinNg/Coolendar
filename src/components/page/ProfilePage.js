@@ -7,7 +7,7 @@ function ProfilePage() {
     return (
         <div>
             <Logo />
-            ProfilePage
+            This is my ProfilePage
             <React.Fragment>
                 <Navbar />
             </React.Fragment>

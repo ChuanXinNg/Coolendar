@@ -31,7 +31,7 @@ function calendarScreen({ token }) {
         <button className="button" onClick={() => handleNavigation("/newevent")}>New Event</button>
         <button className="button" onClick={() => handleNavigation("/todo")}>New Todo</button>
         <button className="button" onClick={() => handleNavigation("/note")}>New Notes</button>
-        <button className="button" onClick={() => handleNavigation("/diary")}>New Diary</button>
+        <button className="button" onClick={() => handleNavigation("/addDiary")}>New Diary</button>
         {/* to create new diary(no need password), not to diary display page(need password) */}
 
         <button className="button" onClick={() => handleNavigation("/ProfilePage")}>Go to Profile</button>
