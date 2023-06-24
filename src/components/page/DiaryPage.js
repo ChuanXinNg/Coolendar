@@ -243,7 +243,7 @@ function DiaryPage({ token }) {
     }
 
     return (
-        <div>
+        <div style={{marginBottom: "40px"}}>
             <Logo />
 
             <div id="addDiaryButton">
@@ -267,7 +267,7 @@ function DiaryPage({ token }) {
                     </button>
                 </form>
             ) : (
-                <div>
+                <div style={{display: "block"}}>
                     {/*eslint-disable-next-line react/prop-types*/}
                     Hello {token.user.user_metadata.name}
                 </div>
@@ -313,7 +313,6 @@ function DiaryPage({ token }) {
                                     <div>
                                         Created on: {x.diary_date}, {formatTime(x.diary_time)}
                                     </div>
-                                    <div> {x.diary_content} </div>
                                     <div> {x.pin ? "Favourite!" : ""} </div>
 
                                     <button id={x.id} onClick={checkDiary}> Check </button>
@@ -331,11 +330,11 @@ function DiaryPage({ token }) {
                 <div className="diarylist">
                     <b>All Diaries:</b>
                     {diaryTable.map(x => (
-                        <div key={x.id}>
+                        <div key={x.id} style={{margin: "10px"}}>
                             <div>
-                                Created on: {x.diary_date}, {formatTime(x.diary_time)}
+                                {/* Created on: {x.diary_date}, {formatTime(x.diary_time)} */}
+                                {x.diary_date}, {formatTime(x.diary_time)}
                             </div>
-                            <div> {x.diary_content} </div>
                             <div> {x.pin ? "Favourite!" : ""} </div>
 
                             <button id={x.id} onClick={checkDiary}> Check </button>

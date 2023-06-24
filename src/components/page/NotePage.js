@@ -219,7 +219,7 @@ function NotePage({ token }) {
   }
 
   return (
-    <div>
+    <div style={{marginBottom: "40px"}}>
       <div><Logo /></div>
 
       {editingNote ? (
@@ -288,7 +288,7 @@ function NotePage({ token }) {
         <div className="bookmarkedNoteList">
           <b>Bookmarked Notes:</b>
           {noteTable.map(x => (
-            <div key={x.id}>
+            <div key={x.id} style={{margin: "10px"}}>
               {x.pin ? (
                 <React.Fragment>
                   <div> Note: {x.note_name} </div>
@@ -313,12 +313,11 @@ function NotePage({ token }) {
         <div className="noteList">
           <b>All Notes:</b>
           {noteTable.map(x => (
-            <div key={x.id}>
+            <div key={x.id} style={{margin: "10px"}}>
               <div> Note: {x.note_name} </div>
               <div>
                 Created on: {new Date(x.last_edited_at).toLocaleDateString()}, {new Date(x.last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
-              <div> {x.note_content} </div>
               <div> {x.pin ? "Bookmarked!" : ""} </div>
 
               <button id={x.id} onClick={checkNote}> Check </button>

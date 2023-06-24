@@ -56,8 +56,10 @@ function AddDiary({ token }) {
             if (error) {
                 throw error;
             }
+            handleNavigation("/diary");
             console.log(data);
             location.reload();
+            // navigate("/diary");
         } catch (err) {
             console.log(err);
         }

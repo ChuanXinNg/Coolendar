@@ -263,7 +263,7 @@ function EventPage({ token }) {
 
 
   return (
-    <div>
+    <div style={{marginBottom: "50px"}}>
       <div><Logo /></div>
 
       <div id="neweventButton">

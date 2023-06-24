@@ -9,15 +9,15 @@ function Logo() {
     navigate('/user');
   }
 
-  const imageStyle = {
-    height: "80px",
-    float: "left",
-    display: "block"
-  };
+  // const imageStyle = {
+  //   height: "80px",
+  //   float: "left",
+  //   display: "block"
+  // };
 
   return (
     <div>
-      <img style={imageStyle} className="App-logo" src={coolendarLogo} alt="logo" onClick={toUserScreen} />
+      <img className="App-logo" src={coolendarLogo} alt="logo" onClick={toUserScreen} />
     </div>
   );
 }
