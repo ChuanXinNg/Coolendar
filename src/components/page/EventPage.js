@@ -48,7 +48,7 @@ function EventPage({ token }) {
           .select()
           .eq('creator_id', user_id)
           .gte('event_date', currentDate)
-          .order('event_date', { ascending: false });
+          .order('event_date', { decending: false });
 
         if (error) {
           throw error;
@@ -81,6 +81,9 @@ function EventPage({ token }) {
       if (editingEvent) {
         // Update existing task
         await handleUpdateEvent(e);
+
+      } else if (event.event_name == "") {
+        alert("Please enter event name");
       } else {
         // Add new task
         const { data, error } = await supabase
@@ -102,6 +105,7 @@ function EventPage({ token }) {
       }
     } catch (err) {
       console.log(err);
+      alert("Fail to add event");
     }
   }
 
@@ -119,32 +123,36 @@ function EventPage({ token }) {
 
   async function handleUpdateEvent(e) {
     e.preventDefault();
-    try {
-      const { data, error } = await supabase
-        .from('eventtable')
-        .update({
-          event_name: event.event_name,
-          event_info: event.event_info
-        })
-        .eq('id', editingEvent.id);
+    if (event.event_name == "") {
+      alert("Please enter event name");
+    } else {
+      try {
+        const { data, error } = await supabase
+          .from('eventtable')
+          .update({
+            event_name: event.event_name,
+            event_info: event.event_info
+          })
+          .eq('id', editingEvent.id);
 
-      if (error) {
-        throw error;
+        if (error) {
+          throw error;
+        }
+
+        console.log(data);
+        location.reload();
+
+        setEditingEvent(null);
+        setEvent({
+          creator_id: "",
+          event_name: "",
+          event_content: "",
+          event_date: "",
+          event_time: "",
+        });
+      } catch (err) {
+        console.log(err);
       }
-
-      console.log(data);
-      location.reload();
-
-      setEditingEvent(null);
-      setEvent({
-        creator_id: "",
-        event_name: "",
-        event_content: "",
-        event_date: "",
-        event_time: "",
-      });
-    } catch (err) {
-      console.log(err);
     }
   }
 
@@ -160,6 +168,7 @@ function EventPage({ token }) {
       }
 
       console.log(data);
+      alert("This event will be deleted");
 
       const updatedEvent = eventTable.filter(item => item.id !== id);
       setEventTable(updatedEvent);

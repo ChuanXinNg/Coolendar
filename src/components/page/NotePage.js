@@ -73,6 +73,8 @@ function NotePage({ token }) {
       if (editingNote) {
         // Update existing task
         await handleUpdateNote(e);
+      } else if (note.note_content == "") {
+        alert("Please insert content");
       } else {
         // Add new task
         const { data, error } = await supabase
@@ -107,30 +109,35 @@ function NotePage({ token }) {
 
   async function handleUpdateNote(e) {
     e.preventDefault();
-    try {
-      const { data, error } = await supabase
-        .from('notetable')
-        .update({
-          note_name: note.note_name,
-          note_content: note.note_content
-        })
-        .eq('id', editingNote.id);
+    if (note.note_content == "") {
+      alert("Please enter content");
+    } else {
 
-      if (error) {
-        throw error;
+      try {
+        const { data, error } = await supabase
+          .from('notetable')
+          .update({
+            note_name: note.note_name,
+            note_content: note.note_content
+          })
+          .eq('id', editingNote.id);
+
+        if (error) {
+          throw error;
+        }
+
+        console.log(data);
+        location.reload();
+
+        setEditingNote(null);
+        setNote({
+          creator_id: "",
+          note_name: "",
+          note_content: "",
+        });
+      } catch (err) {
+        console.log(err);
       }
-
-      console.log(data);
-      location.reload();
-
-      setEditingNote(null);
-      setNote({
-        creator_id: "",
-        note_name: "",
-        note_content: "",
-      });
-    } catch (err) {
-      console.log(err);
     }
   }
 
@@ -146,6 +153,7 @@ function NotePage({ token }) {
       }
 
       console.log(data);
+      alert("This note will be deleted");
 
       const updatedNote = noteTable.filter(item => item.id !== id);
       setNoteTable(updatedNote);

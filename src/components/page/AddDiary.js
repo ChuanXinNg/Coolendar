@@ -43,25 +43,29 @@ function AddDiary({ token }) {
     // button handler to Add Diary
     async function handleAddDiary(e) {
         e.preventDefault();
-        try {
-            // Add new task
-            const { data, error } = await supabase
-                .from('diarytable')
-                .insert([
-                    {
-                        creator_id: diary.creator_id,
-                        diary_content: diary.diary_content
-                    },
-                ]);
-            if (error) {
-                throw error;
+        if (diary.diary_content == "") {
+            alert("Please insert content");
+        } else {
+            try {
+                // Add new task
+                const { data, error } = await supabase
+                    .from('diarytable')
+                    .insert([
+                        {
+                            creator_id: diary.creator_id,
+                            diary_content: diary.diary_content
+                        },
+                    ]);
+                if (error) {
+                    throw error;
+                }
+                handleNavigation("/diary");
+                console.log(data);
+                location.reload();
+                // navigate("/diary");
+            } catch (err) {
+                console.log(err);
             }
-            handleNavigation("/diary");
-            console.log(data);
-            location.reload();
-            // navigate("/diary");
-        } catch (err) {
-            console.log(err);
         }
     }
 

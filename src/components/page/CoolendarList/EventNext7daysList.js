@@ -84,7 +84,7 @@ function EventNext7daysList({ token, date }) {
             ) : (
                 eventTable.map(x => (
                     <div key={x.id}>
-                        <div> Task: {x.event_info} </div>
+                        <div> Event: {x.event_name} </div>
                         <div> Date: {x.event_date} </div>
                         <div> Time: {formatTime(x.event_time)} </div>
                     </div>

@@ -97,38 +97,41 @@ function DiaryPage({ token }) {
     // }
 
     // button handler to execute setEditingDiary and setDiary for update
-    function handleEditDiary(d) {
-        setEditingDiary(d);
-        setDiary({
-            creator_id: d.creator_id,
-            diary_content: d.diary
-        });
-    }
+function handleEditDiary(d) {
+    console.log(d);
+    setEditingDiary(d);
+    setDiary({
+        creator_id: d.creator_id,
+        diary_content: d.diary_content
+    });
+}
+
 
     async function handleUpdateDiary(e) {
         e.preventDefault();
-        try {
-            const { data, error } = await supabase
-                .from('diarytable')
-                .update({
-                    diary_content: diary.diary_content
-                })
-                .eq('id', editingDiary.id);
-
-            if (error) {
-                throw error;
+        if (diary.diary_content == "") {
+            alert("Please insert content");
+        } else {
+            try {
+                const { data, error } = await supabase
+                    .from('diarytable')
+                    .update({
+                        diary_content: diary.diary_content
+                    })
+                    .eq('id', editingDiary.id);
+                if (error) {
+                    throw error;
+                }
+                console.log(data);
+                location.reload();
+                setEditingDiary(null);
+                setDiary({
+                    creator_id: "",
+                    diary_content: "",
+                });
+            } catch (err) {
+                console.log(err);
             }
-
-            console.log(data);
-            location.reload();
-
-            setEditingDiary(null);
-            setDiary({
-                creator_id: "",
-                diary_content: "",
-            });
-        } catch (err) {
-            console.log(err);
         }
     }
 
@@ -143,6 +146,7 @@ function DiaryPage({ token }) {
                 throw error;
             }
 
+            alert("This diary will be deleted");
             console.log(data);
 
             const updatedDiary = diaryTable.filter(item => item.id !== id);
@@ -257,10 +261,12 @@ function DiaryPage({ token }) {
                     <div className="title"> Edit Diary</div>
                     <div>
                         New Content:{" "}
-                        <input type="text"
+                        <input
+                            type="text"
                             name="diary_content"
                             value={diary.diary_content}
-                            onChange={handleDiaryChange} />
+                            onChange={handleDiaryChange}
+                            />
                     </div>
                     <button className="submit" type="submit">
                         Edit Diary

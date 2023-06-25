@@ -69,6 +69,22 @@ function todoPage({ token }) {
       if (editingTask) {
         // Update existing task
         await handleUpdateTodoTask(e);
+      } else if (todoTask.todo_deadline_time == "") {
+          const { data, error } = await supabase
+          .from('todotable')
+          .insert([
+            {
+              creator_id: todoTask.creator_id,
+              todo_task: todoTask.todo_task,
+              deadline_date: todoTask.todo_deadline_date,
+              has_dueTime: false
+            },
+          ]);
+        if (error) {
+          throw error;
+        }
+        console.log(data);
+        location.reload();
       } else {
         // Add new task
         const { data, error } = await supabase
@@ -89,6 +105,7 @@ function todoPage({ token }) {
       }
     } catch (err) {
       console.log(err);
+      alert("Failed to insert");
     }
   }
 
@@ -146,6 +163,7 @@ function todoPage({ token }) {
       }
 
       console.log(data);
+      alert("This task will be deleted");
 
       const updatedTodo = todoTable.filter(item => item.id !== id);
       setTodoTable(updatedTodo);
@@ -292,13 +310,13 @@ function todoPage({ token }) {
         <div className="undoneTodolist">
           <b>Incomplete tasks</b>
           {todoTable.map(x => (
-            <div key={x.id}>
+            <div key={x.id} style={{margin:"5px"}}>
               {x.done ? null : (
                 <React.Fragment>
                   <div> Task: {x.todo_task} </div>
                   <div> Due Date: {new Date(x.deadline_date).toLocaleDateString()} </div>
                   <div>
-                    Due Time: {x.deadline_time ? formatTime(x.deadline_time) : 'Time is not set.'}
+                    Due Time: {x.has_dueTime ? formatTime(x.deadline_time) : 'Time is not set.'}
                   </div>
                   <div> {x.done ? 'Completed!' : 'You have not completed this task.'} </div>
 
@@ -316,13 +334,13 @@ function todoPage({ token }) {
         <div className="doneTodolist">
           <b>Completed tasks</b>
           {todoTable.map(x => (
-            <div key={x.id}>
+            <div key={x.id} style={{margin:"5px"}}>
               {x.done ? (
                 <React.Fragment>
                   <div> Task: {x.todo_task} </div>
                   <div> Due Date: {new Date(x.deadline_date).toLocaleDateString()} </div>
                   <div>
-                    Due Time: {x.deadline_time ? formatTime(x.deadline_time) : 'Time is not set.'}
+                    Due Time: {x.has_dueTime ? formatTime(x.deadline_time) : 'Time is not set.'}
                   </div>
                   <div> {x.done ? 'Completed!' : 'You have not completed this task.'} </div>
 
