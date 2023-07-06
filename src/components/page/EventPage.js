@@ -273,7 +273,7 @@ function EventPage({ token }) {
 
   return (
     <div style={{marginBottom: "50px"}}>
-      <div><Logo /></div>
+      <div><Logo token={token}/></div>
 
       <div id="neweventButton">
         <button onClick={() => handleNavigation("/newevent")}>

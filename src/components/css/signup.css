@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Kalam&family=Roboto&family=Shadows+Into+Light&display=swap');
 
+
 .title {
   font-size: 30px;
   margin-bottom: 10px;
@@ -12,7 +13,7 @@
   margin: auto;
 }
 
-.logo {
+.signuplogo {
   display: block;
   margin: auto;
   width: 250px;
@@ -51,7 +52,7 @@
 }
 
 .submit:hover {
-  background-color: pink;
+  background-color: rgb(192, 255, 247);
 }
 
 .account {

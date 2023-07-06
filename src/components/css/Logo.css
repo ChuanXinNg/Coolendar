@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Kalam&family=Roboto&family=Shadows+Into+Light&display=swap');
+
+.logo {
+  background-image: linear-gradient(rgb(0, 225, 255), rgb(255, 255, 255));
+  position: fixed;
+  float: left;
+  z-index: 999;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.logo-img {
+  display: inline-block;
+  height: 70px;
+}
+
+.welcome {
+  margin: auto;
+  font-family: Kalam;
+  font-size: large;
+}

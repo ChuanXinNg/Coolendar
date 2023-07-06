@@ -248,7 +248,7 @@ function handleEditDiary(d) {
 
     return (
         <div style={{marginBottom: "40px"}}>
-            <Logo />
+            <Logo token={token}/>
 
             <div id="addDiaryButton">
                 <button onClick={() => handleNavigation("/addDiary")}>
@@ -278,19 +278,6 @@ function handleEditDiary(d) {
                     Hello {token.user.user_metadata.name}
                 </div>
 
-                // <form className="form" onSubmit={handleDiary}>
-                //     <div className="title"> Write your day</div>
-                //     <div>
-                //         Content:{" "}
-                //         <input type="text"
-                //             name="diary_content"
-                //             value={diary.diary_content}
-                //             onChange={handleDiaryChange} />
-                //     </div>
-                //     <button className="submit" type="submit">
-                //         Add Diary
-                //     </button>
-                // </form>
             )}
 
             <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }} >

@@ -83,8 +83,8 @@ function EventNext7daysList({ token, date }) {
                 <div>There is no event for the next 7 days!</div>
             ) : (
                 eventTable.map(x => (
-                    <div key={x.id}>
-                        <div> Event: {x.event_name} </div>
+                    <div key={x.id} style={{margin: "5px", borderBottom:"solid", borderBottomWidth:"1px"}}>
+                        <div style={{fontSize: "18px"}}> {x.event_name} </div>
                         <div> Date: {x.event_date} </div>
                         <div> Time: {formatTime(x.event_time)} </div>
                     </div>

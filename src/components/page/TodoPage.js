@@ -230,14 +230,8 @@ function todoPage({ token }) {
 
   return (
     <div className="Coolendar-App">
+      <Logo token={token}/>
       <div className="header">
-        <Logo />
-        {/* <img
-          className="App-logo"
-          src={coolendarLogo}
-          alt="logo"
-          onClick={toUserScreen}
-        /> */}
         Heylo, {token.user.user_metadata.name}
       </div>
 

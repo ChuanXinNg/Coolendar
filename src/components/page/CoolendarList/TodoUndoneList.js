@@ -100,20 +100,20 @@ function TodoUndoneList({ token }) {
 
     return (
         <div className="todolist">
-            <div className="todosListTitle">
-                Your todo List (This is from todo-done-List)
-            </div>
             <div id="actualDiaryList">
-                {todoTable.map(x => (
-                    <div key={x.id}>
-                        <div> Task: {x.todo_task} </div>
-                        <div> Time: {x.deadline_date} </div>
-                        <div> Time: {formatTime(x.deadline_time)} </div>
-                        <button onClick={() => handleToggleTodoDone(x.id, x.done)}>
-                            {x.done ? "Mark as Not Done" : "Mark as Done"}
-                        </button>
-                    </div>
-                ))}
+                {todoTable.length == 0 ? (
+                    <div>Have a Great Day!!!</div>
+                ) : (
+                    todoTable.map(x => (
+                        <div key={x.id} style={{margin:"5px", borderBottom:"solid", borderBottomWidth:"1px"}}>
+                            <div> <span style={{fontSize:"18px"}}>{x.todo_task}</span>
+                            <input type="checkbox" onClick={() => handleToggleTodoDone(x.id, x.done)}/>
+                            </div>
+                            <div> Due: {x.deadline_date}, {formatTime(x.deadline_time)} </div>
+                        </div>
+                    ))
+                )}
+                
             </div>
         </div >
     );

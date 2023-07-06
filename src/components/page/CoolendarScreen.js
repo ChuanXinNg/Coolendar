@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Calendar from 'react-calendar';
-import coolendarLogo from "../images/Coolendar logo light cropped.png";
+import Logo from "./Logo";
 import Navbar from "./Navbar";
 import TodoUndoneList from "./CoolendarList/TodoUndoneList";
 import TodoDoneList from "./CoolendarList/TodoDoneList";
 import EventTodayList from "./CoolendarList/EventTodayList";
 import EventNext7daysList from "./CoolendarList/EventNext7daysList";
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
+import { format, addDays, subDays, isSameDay, parseISO } from 'date-fns';
+import { supabase } from '../../supabase';
 import "../css/App.css";
 
 
@@ -23,9 +25,36 @@ function CalendarScreen({ token }) {
 
   let navigate = useNavigate();
   const [date, setDate] = useState(new Date());
+  const [eventsData, setEventsData] = useState([]);
 
   useEffect(() => {
     console.log("Date changed:", date);
+    const fetchEventData = async () => {
+      try {
+
+          const user_id = token.user.id;
+          const prevMonth = format(subDays(date, 30), 'yyyy-MM-dd');
+          const nextMonth = format(addDays(date, 30),'yyyy-MM-dd');
+          const { data, error } = await supabase
+              .from('eventtable')
+              .select('event_date')
+              .order('event_date', { ascending: true })
+              .gt('event_date', prevMonth)
+              .lte('event_date', nextMonth)
+              .eq('creator_id', user_id);
+
+          if (error) {
+              throw error;
+          }
+
+          setEventsData(data);
+          console.log(data);
+
+      } catch (err) {
+          console.log(err);
+      }
+    }
+    fetchEventData();
   }, [date]);
 
   // useEffect(() => {
@@ -58,10 +87,12 @@ function CalendarScreen({ token }) {
   //   setTimeout(randomNotification, 30000);
   // }
 
-  function toUserScreen() {
-    navigate('/user');
-    console.log(token.user.id);
+  function tileClassName({ date }) {
+    if (eventsData.find(event => isSameDay(parseISO(event.event_date), date))) {
+      return 'blue';
+    }
   }
+  
 
   function toTodoScreen() {
     navigate('/todo');
@@ -73,51 +104,42 @@ function CalendarScreen({ token }) {
 
   return (
     <div className="Coolendar-App">
-      <div className="header">
-        <img className="App-logo" src={coolendarLogo} alt="logo" onClick={toUserScreen} />
-        {/*eslint-disable-next-line react/prop-types*/}
-        Welcome {token.user.user_metadata.name}
-      </div>
-
-      {/* <button id="notifications">notifications</button> */}
-
-      <div>
+      <Logo token={token}/>
+      <div className="content">
         <div className="calendar-container">
-          <Calendar
-            className="calendar"
-            onChange={setDate}
-            value={date}
-          />
+        <Calendar
+          className="calendar"
+          onChange={setDate}
+          value={date}
+          minDetail="decade"
+          tileClassName={tileClassName}
+        />
+          {/* {console.log("eventsData")}
+          {console.log(eventsData)} */}
         </div>
         {date instanceof Date && (
-          <p>
-            <span>Selected date:</span> {date.toDateString()}
-          </p>
-        )}
-        {Array.isArray(date) && date.length > 0 && (
-          <p>
-            <span>Start:</span> {date[0].toDateString()} to&nbsp;
-            <span>End:</span> {date[1].toDateString()}
-          </p>
+          <div>
+            <span>Selected date:</span> {format(date, 'yyyy-MM-dd')}
+          </div>
         )}
 
         <div className="todayData">
           <div className="todoList">
             <strong>Todo list</strong>
-            <button onClick={toTodoScreen}>To Todo</button>
+            <button className="toTodoButton" onClick={toTodoScreen}>To Todo</button>
             <div className="listTitle">
-              <div><strong>Undone Todo Tasks</strong></div>
+              <div><strong>Undone</strong></div>
               <TodoUndoneList token={token} />
             </div>
             <div className="listTitle">
-              <div><strong>Done Todo Tasks</strong></div>
+              <div><strong>Done</strong></div>
               <TodoDoneList token={token} date={date} />
             </div>
           </div>
 
           <div className="eventList">
             <strong>Event list</strong>
-            <button onClick={toEventScreen}>To Event</button>
+            <button className="toTodoButton" onClick={toEventScreen}>Add Event</button>
             <div className="listTitle">
               <div><strong>{format(date, 'yyyy-MM-dd')}&apos;s Event</strong></div>
               <EventTodayList token={token} date={date} />

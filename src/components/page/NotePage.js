@@ -207,11 +207,16 @@ function NotePage({ token }) {
 
       if (data.length > 0) {
         const { note_name, note_content, last_edited_at } = data[0];
-
+  
+        const paragraphs = note_content.split('\n').map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
+        ));
+  
         setSelectedNoteContent(
           <React.Fragment>
             <div>Note: {note_name}</div>
-            <div>Created on: {new Date(last_edited_at).toLocaleDateString()}, {new Date(last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>         <div>{note_content}</div>
+            <div>Created on: {new Date(last_edited_at).toLocaleDateString()}, {new Date(last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+            {paragraphs}
           </React.Fragment>
         );
       } else {
@@ -228,7 +233,7 @@ function NotePage({ token }) {
 
   return (
     <div style={{marginBottom: "40px"}}>
-      <div><Logo /></div>
+      <div><Logo token={token}/></div>
 
       {editingNote ? (
         <form className="form" onSubmit={handleUpdateNote}>
@@ -243,10 +248,16 @@ function NotePage({ token }) {
           </div>
           <div>
             New Content:{" "}
-            <input type="text"
+            <textarea
               name="note_content"
               value={note.note_content}
-              onChange={handleNoteChange} />
+              onChange={handleNoteChange}
+            />
+
+            {/* <input type="text"
+              name="note_content"
+              value={note.note_content}
+              onChange={handleNoteChange} /> */}
           </div>
           <button className="submit" type="submit">
             Edit Note
@@ -265,10 +276,15 @@ function NotePage({ token }) {
           </div>
           <div>
             Content:{" "}
-            <input type="text"
+            <textarea
               name="note_content"
               value={note.note_content}
-              onChange={handleNoteChange} />
+              onChange={handleNoteChange}
+            />
+            {/* <input type="text"
+              name="note_content"
+              value={note.note_content}
+              onChange={handleNoteChange} /> */}
           </div>
           <button className="submit" type="submit">
             Add Note

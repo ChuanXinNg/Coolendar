@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import coolendarLogo from "../images/Coolendar logo light cropped.png";
+import coolendarLogo from "../images/Coolendar logo  removed background - light.png";
 import { supabase } from "../../supabase";
 import "../css/signup.css";
 
@@ -61,7 +61,7 @@ export default function SignupScreen() {
 
   return (
     <div className="page">
-      <img src={coolendarLogo} className="logo" alt="Coolendar Logo" />
+      <img src={coolendarLogo} className="signuplogo" alt="Coolendar Logo" />
 
       <form className="form" onSubmit={handleSubmit}>
         <div className="title">Sign Up</div>
