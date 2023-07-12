@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Kalam&family=Roboto&family=Shadows+Into+Light&display=swap');
+
+.addButton {
+  display: block;
+  border: solid;
+  border-color: rgb(255, 153, 0);
+  border-radius: 5px;
+  border-width: 2px;
+  cursor: pointer;
+  font-family: Cambria;
+  background-color: rgb(255, 214, 139);
+  width: 150px;
+  font-size: 20px;
+  align-self: center;
+  margin: auto;
+}
+
+.addButton:hover {
+  background-color: rgb(255, 253, 115);
+}
+
+.yourDiary {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-family: Cambria;
+}
+
+.check {
+  background-color: rgb(255, 212, 132);
+  margin: 5px;
+}
+
+.diaryList {
+  margin: 5px;
+  border: solid;
+  border-radius: 5px;
+  border-width: 1px;
+  background-color: rgb(253, 255, 132);
+}
+
+.diaryBoxes {
+  margin: 10px;
+  border: solid;
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 5px;
+  background-color: rgb(180, 181, 255);
+}
+
+.diaryButtons {
+  margin-top: 3px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border: solid;
+  border-color: rgb(174, 0, 255);
+  border-radius: 5px;
+  border-width: 2px;
+  cursor: pointer;
+  font-family: Kalam;
+  background-color: rgb(233, 155, 213);
+}
+
+.diaryButtons:hover {
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.30);
+  background-color: rgb(192, 246, 255);
+}

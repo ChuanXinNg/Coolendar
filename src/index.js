@@ -6,6 +6,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import './supabase'
 import { BrowserRouter } from 'react-router-dom';
+import { initializeFirebase } from './push-notification';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -26,3 +27,5 @@ serviceWorkerRegistration.register();
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+initializeFirebase();

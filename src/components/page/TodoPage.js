@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
 import { supabase } from '../../supabase';
-// import coolendarLogo from "../images/Coolendar logo light cropped.png";
 import Navbar from "./Navbar";
 import Logo from "./Logo";
-import "../css/App.css";
+import '../css/todoPage.css';
 
 function todoPage({ token }) {
-
-  // for navigation purposes
-  // let navigate = useNavigate();
 
   // const select and delete
   const [todoTable, setTodoTable] = useState([]);
@@ -223,18 +218,10 @@ function todoPage({ token }) {
     }
   }
 
-  // // trigger user screen (can be deleted if not using header)
-  // function toUserScreen() {
-  //   navigate('/user');
-  // }
-
   return (
     <div className="Coolendar-App">
       <Logo token={token}/>
-      <div className="header">
-        Heylo, {token.user.user_metadata.name}
-      </div>
-
+      <div className="content">
       {editingTask ? (
         <form className="form" onSubmit={handleUpdateTodoTask}>
           <div className="title"> Edit Todo Task </div>
@@ -298,28 +285,28 @@ function todoPage({ token }) {
         </form>
       )}
 
-      <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }} >
+      <div className="yourTodos">
         Your Todos :)
 
         <div className="undoneTodolist">
           <b>Incomplete tasks</b>
           {todoTable.map(x => (
-            <div key={x.id} style={{margin:"5px"}}>
+            <div key={x.id}>
               {x.done ? null : (
-                <React.Fragment>
-                  <div> Task: {x.todo_task} </div>
+                <div className="todoTaskBoxes">
+                  <div style={{color: "darkblue", fontSize: "18px", fontWeight: "bold"}}> {x.todo_task} </div>
                   <div> Due Date: {new Date(x.deadline_date).toLocaleDateString()} </div>
                   <div>
                     Due Time: {x.has_dueTime ? formatTime(x.deadline_time) : 'Time is not set.'}
                   </div>
-                  <div> {x.done ? 'Completed!' : 'You have not completed this task.'} </div>
+                  <div style={{color: "darkblue"}}> {x.done ? 'Completed!' : 'You have not completed this task.'} </div>
 
-                  <button onClick={() => handleDeleteTodoTask(x.id)}>Delete</button>
-                  <button onClick={() => handleEditTodoTask(x)}>Edit</button>
-                  <button onClick={() => handleToggleTodoDone(x.id, x.done)}>
+                  <button className="todoButtons" onClick={() => handleDeleteTodoTask(x.id)}>Delete</button>
+                  <button className="todoButtons" onClick={() => handleEditTodoTask(x)}>Edit</button>
+                  <button className="todoButtons" onClick={() => handleToggleTodoDone(x.id, x.done)}>
                     {x.done ? "Mark as Not Done" : "Mark as Done"}
                   </button>
-                </React.Fragment>
+                </div>
               )}
             </div>
           ))}
@@ -330,25 +317,25 @@ function todoPage({ token }) {
           {todoTable.map(x => (
             <div key={x.id} style={{margin:"5px"}}>
               {x.done ? (
-                <React.Fragment>
-                  <div> Task: {x.todo_task} </div>
-                  <div> Due Date: {new Date(x.deadline_date).toLocaleDateString()} </div>
-                  <div>
-                    Due Time: {x.has_dueTime ? formatTime(x.deadline_time) : 'Time is not set.'}
-                  </div>
-                  <div> {x.done ? 'Completed!' : 'You have not completed this task.'} </div>
+                <div className="todoTaskBoxes">
+                <div style={{color: "darkblue", fontSize: "18px", fontWeight: "bold"}}> {x.todo_task} </div>
+                <div> Due Date: {new Date(x.deadline_date).toLocaleDateString()} </div>
+                <div>
+                  Due Time: {x.has_dueTime ? formatTime(x.deadline_time) : 'Time is not set.'}
+                </div>
+                <div style={{color: "darkblue"}}> {x.done ? 'Completed!' : 'You have not completed this task.'} </div>
 
-                  <button onClick={() => handleDeleteTodoTask(x.id)}>Delete</button>
-                  <button onClick={() => handleEditTodoTask(x)}>Edit</button>
-                  <button onClick={() => handleToggleTodoDone(x.id, x.done)}>
-                    {x.done ? "Mark as Not Done" : "Mark as Done"}
-                  </button>
-                </React.Fragment>
+                <button className="todoButtons" onClick={() => handleDeleteTodoTask(x.id)}>Delete</button>
+                <button className="todoButtons" onClick={() => handleEditTodoTask(x)}>Edit</button>
+                <button className="todoButtons" onClick={() => handleToggleTodoDone(x.id, x.done)}>
+                  {x.done ? "Mark as Not Done" : "Mark as Done"}
+                </button>
+              </div>
               ) : null}
             </div>
           ))}
         </div>
-
+        </div>
       </div>
       <React.Fragment>
         <Navbar />

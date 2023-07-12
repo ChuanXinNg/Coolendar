@@ -39,9 +39,9 @@
 .todoList {
   flex: 1;
   margin: 5px;
-  border: solid;
+  /* border: solid;
   border-radius: 5px;
-  border-width: 2px;
+  border-width: 2px; */
   padding: 5px;
   font-family: 'Gill Sans MT';
   background-color: #ffff90;
@@ -50,23 +50,22 @@
 .eventList{
   flex: 1;
   margin: 5px;
-  border: solid;
+  /* border: solid;
   border-radius: 5px;
-  border-width: 2px;
+  border-width: 2px; */
   padding: 5px;
   font-family: 'Gill Sans MT';
   background-color: #ffd476;
 }
 
 .react-calendar .blue {
-  /* outline: 2px solid blue; */
   background-color: yellow;
 }
 
 .react-calendar {
-  border: solid;
+  /* border: solid;
   border-color: purple;
-  border-radius: 5px;
+  border-radius: 5px; */
   font-family: Kalam;
   line-height: 1.125em;
   color: white;

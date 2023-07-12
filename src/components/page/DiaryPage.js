@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Logo from "./Logo";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import '../css/diaryPage.css';
 
 function DiaryPage({ token }) {
 
@@ -201,12 +202,16 @@ function handleEditDiary(d) {
 
             if (data.length > 0) {
                 const { diary_date, diary_time, diary_content } = data[0];
+                const paragraphs = diary_content.split('\n').map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ));
+
                 const formattedTime = formatTime(diary_time);
 
                 setSelectedDiaryContent(
                     <React.Fragment>
                         <div>Created on: {diary_date}, {formattedTime} </div>
-                        <div>{diary_content}</div>
+                        <div>{paragraphs}</div>
                     </React.Fragment>
                 );
             } else {
@@ -247,11 +252,11 @@ function handleEditDiary(d) {
     }
 
     return (
-        <div style={{marginBottom: "40px"}}>
+        <div className="Coolendar-App">
             <Logo token={token}/>
-
+            <div className="content">
             <div id="addDiaryButton">
-                <button onClick={() => handleNavigation("/addDiary")}>
+                <button className="addButton" onClick={() => handleNavigation("/addDiary")}>
                     Add Diary
                 </button>
             </div>
@@ -261,8 +266,7 @@ function handleEditDiary(d) {
                     <div className="title"> Edit Diary</div>
                     <div>
                         New Content:{" "}
-                        <input
-                            type="text"
+                        <textarea
                             name="diary_content"
                             value={diary.diary_content}
                             onChange={handleDiaryChange}
@@ -274,22 +278,20 @@ function handleEditDiary(d) {
                 </form>
             ) : (
                 <div style={{display: "block"}}>
-                    {/*eslint-disable-next-line react/prop-types*/}
-                    Hello {token.user.user_metadata.name}
                 </div>
-
             )}
 
-            <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }} >
+            <div className="yourDiary">
 
                 Your Diary List :)
 
-                <div>
+                <div className="check">
                     {selectedDiaryContent && (
                         <div>
                             <b>Selected Diary:</b>
                             <div>{selectedDiaryContent}</div>
                             <button
+                                className="diaryButtons"
                                 style={{ marginLeft: '12px' }}
                                 onClick={handleCloseDiary}
                             >Close</button>
@@ -297,24 +299,24 @@ function handleEditDiary(d) {
                     )}
                 </div>
 
-                <div className="favouriteDiaryList">
+                <div className="diaryList">
                     <b>Favourite Diaries:</b>
                     {diaryTable.map(x => (
                         <div key={x.id}>
                             {x.pin ? (
-                                <React.Fragment>
+                                <div className="diaryBoxes">
                                     <div>
                                         Created on: {x.diary_date}, {formatTime(x.diary_time)}
                                     </div>
                                     <div> {x.pin ? "Favourite!" : ""} </div>
 
-                                    <button id={x.id} onClick={checkDiary}> Check </button>
-                                    <button onClick={() => handleDeleteDiary(x.id)}>Delete</button>
-                                    <button onClick={() => handleEditDiary(x)}>Edit</button>
-                                    <button onClick={() => handleTogglePin(x.id, x.pin)}>
+                                    <button className="diaryButtons" id={x.id} onClick={checkDiary}> Check </button>
+                                    <button className="diaryButtons" onClick={() => handleDeleteDiary(x.id)}>Delete</button>
+                                    <button className="diaryButtons" onClick={() => handleEditDiary(x)}>Edit</button>
+                                    <button className="diaryButtons" onClick={() => handleTogglePin(x.id, x.pin)}>
                                         {x.pin ? "Remove from favourite" : "Set as favourite!"}
                                     </button>
-                                </React.Fragment>
+                                </div>
                             ) : null}
                         </div>
                     ))}
@@ -323,22 +325,22 @@ function handleEditDiary(d) {
                 <div className="diarylist">
                     <b>All Diaries:</b>
                     {diaryTable.map(x => (
-                        <div key={x.id} style={{margin: "10px"}}>
+                        <div key={x.id} className="diaryBoxes">
                             <div>
-                                {/* Created on: {x.diary_date}, {formatTime(x.diary_time)} */}
                                 {x.diary_date}, {formatTime(x.diary_time)}
                             </div>
                             <div> {x.pin ? "Favourite!" : ""} </div>
 
-                            <button id={x.id} onClick={checkDiary}> Check </button>
-                            <button onClick={() => handleDeleteDiary(x.id)}>Delete</button>
-                            <button onClick={() => handleEditDiary(x)}>Edit</button>
-                            <button onClick={() => handleTogglePin(x.id, x.pin)}>
+                            <button className="diaryButtons" id={x.id} onClick={checkDiary}> Check </button>
+                            <button className="diaryButtons" onClick={() => handleDeleteDiary(x.id)}>Delete</button>
+                            <button className="diaryButtons" onClick={() => handleEditDiary(x)}>Edit</button>
+                            <button className="diaryButtons" onClick={() => handleTogglePin(x.id, x.pin)}>
                                 {x.pin ? "Remove from favourite" : "Set as favourite!"}
                             </button>
                         </div>
                     ))}
                 </div>
+            </div>
             </div>
             <React.Fragment>
                 <Navbar />

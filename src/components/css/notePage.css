@@ -1,22 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Kalam&family=Roboto&family=Shadows+Into+Light&display=swap');
 
-.yourTodos {
+.yourNotes {
   display: flex;
   flex-direction: column;
   text-align: center;
   font-family: Cambria;
 }
 
-.todoTaskBoxes {
+.check {
+  background-color: rgb(255, 212, 132);
+  margin: 5px;
+}
+
+.noteList {
+  margin: 5px;
+  border: solid;
+  border-radius: 5px;
+  border-width: 1px;
+  background-color: rgb(253, 255, 132);
+}
+
+.noteBoxes {
   margin: 10px;
   border: solid;
   border-radius: 5px;
   border-width: 1px;
   padding: 5px;
-  background-color: #ffff90;
+  background-color: #fcb6f8;
 }
 
-.todoButtons {
+.noteButtons {
   margin-top: 3px;
   margin-left: 2px;
   margin-right: 2px;
@@ -29,7 +42,7 @@
   background-color: lightblue;
 }
 
-.todoButtons:hover {
+.noteButtons:hover {
   box-shadow: 5px 5px 10px rgba(0,0,0,0.30);
   background-color: pink;
 }

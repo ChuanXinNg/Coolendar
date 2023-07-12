@@ -12,7 +12,7 @@ import EventNext7daysList from "./CoolendarList/EventNext7daysList";
 import { format, addDays, subDays, isSameDay, parseISO } from 'date-fns';
 import { supabase } from '../../supabase';
 import "../css/App.css";
-
+import { askForPermissionToReceiveNotifications } from '../../push-notification';
 
 function CalendarScreen({ token }) {
   CalendarScreen.propTypes = {
@@ -26,6 +26,10 @@ function CalendarScreen({ token }) {
   let navigate = useNavigate();
   const [date, setDate] = useState(new Date());
   const [eventsData, setEventsData] = useState([]);
+
+  // useEffect(() => {
+  //   askForPermissionToReceiveNotifications();
+  // }, []);
 
   useEffect(() => {
     console.log("Date changed:", date);
@@ -57,36 +61,6 @@ function CalendarScreen({ token }) {
     fetchEventData();
   }, [date]);
 
-  // useEffect(() => {
-  //   const button = document.getElementById("notifications");
-  //   if (button) {
-  //     button.addEventListener("click", requestNotificationPermission);
-  //   }
-  //   return () => {
-  //     if (button) {
-  //       button.removeEventListener("click", requestNotificationPermission);
-  //     }
-  //   };
-  // }, []);
-
-  // function requestNotificationPermission() {
-  //   Notification.requestPermission().then((result) => {
-  //     if (result === "granted") {
-  //       randomNotification();
-  //     }
-  //   });
-  // }
-
-  // function randomNotification() {
-  //   const notifTitle = "Coolendar";
-  //   const notifBody = "Allow notifications?";
-  //   const options = {
-  //     body: notifBody,
-  //   };
-  //   new Notification(notifTitle, options);
-  //   setTimeout(randomNotification, 30000);
-  // }
-
   function tileClassName({ date }) {
     if (eventsData.find(event => isSameDay(parseISO(event.event_date), date))) {
       return 'blue';
@@ -117,6 +91,9 @@ function CalendarScreen({ token }) {
           {/* {console.log("eventsData")}
           {console.log(eventsData)} */}
         </div>
+        <button onClick={askForPermissionToReceiveNotifications} >
+          Click to receive notifications
+        </button>
         {date instanceof Date && (
           <div>
             <span>Selected date:</span> {format(date, 'yyyy-MM-dd')}

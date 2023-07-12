@@ -71,7 +71,7 @@ function AddDiary({ token }) {
 
     return (
         <div>
-            <div> <Logo /> </div>
+            <div> <Logo token={token} /> </div>
             <div>
                 <form className="form" onSubmit={handleAddDiary}>
                     <div className="title"> Add New Diary </div>
