@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from '../../supabase';
 import Navbar from "./Navbar";
 import Logo from "./Logo";
-import '../css/todoPage.css';
+import '../css/TodoPage.css';
 
 function todoPage({ token }) {
 

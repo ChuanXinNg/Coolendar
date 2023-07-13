@@ -12,7 +12,7 @@ import EventNext7daysList from "./CoolendarList/EventNext7daysList";
 import { format, addDays, subDays, isSameDay, parseISO } from 'date-fns';
 import { supabase } from '../../supabase';
 import "../css/App.css";
-import { askForPermissionToReceiveNotifications } from '../../push-notification';
+// import { askForPermissionToReceiveNotifications } from '../../push-notification';
 
 function CalendarScreen({ token }) {
   CalendarScreen.propTypes = {
@@ -41,11 +41,13 @@ function CalendarScreen({ token }) {
           const nextMonth = format(addDays(date, 30),'yyyy-MM-dd');
           const { data, error } = await supabase
               .from('eventtable')
-              .select('event_date')
+              .select(`event_name, event_date`)
               .order('event_date', { ascending: true })
               .gt('event_date', prevMonth)
               .lte('event_date', nextMonth)
               .eq('creator_id', user_id);
+
+          console.log(data);
 
           if (error) {
               throw error;
@@ -61,9 +63,29 @@ function CalendarScreen({ token }) {
     fetchEventData();
   }, [date]);
 
+  function tileContent({ date, view }) {
+    if (
+      view === "month" &&
+      eventsData.find((event) => isSameDay(parseISO(event.event_date), date))
+    ) {
+      const eventNames = eventsData
+        .filter((event) => isSameDay(parseISO(event.event_date), date))
+        .map((event) => event.event_name);
+      return (
+        <>
+          {eventNames.map((eventName, index) => (
+            <p key={index}>{eventName}</p>
+          ))}
+        </>
+      );
+    }
+  }
+
   function tileClassName({ date }) {
-    if (eventsData.find(event => isSameDay(parseISO(event.event_date), date))) {
-      return 'blue';
+    if (
+      eventsData.find((event) => isSameDay(parseISO(event.event_date), date))
+    ) {
+      return "blue";
     }
   }
   
@@ -87,13 +109,15 @@ function CalendarScreen({ token }) {
           value={date}
           minDetail="decade"
           tileClassName={tileClassName}
+          tileContent={tileContent}
         />
           {/* {console.log("eventsData")}
           {console.log(eventsData)} */}
         </div>
-        <button onClick={askForPermissionToReceiveNotifications} >
+        {/* <button onClick={askForPermissionToReceiveNotifications} >
           Click to receive notifications
-        </button>
+        </button> */}
+        
         {date instanceof Date && (
           <div>
             <span>Selected date:</span> {format(date, 'yyyy-MM-dd')}
