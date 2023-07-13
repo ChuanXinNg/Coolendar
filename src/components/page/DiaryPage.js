@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from '../../supabase';
 import PropTypes from 'prop-types';
-import Logo from "./Logo";
-import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
-import '../css/diaryPage.css';
+// import Logo from "./Logo";
+// import Navbar from "./Navbar";
+// import { useNavigate } from "react-router-dom";
 
 function DiaryPage({ token }) {
 
     // navigation purposes
-    const navigate = useNavigate();
-    const handleNavigation = (path) => {
-        navigate(path);
-    };
+    // const navigate = useNavigate();
+    // const handleNavigation = (path) => {
+    //     navigate(path);
+    // };
 
     // i have no idea what this is
     DiaryPage.propTypes = {
@@ -43,7 +42,8 @@ function DiaryPage({ token }) {
                     .from('diarytable')
                     .select()
                     .eq('creator_id', user_id)
-                    .order('created_at', { ascending: false });
+                    .order('diary_date', { ascending: false })
+                    .order('diary_time', { ascending: false });
 
                 if (error) {
                     throw error;
@@ -70,69 +70,66 @@ function DiaryPage({ token }) {
     }
 
     // button handler to Add Diary or Edit Diary
-    // async function handleDiary(e) {
-    //     e.preventDefault();
-    //     try {
-    //         if (editingDiary) {
-    //             // Update existing task
-    //             await handleUpdateDiary(e);
-    //         } else {
-    //             // Add new task
-    //             const { data, error } = await supabase
-    //                 .from('diarytable')
-    //                 .insert([
-    //                     {
-    //                         creator_id: diary.creator_id,
-    //                         diary_content: diary.diary_content
-    //                     },
-    //                 ]);
-    //             if (error) {
-    //                 throw error;
-    //             }
-    //             console.log(data);
-    //             location.reload();
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
-
-    // button handler to execute setEditingDiary and setDiary for update
-function handleEditDiary(d) {
-    console.log(d);
-    setEditingDiary(d);
-    setDiary({
-        creator_id: d.creator_id,
-        diary_content: d.diary_content
-    });
-}
-
-
-    async function handleUpdateDiary(e) {
+    async function handleDiary(e) {
         e.preventDefault();
-        if (diary.diary_content == "") {
-            alert("Please insert content");
-        } else {
-            try {
+        try {
+            if (editingDiary) {
+                // Update existing task
+                await handleUpdateDiary(e);
+            } else {
+                // Add new task
                 const { data, error } = await supabase
                     .from('diarytable')
-                    .update({
-                        diary_content: diary.diary_content
-                    })
-                    .eq('id', editingDiary.id);
+                    .insert([
+                        {
+                            creator_id: diary.creator_id,
+                            diary_content: diary.diary_content
+                        },
+                    ]);
                 if (error) {
                     throw error;
                 }
                 console.log(data);
                 location.reload();
-                setEditingDiary(null);
-                setDiary({
-                    creator_id: "",
-                    diary_content: "",
-                });
-            } catch (err) {
-                console.log(err);
             }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    // button handler to execute setEditingDiary and setDiary for update
+    function handleEditDiary(d) {
+        setEditingDiary(d);
+        setDiary({
+            creator_id: d.creator_id,
+            diary_content: d.diary
+        });
+    }
+
+    async function handleUpdateDiary(e) {
+        e.preventDefault();
+        try {
+            const { data, error } = await supabase
+                .from('diarytable')
+                .update({
+                    diary_content: diary.diary_content
+                })
+                .eq('id', editingDiary.id);
+
+            if (error) {
+                throw error;
+            }
+
+            console.log(data);
+            location.reload();
+
+            setEditingDiary(null);
+            setDiary({
+                creator_id: "",
+                diary_content: "",
+            });
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -147,8 +144,8 @@ function handleEditDiary(d) {
                 throw error;
             }
 
-            alert("This diary will be deleted");
             console.log(data);
+            location.reload();
 
             const updatedDiary = diaryTable.filter(item => item.id !== id);
             setDiaryTable(updatedDiary);
@@ -169,6 +166,7 @@ function handleEditDiary(d) {
             }
 
             console.log(data);
+            location.reload();
 
             const updatedDiary = diaryTable.map(item => {
                 if (item.id === id) {
@@ -202,16 +200,12 @@ function handleEditDiary(d) {
 
             if (data.length > 0) {
                 const { diary_date, diary_time, diary_content } = data[0];
-                const paragraphs = diary_content.split('\n').map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ));
-
                 const formattedTime = formatTime(diary_time);
 
                 setSelectedDiaryContent(
                     <React.Fragment>
                         <div>Created on: {diary_date}, {formattedTime} </div>
-                        <div>{paragraphs}</div>
+                        <div>{diary_content}</div>
                     </React.Fragment>
                 );
             } else {
@@ -252,46 +246,48 @@ function handleEditDiary(d) {
     }
 
     return (
-        <div className="Coolendar-App">
-            <Logo token={token}/>
-            <div className="content">
-            <div id="addDiaryButton">
-                <button className="addButton" onClick={() => handleNavigation("/addDiary")}>
-                    Add Diary
-                </button>
-            </div>
+        <div>
 
             {editingDiary ? (
                 <form className="form" onSubmit={handleUpdateDiary}>
                     <div className="title"> Edit Diary</div>
                     <div>
                         New Content:{" "}
-                        <textarea
+                        <input type="text"
                             name="diary_content"
                             value={diary.diary_content}
-                            onChange={handleDiaryChange}
-                            />
+                            onChange={handleDiaryChange} />
                     </div>
                     <button className="submit" type="submit">
                         Edit Diary
                     </button>
                 </form>
             ) : (
-                <div style={{display: "block"}}>
-                </div>
+                <form className="form" onSubmit={handleDiary}>
+                    <div className="title"> Write your day</div>
+                    <div>
+                        Content:{" "}
+                        <input type="text"
+                            name="diary_content"
+                            value={diary.diary_content}
+                            onChange={handleDiaryChange} />
+                    </div>
+                    <button className="submit" type="submit">
+                        Add Diary
+                    </button>
+                </form>
             )}
 
-            <div className="yourDiary">
+            <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }} >
 
                 Your Diary List :)
 
-                <div className="check">
+                <div>
                     {selectedDiaryContent && (
                         <div>
                             <b>Selected Diary:</b>
                             <div>{selectedDiaryContent}</div>
                             <button
-                                className="diaryButtons"
                                 style={{ marginLeft: '12px' }}
                                 onClick={handleCloseDiary}
                             >Close</button>
@@ -299,24 +295,25 @@ function handleEditDiary(d) {
                     )}
                 </div>
 
-                <div className="diaryList">
+                <div className="favouriteDiaryList">
                     <b>Favourite Diaries:</b>
                     {diaryTable.map(x => (
                         <div key={x.id}>
                             {x.pin ? (
-                                <div className="diaryBoxes">
+                                <React.Fragment>
                                     <div>
                                         Created on: {x.diary_date}, {formatTime(x.diary_time)}
                                     </div>
+                                    <div> {x.diary_content} </div>
                                     <div> {x.pin ? "Favourite!" : ""} </div>
 
-                                    <button className="diaryButtons" id={x.id} onClick={checkDiary}> Check </button>
-                                    <button className="diaryButtons" onClick={() => handleDeleteDiary(x.id)}>Delete</button>
-                                    <button className="diaryButtons" onClick={() => handleEditDiary(x)}>Edit</button>
-                                    <button className="diaryButtons" onClick={() => handleTogglePin(x.id, x.pin)}>
+                                    <button id={x.id} onClick={checkDiary}> Check </button>
+                                    <button onClick={() => handleDeleteDiary(x.id)}>Delete</button>
+                                    <button onClick={() => handleEditDiary(x)}>Edit</button>
+                                    <button onClick={() => handleTogglePin(x.id, x.pin)}>
                                         {x.pin ? "Remove from favourite" : "Set as favourite!"}
                                     </button>
-                                </div>
+                                </React.Fragment>
                             ) : null}
                         </div>
                     ))}
@@ -325,28 +322,134 @@ function handleEditDiary(d) {
                 <div className="diarylist">
                     <b>All Diaries:</b>
                     {diaryTable.map(x => (
-                        <div key={x.id} className="diaryBoxes">
+                        <div key={x.id}>
                             <div>
-                                {x.diary_date}, {formatTime(x.diary_time)}
+                                Created on: {x.diary_date}, {formatTime(x.diary_time)}
                             </div>
+                            <div> {x.diary_content} </div>
                             <div> {x.pin ? "Favourite!" : ""} </div>
 
-                            <button className="diaryButtons" id={x.id} onClick={checkDiary}> Check </button>
-                            <button className="diaryButtons" onClick={() => handleDeleteDiary(x.id)}>Delete</button>
-                            <button className="diaryButtons" onClick={() => handleEditDiary(x)}>Edit</button>
-                            <button className="diaryButtons" onClick={() => handleTogglePin(x.id, x.pin)}>
+                            <button id={x.id} onClick={checkDiary}> Check </button>
+                            <button onClick={() => handleDeleteDiary(x.id)}>Delete</button>
+                            <button onClick={() => handleEditDiary(x)}>Edit</button>
+                            <button onClick={() => handleTogglePin(x.id, x.pin)}>
                                 {x.pin ? "Remove from favourite" : "Set as favourite!"}
                             </button>
                         </div>
                     ))}
                 </div>
             </div>
-            </div>
-            <React.Fragment>
-                <Navbar />
-            </React.Fragment>
         </div>
     );
 }
+
+
+//     return (
+//         <div>
+//             <Logo />
+
+//             <div id="addDiaryButton">
+//                 <button onClick={() => handleNavigation("/addDiary")}>
+//                     Add Diary
+//                 </button>
+//             </div>
+
+//             {editingDiary ? (
+//                 <form className="form" onSubmit={handleUpdateDiary}>
+//                     <div className="title"> Edit Diary</div>
+//                     <div>
+//                         New Content:{" "}
+//                         <input type="text"
+//                             name="diary_content"
+//                             value={diary.diary_content}
+//                             onChange={handleDiaryChange} />
+//                     </div>
+//                     <button className="submit" type="submit">
+//                         Edit Diary
+//                     </button>
+//                 </form>
+//             ) : (
+//                 <form className="form" onSubmit={handleDiary}>
+//                     <div className="title"> Write your day</div>
+//                     <div>
+//                         Content:{" "}
+//                         <input type="text"
+//                             name="diary_content"
+//                             value={diary.diary_content}
+//                             onChange={handleDiaryChange} />
+//                     </div>
+//                     <button className="submit" type="submit">
+//                         Add Diary
+//                     </button>
+//                 </form>
+//             )}
+
+//             <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }} >
+
+//                 Your Diary List :)
+
+//                 <div>
+//                     {selectedDiaryContent && (
+//                         <div>
+//                             <b>Selected Diary:</b>
+//                             <div>{selectedDiaryContent}</div>
+//                             <button
+//                                 style={{ marginLeft: '12px' }}
+//                                 onClick={handleCloseDiary}
+//                             >Close</button>
+//                         </div>
+//                     )}
+//                 </div>
+
+//                 <div className="favouriteDiaryList">
+//                     <b>Favourite Diaries:</b>
+//                     {diaryTable.map(x => (
+//                         <div key={x.id}>
+//                             {x.pin ? (
+//                                 <React.Fragment>
+//                                     <div>
+//                                         Created on: {x.diary_date}, {formatTime(x.diary_time)}
+//                                     </div>
+//                                     <div> {x.diary_content} </div>
+//                                     <div> {x.pin ? "Favourite!" : ""} </div>
+
+//                                     <button id={x.id} onClick={checkDiary}> Check </button>
+//                                     <button onClick={() => handleDeleteDiary(x.id)}>Delete</button>
+//                                     <button onClick={() => handleEditDiary(x)}>Edit</button>
+//                                     <button onClick={() => handleTogglePin(x.id, x.pin)}>
+//                                         {x.pin ? "Remove from favourite" : "Set as favourite!"}
+//                                     </button>
+//                                 </React.Fragment>
+//                             ) : null}
+//                         </div>
+//                     ))}
+//                 </div>
+
+//                 <div className="diarylist">
+//                     <b>All Diaries:</b>
+//                     {diaryTable.map(x => (
+//                         <div key={x.id}>
+//                             <div>
+//                                 Created on: {x.diary_date}, {formatTime(x.diary_time)}
+//                             </div>
+//                             <div> {x.diary_content} </div>
+//                             <div> {x.pin ? "Favourite!" : ""} </div>
+
+//                             <button id={x.id} onClick={checkDiary}> Check </button>
+//                             <button onClick={() => handleDeleteDiary(x.id)}>Delete</button>
+//                             <button onClick={() => handleEditDiary(x)}>Edit</button>
+//                             <button onClick={() => handleTogglePin(x.id, x.pin)}>
+//                                 {x.pin ? "Remove from favourite" : "Set as favourite!"}
+//                             </button>
+//                         </div>
+//                     ))}
+//                 </div>
+//             </div>
+//             <React.Fragment>
+//                 <Navbar />
+//             </React.Fragment>
+//         </div>
+//     );
+// }
 
 export default DiaryPage;

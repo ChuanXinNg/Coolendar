@@ -43,35 +43,29 @@ function AddDiary({ token }) {
     // button handler to Add Diary
     async function handleAddDiary(e) {
         e.preventDefault();
-        if (diary.diary_content == "") {
-            alert("Please insert content");
-        } else {
-            try {
-                // Add new task
-                const { data, error } = await supabase
-                    .from('diarytable')
-                    .insert([
-                        {
-                            creator_id: diary.creator_id,
-                            diary_content: diary.diary_content
-                        },
-                    ]);
-                if (error) {
-                    throw error;
-                }
-                handleNavigation("/diary");
-                console.log(data);
-                location.reload();
-                // navigate("/diary");
-            } catch (err) {
-                console.log(err);
+        try {
+            // Add new task
+            const { data, error } = await supabase
+                .from('diarytable')
+                .insert([
+                    {
+                        creator_id: diary.creator_id,
+                        diary_content: diary.diary_content
+                    },
+                ]);
+            if (error) {
+                throw error;
             }
+            console.log(data);
+            location.reload();
+        } catch (err) {
+            console.log(err);
         }
     }
 
     return (
         <div>
-            <div> <Logo token={token} /> </div>
+            <div> <Logo /> </div>
             <div>
                 <form className="form" onSubmit={handleAddDiary}>
                     <div className="title"> Add New Diary </div>
