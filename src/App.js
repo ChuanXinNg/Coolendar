@@ -12,6 +12,7 @@ import TodoPage from "./components/page/TodoPage";
 import NoteContentPage from "./components/page/NoteContentPage";
 import NewEventPage from "./components/page/NewEventPage";
 import AddDiary from "./components/page/AddDiary";
+import DiaryPageWithCalendar from "./components/page/DiaryPageWithCalendar";
 import ProfilePage from "./components/page/ProfilePage";
 
 
@@ -64,6 +65,7 @@ function App() {
         {token ? <Route path={"/user"} element={<UserScreen token={token} />} /> : ""}
         {token ? <Route path={"/content"} element={<NoteContentPage token={token} />} /> : ""}
         {token ? <Route path={"/ProfilePage"} element={<ProfilePage token={token} />} /> : ""}
+        {token ? <Route path={"/diary-calendar"} element={<DiaryPageWithCalendar token={token} />} /> : ""}
       </Routes>
     </div>
   );

@@ -41,7 +41,7 @@ function Navbar() {
           </button>
         </li>
         <li>
-          <button className="navbutton" onClick={() => handleNavigation("/diary")}>
+          <button className="navbutton" onClick={() => handleNavigation("/diary-calendar")}>
             <img className="navicon" src={diaryIcon} alt="Diary" />
           </button>
         </li>
