@@ -12,11 +12,11 @@ nav {
 }
 
 .navbutton {
+  flex: 1;
   border: none;
   color: rgb(0, 225, 255);
   background-color: rgb(0, 225, 255);
   font-size: 16px;
-  height: 40px;
 }
 
 .navbutton:hover {
@@ -36,7 +36,6 @@ nav li {
 }
 
 .navicon {
-  width: 40px;
   height: 40px;
 }
 

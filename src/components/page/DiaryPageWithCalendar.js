@@ -34,9 +34,8 @@ function DiaryPageWithCalendar({ token }) {
 
     return (
         <div className="Coolendar-App">
-            <Logo token={token} />
-
-            <div className="content">
+        <Logo token={token}/>
+        <div className="content">
                 <div className="calendar-container">
                     <Calendar
                         className="calendar"

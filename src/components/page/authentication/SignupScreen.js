@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import coolendarLogo from "../images/Coolendar logo  removed background - light.png";
-import { supabase } from "../../supabase";
-import "../css/signup.css";
+import coolendarLogo from "../../images/Coolendar logo  removed background - light.png";
+import { supabase } from "../../../supabase";
+import "../../css/signup.css";
 
 
 export default function SignupScreen() {

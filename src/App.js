@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { supabase } from "./supabase";
-import SignupScreen from "./components/page/SignupScreen";
+import SignupScreen from "./components/page/authentication/SignupScreen";
 import CoolendarScreen from "./components/page/CoolendarScreen";
-import LoginScreen from "./components/page/loginScreen";
+import LoginScreen from "./components/page/authentication/loginScreen";
 import UserScreen from "./components/page/UserScreen";
 import DiaryPage from "./components/page/DiaryPage";
 import EventPage from "./components/page/EventPage";
@@ -14,6 +14,7 @@ import NewEventPage from "./components/page/NewEventPage";
 import AddDiary from "./components/page/AddDiary";
 import DiaryPageWithCalendar from "./components/page/DiaryPageWithCalendar";
 import ProfilePage from "./components/page/ProfilePage";
+import ForgotPassword from "./components/page/authentication/forgotpassword";
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
       <Routes>
         <Route path={"/"} element={<LoginScreen setToken={setToken} />} />
         <Route path={"/signup"} element={<SignupScreen />} />
+        <Route path={"/user/recover"} element={<ForgotPassword />} />
         {token ? <Route path={"/coolendar"} element={<CoolendarScreen token={token} />} /> : ""}
         {token ? <Route path={"/diary"} element={<DiaryPage token={token} />} /> : ""}
         {token ? <Route path={"/addDiary"} element={<AddDiary token={token} />} /> : ""}

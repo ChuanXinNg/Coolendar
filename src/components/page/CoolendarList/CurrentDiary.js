@@ -85,6 +85,25 @@ function CurrentDiary({ token, date }) {
             )}
         </div>
     );
+    
+// return (
+//     <div className="CurrentDiary">
+//         {diaryTable.length === 0 ? (
+//             <><div>You did not write a diary!</div><div>
+//                 <AddDiary token={token} date={date} />
+//             </div></>
+//         ) : (
+//             diaryTable.map(x => (
+//                 <div key={x.id}>
+//                     <div> Created at: {formatTime(x.diary_time)} </div>
+//                     <div> Diary: {x.diary_content} </div>
+//                     <div> {x.pin ? "Favourite!" : ""} </div>
+//                 </div>
+//             ))
+//         )}
+//     </div>
+// );
+
 
 }
 
