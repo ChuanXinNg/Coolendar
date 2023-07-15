@@ -5,14 +5,13 @@ import SignupScreen from "./components/page/authentication/SignupScreen";
 import CoolendarScreen from "./components/page/CoolendarScreen";
 import LoginScreen from "./components/page/authentication/loginScreen";
 import UserScreen from "./components/page/UserScreen";
-import DiaryPage from "./components/page/DiaryPage";
 import EventPage from "./components/page/EventPage";
 import NotePage from "./components/page/NotePage";
 import TodoPage from "./components/page/TodoPage";
 import NoteContentPage from "./components/page/NoteContentPage";
 import NewEventPage from "./components/page/NewEventPage";
-import AddDiary from "./components/page/AddDiary";
-import DiaryPageWithCalendar from "./components/page/DiaryPageWithCalendar";
+import AddDiary from "./components/page/Diary/AddDiary";
+import DiaryPageWithCalendar from "./components/page/Diary/DiaryPageWithCalendar";
 import ProfilePage from "./components/page/ProfilePage";
 import ForgotPassword from "./components/page/authentication/forgotpassword";
 
@@ -58,7 +57,6 @@ function App() {
         <Route path={"/signup"} element={<SignupScreen />} />
         <Route path={"/user/recover"} element={<ForgotPassword />} />
         {token ? <Route path={"/coolendar"} element={<CoolendarScreen token={token} />} /> : ""}
-        {token ? <Route path={"/diary"} element={<DiaryPage token={token} />} /> : ""}
         {token ? <Route path={"/addDiary"} element={<AddDiary token={token} />} /> : ""}
         {token ? <Route path={"/event"} element={<EventPage token={token} />} /> : ""}
         {token ? <Route path={"/newevent"} element={<NewEventPage token={token} />} /> : ""}

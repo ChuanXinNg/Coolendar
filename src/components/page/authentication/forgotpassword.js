@@ -24,7 +24,7 @@ function forgotPassword() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-
+    alert('Please wait while we process');
     try {
 
       const { data, error } = await supabase.auth.updateUser({

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Calendar from 'react-calendar';
-import Logo from "./Logo";
-import Navbar from "./Navbar";
-import CurrentDiary from "./CoolendarList/CurrentDiary";
-import DiaryPage from "./DiaryPage";
+import Logo from "../Logo";
+import Navbar from "../Navbar";
+import CurrentDiary from "./CurrentDiary";
 import { format } from 'date-fns';
-import "../css/App.css";
+import "../../css/App.css";
 
 function DiaryPageWithCalendar({ token }) {
 
@@ -20,13 +18,6 @@ function DiaryPageWithCalendar({ token }) {
         }).isRequired
     };
 
-    // navigation purposes
-    let navigate = useNavigate();
-
-    function toAddDiary() {
-        navigate('/addDiary');
-    }
-
     const [date, setDate] = useState(new Date());
     useEffect(() => {
         console.log("Date changed:", date);
@@ -34,8 +25,9 @@ function DiaryPageWithCalendar({ token }) {
 
     return (
         <div className="Coolendar-App">
-        <Logo token={token}/>
-        <div className="content">
+            <Logo token={token} />
+
+            <div className="content">
                 <div className="calendar-container">
                     <Calendar
                         className="calendar"
@@ -56,15 +48,12 @@ function DiaryPageWithCalendar({ token }) {
                 )}
 
                 <div className="currentList">
-                    <button onClick={() => toAddDiary()}> Add Diary </button>
                     <div className="listTitle">
                         <div> <strong> Diary of {format(date, 'yyyy-MM-dd')} </strong> </div>
                         <CurrentDiary token={token} date={date} />
                     </div>
                 </div>
             </div>
-
-            <DiaryPage token={token} />
 
             <React.Fragment>
                 <Navbar />
