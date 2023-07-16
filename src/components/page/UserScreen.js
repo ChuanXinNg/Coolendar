@@ -28,10 +28,10 @@ function calendarScreen({ token }) {
 
       <div>
         <button className="button" onClick={() => handleNavigation("/coolendar")}>Home</button>
-        <button className="button" onClick={() => handleNavigation("/newevent")}>New Event</button>
+        <button className="button" onClick={() => handleNavigation("/event")}>New Event</button>
         <button className="button" onClick={() => handleNavigation("/todo")}>New Todo</button>
         <button className="button" onClick={() => handleNavigation("/note")}>New Notes</button>
-        <button className="button" onClick={() => handleNavigation("/addDiary")}>New Diary</button>
+        <button className="button" onClick={() => handleNavigation("/diary-calendar")}>New Diary</button>
         <button className="button" onClick={() => handleNavigation("/ProfilePage")}>Go to Profile</button>
         <button className="logoutbutton" onClick={handleLogOut}>Log out</button>
       </div>

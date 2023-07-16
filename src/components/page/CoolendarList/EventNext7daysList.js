@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 function EventNext7daysList({ token, date }) {
 
     const [editingEvent, setEditingEvent] = useState(null);
-    // const insert
+    const [selectedEventContent, setSelectedEventContent] = useState('');
     const [event, setEvent] = useState({
       creator_id: "",
       event_name: "",
@@ -133,6 +133,47 @@ function EventNext7daysList({ token, date }) {
         }
       }
 
+      async function checkEvent(event) {
+        const idToCheck = event.target.id;
+        console.log(event);
+    
+        try {
+          const user_id = token.user.id;
+          const { data, error } = await supabase
+            .from('eventtable')
+            .select()
+            .eq('creator_id', user_id)
+            .eq('id', idToCheck);
+    
+          if (error) {
+            throw error;
+          }
+    
+          if (data.length > 0) {
+            const { event_date, event_time, event_name, event_info } = data[0];
+            const formattedTime = formatTime(event_time);
+    
+            setSelectedEventContent(
+              <React.Fragment>
+                <div>Event Name: {event_name}</div>
+                <div> Date: {event_date}, {formattedTime} </div>
+                <div>{event_info}</div>
+              </React.Fragment>
+            );
+          } else {
+            setSelectedEventContent('');
+          }
+    
+    
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+    function handleCloseEvent() {
+        setSelectedEventContent('');
+    }
+
     function formatTime(timeString) {
         const [hours, minutes] = timeString.split(':');
         let formattedHours = parseInt(hours, 10);
@@ -207,8 +248,21 @@ function EventNext7daysList({ token, date }) {
                         <div style={{fontSize: "18px"}}> {x.event_name} </div>
                         <div> Date: {x.event_date} </div>
                         <div> Time: {formatTime(x.event_time)} </div>
+                        <button id={x.id} onClick={checkEvent}> Check </button>
                         <button onClick={() => handleDeleteEvent(x.id)}>Delete</button>
                         <button onClick={() => handleEditEvent(x)}>Edit</button>
+                        <div>
+          {selectedEventContent && (
+            <div>
+              <b>Event info:</b>
+              <div>{selectedEventContent}</div>
+              <button
+                style={{ marginLeft: '12px' }}
+                onClick={handleCloseEvent}
+              >Close</button>
+            </div>
+          )}
+        </div>
                     </div>
                 ))
             )}

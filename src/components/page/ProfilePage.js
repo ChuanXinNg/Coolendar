@@ -2,12 +2,15 @@ import React from "react";
 import Navbar from "./Navbar";
 import Logo from "./Logo";
 
-function ProfilePage() {
+// eslint-disable-next-line react/prop-types
+function ProfilePage({token}) {
 
     return (
-        <div>
-            <Logo />
-            This is my ProfilePage
+        <div className="Coolendar-App">
+            <Logo token={token}/>
+            <div className="content">
+                This is my ProfilePage
+            </div>
             <React.Fragment>
                 <Navbar />
             </React.Fragment>

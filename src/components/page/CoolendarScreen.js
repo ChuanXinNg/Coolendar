@@ -111,12 +111,7 @@ function CalendarScreen({ token }) {
           tileClassName={tileClassName}
           tileContent={tileContent}
         />
-          {/* {console.log("eventsData")}
-          {console.log(eventsData)} */}
         </div>
-        {/* <button onClick={askForPermissionToReceiveNotifications} >
-          Click to receive notifications
-        </button> */}
         
         {date instanceof Date && (
           <div>

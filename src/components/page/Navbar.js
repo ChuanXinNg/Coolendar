@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 // Import your icon images
 import todoIcon from "../icons/black icons/todo black icon.png";
-import eventIcon from "../icons/black icons/event black icon.png";
 import homeIcon from "../icons/black icons/home black icon.png";
 import noteIcon from "../icons/black icons/note black icon.png";
 import diaryIcon from "../icons/black icons/diary black icon.png";
@@ -23,11 +22,6 @@ function Navbar() {
         <li>
           <button className="navbutton" onClick={() => handleNavigation("/todo")}>
             <img className="navicon" src={todoIcon} alt="Todo" />
-          </button>
-        </li>
-        <li>
-          <button className="navbutton" onClick={() => handleNavigation("/event")}>
-            <img className="navicon" src={eventIcon} alt="Event" />
           </button>
         </li>
         <li>
