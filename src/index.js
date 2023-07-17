@@ -7,15 +7,38 @@ import reportWebVitals from './reportWebVitals';
 import './supabase'
 import { BrowserRouter } from 'react-router-dom';
 import { initializeFirebase } from './push-notification';
+import * as themes from './theme/skema.json';
+import { setToLS, getFromLS } from './utils/storage';
+
+
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <React.StrictMode>
+//     <BrowserRouter>
+//       <App />
+//     </BrowserRouter>
+//   </React.StrictMode>
+// );
+
+
+const Index = () => {
+  const storedThemes = getFromLS('all-themes');
+
+  if (!storedThemes) {
+    setToLS('all-themes', themes.default);
+  }
+
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
-);
+root.render(<Index />);
 
 
 // If you want your app to work offline and load faster, you can change

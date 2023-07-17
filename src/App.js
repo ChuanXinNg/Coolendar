@@ -6,9 +6,8 @@ import CoolendarScreen from "./components/page/CoolendarScreen";
 import LoginScreen from "./components/page/authentication/loginScreen";
 import UserScreen from "./components/page/UserScreen";
 import EventPage from "./components/page/EventPage";
-import NotePage from "./components/page/NotePage";
+import NotePage from "./components/page/Note/NotePage";
 import TodoPage from "./components/page/TodoPage";
-import NoteContentPage from "./components/page/NoteContentPage";
 import DiaryPageWithCalendar from "./components/page/Diary/DiaryPageWithCalendar";
 import ProfilePage from "./components/page/ProfilePage";
 import ForgotPassword from "./components/page/authentication/forgotpassword";
@@ -59,7 +58,6 @@ function App() {
         {token ? <Route path={"/note"} element={<NotePage token={token} />} /> : ""}
         {token ? <Route path={"/todo"} element={<TodoPage token={token} />} /> : ""}
         {token ? <Route path={"/user"} element={<UserScreen token={token} />} /> : ""}
-        {token ? <Route path={"/content"} element={<NoteContentPage token={token} />} /> : ""}
         {token ? <Route path={"/ProfilePage"} element={<ProfilePage token={token} />} /> : ""}
         {token ? <Route path={"/diary-calendar"} element={<DiaryPageWithCalendar token={token} />} /> : ""}
       </Routes>

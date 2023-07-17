@@ -3,9 +3,15 @@ import { supabase } from '../../supabase';
 import Navbar from "./Navbar";
 import Logo from "./Logo";
 import '../css/TodoPage.css';
+import { GlobalStyles } from '../../theme/GlobalStyles';
+import { ThemeProvider } from "styled-components";
+import WebFont from 'webfontloader';
+import { useTheme } from '../../theme/useTheme';
 
 function todoPage({ token }) {
 
+  const {theme, themeLoaded, getFonts} = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(theme);
   // const select and delete
   const [todoTable, setTodoTable] = useState([]);
   // const update
@@ -16,6 +22,19 @@ function todoPage({ token }) {
     todo_task: "",
     todo_deadline_date: "",
     todo_deadline_time: ""
+  });
+
+  useEffect(() => {
+    setSelectedTheme(theme);
+   }, [themeLoaded]);
+
+  // 4: Load all the fonts
+  useEffect(() => {
+    WebFont.load({
+      google: {
+        families: getFonts()
+      }
+    });
   });
 
   // fetching data from database
@@ -222,6 +241,8 @@ function todoPage({ token }) {
     <div className="Coolendar-App">
       <Logo token={token}/>
       <div className="content">
+        {themeLoaded && <ThemeProvider theme={ selectedTheme }>
+        <GlobalStyles/>
       {editingTask ? (
         <form className="form" onSubmit={handleUpdateTodoTask}>
           <div className="title"> Edit Todo Task </div>
@@ -293,17 +314,17 @@ function todoPage({ token }) {
           {todoTable.map(x => (
             <div key={x.id}>
               {x.done ? null : (
-                <div className="todoTaskBoxes">
-                  <div style={{color: "darkblue", fontSize: "18px", fontWeight: "bold"}}> {x.todo_task} </div>
+                <div className="taskBoxes">
+                  <p className="taskTitle"> {x.todo_task} </p>
                   <div> Due Date: {new Date(x.deadline_date).toLocaleDateString()} </div>
                   <div>
                     Due Time: {x.has_dueTime ? formatTime(x.deadline_time) : 'Time is not set.'}
                   </div>
-                  <div style={{color: "darkblue"}}> {x.done ? 'Completed!' : 'You have not completed this task.'} </div>
+                  <p> {x.done ? 'Completed!' : 'You have not completed this task.'} </p>
 
-                  <button className="todoButtons" onClick={() => handleDeleteTodoTask(x.id)}>Delete</button>
-                  <button className="todoButtons" onClick={() => handleEditTodoTask(x)}>Edit</button>
-                  <button className="todoButtons" onClick={() => handleToggleTodoDone(x.id, x.done)}>
+                  <button className="small-button" onClick={() => handleDeleteTodoTask(x.id)}>Delete</button>
+                  <button className="small-button" onClick={() => handleEditTodoTask(x)}>Edit</button>
+                  <button className="small-button" onClick={() => handleToggleTodoDone(x.id, x.done)}>
                     {x.done ? "Mark as Not Done" : "Mark as Done"}
                   </button>
                 </div>
@@ -317,17 +338,17 @@ function todoPage({ token }) {
           {todoTable.map(x => (
             <div key={x.id} style={{margin:"5px"}}>
               {x.done ? (
-                <div className="todoTaskBoxes">
-                <div style={{color: "darkblue", fontSize: "18px", fontWeight: "bold"}}> {x.todo_task} </div>
+                <div className="taskBoxes">
+                <p className="taskTitle"> {x.todo_task} </p>
                 <div> Due Date: {new Date(x.deadline_date).toLocaleDateString()} </div>
                 <div>
                   Due Time: {x.has_dueTime ? formatTime(x.deadline_time) : 'Time is not set.'}
                 </div>
-                <div style={{color: "darkblue"}}> {x.done ? 'Completed!' : 'You have not completed this task.'} </div>
+                <p> {x.done ? 'Completed!' : 'You have not completed this task.'} </p>
 
-                <button className="todoButtons" onClick={() => handleDeleteTodoTask(x.id)}>Delete</button>
-                <button className="todoButtons" onClick={() => handleEditTodoTask(x)}>Edit</button>
-                <button className="todoButtons" onClick={() => handleToggleTodoDone(x.id, x.done)}>
+                <button className="small-button" onClick={() => handleDeleteTodoTask(x.id)}>Delete</button>
+                <button className="small-button" onClick={() => handleEditTodoTask(x)}>Edit</button>
+                <button className="small-button" onClick={() => handleToggleTodoDone(x.id, x.done)}>
                   {x.done ? "Mark as Not Done" : "Mark as Done"}
                 </button>
               </div>
@@ -335,7 +356,9 @@ function todoPage({ token }) {
             </div>
           ))}
         </div>
-        </div>
+        </div>  
+        </ThemeProvider>}
+        
       </div>
       <React.Fragment>
         <Navbar />

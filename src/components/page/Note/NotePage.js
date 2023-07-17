@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from '../../supabase';
+import { supabase } from '../../../supabase';
 import PropTypes from 'prop-types';
-import Logo from "./Logo";
-import Navbar from "./Navbar";
+import Logo from "../Logo";
+import Navbar from "../Navbar";
 // import { useNavigate } from "react-router-dom";
-import '../css/notePage.css';
+import '../../css/notePage.css';
 
 
 function NotePage({ token }) {

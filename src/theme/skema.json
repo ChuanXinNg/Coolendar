@@ -1,0 +1,49 @@
+{
+  "data": {
+    "light": {
+      "id": "T_001",
+      "name": "Light",
+      "colors": {
+        "body": "#FFFFFF",
+        "text": "#000000",
+        "button": {
+          "text": "#000000",
+          "background": "#ADD8E6",
+          "border": "#008CFF"
+        },
+        "taskBoxes": "#FFD484"
+      },
+      "font": "Tinos"
+    },
+    "warm": {
+      "id": "T_002",
+      "name": "Warm",
+      "colors": {
+        "body": "#FFBB60",
+        "text": "#000000",
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#FA4600",
+          "border": "#FA4600"
+        },
+        "taskBoxes": "#FFF560"
+      },
+      "font": "Ubuntu"
+    },
+    "dark": {
+      "id": "T_003",
+      "name": "Dark",
+      "colors": {
+        "body": "#0B072E",
+        "text": "#AAAAAA",
+        "button": {
+          "text": "#AAAAAA",
+          "background": "#8600AB",
+          "border": "#8600AB"
+        },
+        "taskBoxes": "#000000"
+      },
+      "font": "Roboto"
+    }
+  }
+}
