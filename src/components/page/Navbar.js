@@ -20,6 +20,11 @@ function Navbar() {
     <nav>
       <ul>
         <li>
+          <button className="navbutton" onClick={() => handleNavigation("/ProfilePage")}>
+            <img className="navicon" src={todoIcon} alt="Todo" />
+          </button>
+        </li>
+        <li>
           <button className="navbutton" onClick={() => handleNavigation("/todo")}>
             <img className="navicon" src={todoIcon} alt="Todo" />
           </button>

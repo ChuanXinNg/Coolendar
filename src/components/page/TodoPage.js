@@ -11,7 +11,7 @@ import { useTheme } from '../../theme/useTheme';
 function todoPage({ token }) {
 
   const {theme, themeLoaded, getFonts} = useTheme();
-    const [selectedTheme, setSelectedTheme] = useState(theme);
+  const [selectedTheme, setSelectedTheme] = useState(theme);
   // const select and delete
   const [todoTable, setTodoTable] = useState([]);
   // const update

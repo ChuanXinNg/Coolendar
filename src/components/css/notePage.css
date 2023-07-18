@@ -12,23 +12,6 @@
   margin: 5px;
 }
 
-.noteList {
-  margin: 5px;
-  border: solid;
-  border-radius: 5px;
-  border-width: 1px;
-  background-color: rgb(253, 255, 132);
-}
-
-.noteBoxes {
-  margin: 10px;
-  border: solid;
-  border-radius: 5px;
-  border-width: 1px;
-  padding: 5px;
-  background-color: #fcb6f8;
-}
-
 .noteButtons {
   margin-top: 3px;
   margin-left: 2px;

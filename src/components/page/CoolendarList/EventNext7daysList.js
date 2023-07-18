@@ -248,15 +248,16 @@ function EventNext7daysList({ token, date }) {
                         <div style={{fontSize: "18px"}}> {x.event_name} </div>
                         <div> Date: {x.event_date} </div>
                         <div> Time: {formatTime(x.event_time)} </div>
-                        <button id={x.id} onClick={checkEvent}> Check </button>
-                        <button onClick={() => handleDeleteEvent(x.id)}>Delete</button>
-                        <button onClick={() => handleEditEvent(x)}>Edit</button>
+                        <button className="small-button" id={x.id} onClick={checkEvent}> Check </button>
+                        <button className="small-button" onClick={() => handleDeleteEvent(x.id)}>Delete</button>
+                        <button className="small-button" onClick={() => handleEditEvent(x)}>Edit</button>
                         <div>
           {selectedEventContent && (
             <div>
               <b>Event info:</b>
               <div>{selectedEventContent}</div>
               <button
+                className="small-button"
                 style={{ marginLeft: '12px' }}
                 onClick={handleCloseEvent}
               >Close</button>

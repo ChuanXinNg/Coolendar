@@ -3,9 +3,11 @@ import { supabase } from '../../../supabase';
 import PropTypes from 'prop-types';
 import Logo from "../Logo";
 import Navbar from "../Navbar";
-// import { useNavigate } from "react-router-dom";
 import '../../css/notePage.css';
-
+import { GlobalStyles } from '../../../theme/GlobalStyles';
+import { ThemeProvider } from "styled-components";
+import WebFont from 'webfontloader';
+import { useTheme } from '../../../theme/useTheme';
 
 function NotePage({ token }) {
 
@@ -18,7 +20,9 @@ function NotePage({ token }) {
     }).isRequired
   };
 
-  // const navigate = useNavigate();
+  const {theme, themeLoaded, getFonts} = useTheme();
+  const [selectedTheme, setSelectedTheme] = useState(theme);
+ 
 
   // const select and delete
   const [noteTable, setNoteTable] = useState([]);
@@ -31,6 +35,19 @@ function NotePage({ token }) {
     note_content: ""
   });
   const [selectedNoteContent, setSelectedNoteContent] = useState('');
+
+  useEffect(() => {
+    setSelectedTheme(theme);
+   }, [themeLoaded]);
+
+  // 4: Load all the fonts
+  useEffect(() => {
+    WebFont.load({
+      google: {
+        families: getFonts()
+      }
+    });
+  });
 
   // fetching data from database
   useEffect(() => {
@@ -236,6 +253,9 @@ function NotePage({ token }) {
     <div className="Coolendar-App">
       <Logo token={token}/>
       <div className="content">
+        {themeLoaded && <ThemeProvider theme={ selectedTheme }>
+        <GlobalStyles/>
+
       {editingNote ? (
         <form className="form" onSubmit={handleUpdateNote}>
           <div className="title"> Edit Note Task</div>
@@ -255,10 +275,6 @@ function NotePage({ token }) {
               onChange={handleNoteChange}
             />
 
-            {/* <input type="text"
-              name="note_content"
-              value={note.note_content}
-              onChange={handleNoteChange} /> */}
           </div>
           <button className="submit" type="submit">
             Edit Note
@@ -297,13 +313,13 @@ function NotePage({ token }) {
 
         Your Note :)
 
-        <div className="check">
+        <div>
           {selectedNoteContent && (
-            <div>
+            <div className="noteList">
               <b>Selected Note Content:</b>
               <div>{selectedNoteContent}</div>
               <button
-                className="noteButtons"
+                className="small-button"
                 style={{ marginLeft: '12px' }}
                 onClick={handleCloseNote}
                 
@@ -328,10 +344,10 @@ function NotePage({ token }) {
 
                   <div> {x.pin ? "Bookmarked!" : ""} </div>
 
-                  <button className="noteButtons" id={x.id} onClick={checkNote}> Check </button>
-                  <button className="noteButtons" onClick={() => handleDeleteNote(x.id)}>Delete</button>
-                  <button className="noteButtons" onClick={() => handleEditNote(x)}>Edit</button>
-                  <button className="noteButtons" onClick={() => handleTogglePin(x.id, x.pin)}>
+                  <button className="small-button" id={x.id} onClick={checkNote}> Check </button>
+                  <button className="small-button" onClick={() => handleDeleteNote(x.id)}>Delete</button>
+                  <button className="small-button" onClick={() => handleEditNote(x)}>Edit</button>
+                  <button className="small-button" onClick={() => handleTogglePin(x.id, x.pin)}>
                     {x.pin ? "Remove bookmark" : "Bookmark this"}
                   </button>
                 </div>
@@ -350,16 +366,17 @@ function NotePage({ token }) {
               </div>
               <div> {x.pin ? "Bookmarked!" : ""} </div>
 
-              <button className="noteButtons" id={x.id} onClick={checkNote}> Check </button>
-              <button className="noteButtons" onClick={() => handleDeleteNote(x.id)}>Delete</button>
-              <button className="noteButtons" onClick={() => handleEditNote(x)}>Edit</button>
-              <button className="noteButtons" onClick={() => handleTogglePin(x.id, x.pin)}>
+              <button className="small-button" id={x.id} onClick={checkNote}> Check </button>
+              <button className="small-button" onClick={() => handleDeleteNote(x.id)}>Delete</button>
+              <button className="small-button" onClick={() => handleEditNote(x)}>Edit</button>
+              <button className="small-button" onClick={() => handleTogglePin(x.id, x.pin)}>
                 {x.pin ? "Remove bookmark" : "Bookmark this"}
               </button>
             </div>
           ))}
         </div>
       </div>
+      </ThemeProvider>}
       </div>
       <React.Fragment>
         <Navbar />

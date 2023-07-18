@@ -6,6 +6,10 @@ import Navbar from "../Navbar";
 import CurrentDiary from "./CurrentDiary";
 import { format } from 'date-fns';
 import "../../css/App.css";
+import { GlobalStyles } from '../../../theme/GlobalStyles';
+import { ThemeProvider } from "styled-components";
+import WebFont from 'webfontloader';
+import { useTheme } from '../../../theme/useTheme';
 
 function DiaryPageWithCalendar({ token }) {
 
@@ -18,6 +22,22 @@ function DiaryPageWithCalendar({ token }) {
         }).isRequired
     };
 
+    const {theme, themeLoaded, getFonts} = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(theme);
+    
+    useEffect(() => {
+        setSelectedTheme(theme);
+       }, [themeLoaded]);
+    
+      // 4: Load all the fonts
+      useEffect(() => {
+        WebFont.load({
+          google: {
+            families: getFonts()
+          }
+        });
+      });
+
     const [date, setDate] = useState(new Date());
     useEffect(() => {
         console.log("Date changed:", date);
@@ -28,6 +48,8 @@ function DiaryPageWithCalendar({ token }) {
             <Logo token={token} />
 
             <div className="content">
+            {themeLoaded && <ThemeProvider theme={ selectedTheme }>
+        <GlobalStyles/>
                 <div className="calendar-container">
                     <Calendar
                         className="calendar"
@@ -53,6 +75,7 @@ function DiaryPageWithCalendar({ token }) {
                         <CurrentDiary token={token} date={date} />
                     </div>
                 </div>
+                </ThemeProvider>}
             </div>
 
             <React.Fragment>

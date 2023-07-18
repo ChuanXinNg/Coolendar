@@ -13,6 +13,10 @@ import { format, addDays, subDays, isSameDay, parseISO } from 'date-fns';
 import { supabase } from '../../supabase';
 import "../css/App.css";
 // import { askForPermissionToReceiveNotifications } from '../../push-notification';
+import { GlobalStyles } from '../../theme/GlobalStyles';
+import { ThemeProvider } from "styled-components";
+import WebFont from 'webfontloader';
+import { useTheme } from '../../theme/useTheme';
 
 function CalendarScreen({ token }) {
   CalendarScreen.propTypes = {
@@ -27,9 +31,25 @@ function CalendarScreen({ token }) {
   const [date, setDate] = useState(new Date());
   const [eventsData, setEventsData] = useState([]);
 
+  const {theme, themeLoaded, getFonts} = useTheme();
+  const [selectedTheme, setSelectedTheme] = useState(theme);
+  
   // useEffect(() => {
   //   askForPermissionToReceiveNotifications();
   // }, []);
+
+  useEffect(() => {
+    setSelectedTheme(theme);
+   }, [themeLoaded]);
+
+  // 4: Load all the fonts
+  useEffect(() => {
+    WebFont.load({
+      google: {
+        families: getFonts()
+      }
+    });
+  });
 
   useEffect(() => {
     console.log("Date changed:", date);
@@ -85,9 +105,9 @@ function CalendarScreen({ token }) {
     if (
       eventsData.find((event) => isSameDay(parseISO(event.event_date), date))
     ) {
-      return "blue";
+      return "highlight";
     }
-  }
+  }  
   
 
   function toTodoScreen() {
@@ -102,6 +122,8 @@ function CalendarScreen({ token }) {
     <div className="Coolendar-App">
       <Logo token={token}/>
       <div className="content">
+      {themeLoaded && <ThemeProvider theme={ selectedTheme }>
+        <GlobalStyles/>
         <div className="calendar-container">
         <Calendar
           className="calendar"
@@ -120,9 +142,9 @@ function CalendarScreen({ token }) {
         )}
 
         <div className="todayData">
-          <div className="todoList">
+          <div className="taskBoxes" style={{flex:"1"}}>
             <strong>Todo list</strong>
-            <button className="toTodoButton" onClick={toTodoScreen}>To Todo</button>
+            <button className="small-button" onClick={toTodoScreen}>To Todo</button>
             <div className="listTitle">
               <div><strong>Undone</strong></div>
               <TodoUndoneList token={token} />
@@ -133,9 +155,9 @@ function CalendarScreen({ token }) {
             </div>
           </div>
 
-          <div className="eventList">
+          <div className="noteBoxes" style={{flex:"1"}}>
             <strong>Event list</strong>
-            <button className="toTodoButton" onClick={toEventScreen}>Add Event</button>
+            <button className="small-button" onClick={toEventScreen}>Add Event</button>
             <div className="listTitle">
               <div><strong>{format(date, 'yyyy-MM-dd')}&apos;s Event</strong></div>
               <EventTodayList token={token} date={date} />
@@ -146,6 +168,7 @@ function CalendarScreen({ token }) {
             </div>
           </div>
         </div>
+        </ThemeProvider>}
       </div>
       <React.Fragment>
         <Navbar />

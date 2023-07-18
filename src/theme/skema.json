@@ -11,39 +11,48 @@
           "background": "#ADD8E6",
           "border": "#008CFF"
         },
-        "taskBoxes": "#FFD484"
-      },
-      "font": "Tinos"
-    },
-    "warm": {
-      "id": "T_002",
-      "name": "Warm",
-      "colors": {
-        "body": "#FFBB60",
-        "text": "#000000",
-        "button": {
-          "text": "#FFFFFF",
-          "background": "#FA4600",
-          "border": "#FA4600"
+        "taskBoxes": "#FFD66C",
+        "noteBoxes": "#D9A5FF",
+        "bookmarked": "#F8FFA5",
+        "calendar": {
+          "title": "#FF59FF",
+          "day": "#FFE6FD",
+	        "highlight": "#7EEAD6",
+          "text": "#000000"
         },
-        "taskBoxes": "#FFF560"
-      },
-      "font": "Ubuntu"
+        "navbar": {
+          "color": "#00FFFF",
+          "mode": "light"
+        }
+            },
+      "font": "Roboto"
     },
     "dark": {
-      "id": "T_003",
+      "id": "T_002",
       "name": "Dark",
       "colors": {
-        "body": "#0B072E",
+        "body": "#1C1C1C",
         "text": "#AAAAAA",
         "button": {
           "text": "#AAAAAA",
           "background": "#8600AB",
-          "border": "#8600AB"
+          "border": "#000000"
         },
-        "taskBoxes": "#000000"
-      },
-      "font": "Roboto"
+        "taskBoxes": "#0B072E",
+        "noteBoxes": "#360833",
+        "bookmarked": "#000000",
+        "calendar": {
+          "title": "#371444",
+          "day": "#695670",
+          "highlight": "#8D2257",
+          "text": "#FFFFFF"
+        },
+        "navbar": {
+          "color": "#000000",
+          "mode": "dark"
+        }
+            },
+      "font": "Ubuntu"
     }
   }
 }
