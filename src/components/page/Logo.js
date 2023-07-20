@@ -12,6 +12,8 @@ function Logo({ token }) {
   }
 
   return (
+
+
     <div className="logo">
       <img className="logo-img" src={coolendarLogo} alt="logo" onClick={toUserScreen} />
       {/* eslint-disable-next-line react/prop-types */}

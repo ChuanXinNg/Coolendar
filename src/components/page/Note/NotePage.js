@@ -3,11 +3,13 @@ import { supabase } from '../../../supabase';
 import PropTypes from 'prop-types';
 import Logo from "../Logo";
 import Navbar from "../Navbar";
+// import { useNavigate } from "react-router-dom";
 import '../../css/notePage.css';
 import { GlobalStyles } from '../../../theme/GlobalStyles';
 import { ThemeProvider } from "styled-components";
 import WebFont from 'webfontloader';
 import { useTheme } from '../../../theme/useTheme';
+
 
 function NotePage({ token }) {
 
@@ -22,7 +24,6 @@ function NotePage({ token }) {
 
   const {theme, themeLoaded, getFonts} = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
- 
 
   // const select and delete
   const [noteTable, setNoteTable] = useState([]);
@@ -253,9 +254,8 @@ function NotePage({ token }) {
     <div className="Coolendar-App">
       <Logo token={token}/>
       <div className="content">
-        {themeLoaded && <ThemeProvider theme={ selectedTheme }>
+      {themeLoaded && <ThemeProvider theme={ selectedTheme }>
         <GlobalStyles/>
-
       {editingNote ? (
         <form className="form" onSubmit={handleUpdateNote}>
           <div className="title"> Edit Note Task</div>
@@ -313,13 +313,13 @@ function NotePage({ token }) {
 
         Your Note :)
 
-        <div>
+        <div className="check">
           {selectedNoteContent && (
-            <div className="noteList">
+            <div>
               <b>Selected Note Content:</b>
               <div>{selectedNoteContent}</div>
               <button
-                className="small-button"
+                className="noteButtons"
                 style={{ marginLeft: '12px' }}
                 onClick={handleCloseNote}
                 
