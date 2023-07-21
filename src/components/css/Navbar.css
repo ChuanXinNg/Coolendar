@@ -20,8 +20,7 @@ nav {
 }
 
 .navbutton:hover {
-  color: yellow;
-  background-color: pink;
+  background-color: rgb(196, 196, 196);
 }
 
 nav ul {

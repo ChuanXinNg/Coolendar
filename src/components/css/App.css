@@ -11,10 +11,15 @@
   margin-right: auto;
 }
 
+input {
+  background-color: #bebebe;
+}
+
 .content {
   margin: auto;
   margin-top: 80px;
-  margin-bottom: 20px;
+  margin-bottom: 80px;
+  justify-content: center;
 }
 
 .toTodoButton {
@@ -180,12 +185,12 @@
 }
 
 .react-calendar__tile--now {
-  background: #b4ff76;
+  background-color: #b4ff76;
 }
 
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background: #ff00ea;
+  background:#b4ff76;
 }
 
 .react-calendar__tile--hasActive {

@@ -8,6 +8,13 @@ export const GlobalStyles = createGlobalStyle`
     transition: all 0.50s linear;
   }
 
+  .mode {
+    border: solid;
+    border-width: 1px;
+    background-color:  ${({ theme }) => theme.colors.navbar.color};
+    color: ${({ theme }) => theme.colors.text};
+  }
+
   .small-button {
     margin-top: 3px;
     margin-left: 2px;
@@ -25,6 +32,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .noteList {
+    width: 380px;
     margin: 5px;
     border: solid;
     border-radius: 5px;
@@ -33,6 +41,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .taskBoxes {
+    width: 300px;
     margin: 10px;
     border: solid;
     border-radius: 5px;
@@ -81,32 +90,12 @@ export const GlobalStyles = createGlobalStyle`
 
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus {
-    background-color: #00ffff;
+    background-color: ${({ theme }) => theme.colors.calendar.title};
   }
 
   .react-calendar__tile--active {
     background: rgb(255, 0, 43);
     color: ${({ theme }) => theme.colors.calendar.text};
-  }
-  
-  .react-calendar__tile--active:enabled:hover,
-  .react-calendar__tile--active:enabled:focus {
-    background: rgb(0, 204, 255);
-  }
-
-  .react-calendar__tile--now {
-    background: #b4ff76;
-  }
-  
-  .react-calendar__tile--now:enabled:hover,
-  .react-calendar__tile--now:enabled:focus {
-    background: #ff00ea;
-  }
-
-  .react-calendar__navigation__label {
-    font-size: 30px;
-    color: white;
-    font-weight: bold;
   }
 
   .react-calendar__tile {
@@ -118,11 +107,40 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.calendar.day};
     color: ${({ theme }) => theme.colors.calendar.text};
   }
-
-  .react-calendar__month-view__days__day--neighboringMonth {
-    color: grey;
-  }
   
+  nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 5px;
+    z-index: 999;
+    background-color: ${({ theme }) => theme.colors.navbar.color};
+  }
+
+  .navbutton {
+    flex: 1;
+    border: none;
+    color: ${({ theme }) => theme.colors.navbar.color};
+    background-color: ${({ theme }) => theme.colors.navbar.color};
+    font-size: 16px;
+  }
+
+  .logo {
+    background-color: ${({ theme }) => theme.colors.navbar.color};
+    position: fixed;
+    float: left;
+    z-index: 999;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    top:0%;
+  }
 
   button.btn {
     background-color: ${({ theme }) => theme.colors.button.background};

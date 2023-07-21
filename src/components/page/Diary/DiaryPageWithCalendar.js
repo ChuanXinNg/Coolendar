@@ -5,7 +5,7 @@ import Logo from "../Logo";
 import Navbar from "../Navbar";
 import CurrentDiary from "./CurrentDiary";
 import { format } from 'date-fns';
-import "../../css/App.css";
+import "../../css/diaryPage.css";
 import { GlobalStyles } from '../../../theme/GlobalStyles';
 import { ThemeProvider } from "styled-components";
 import WebFont from 'webfontloader';
@@ -50,24 +50,11 @@ function DiaryPageWithCalendar({ token }) {
             <div className="content">
             {themeLoaded && <ThemeProvider theme={ selectedTheme }>
         <GlobalStyles/>
-                <div className="calendar-container">
                     <Calendar
-                        className="calendar"
+                        className="calendar smaller"
                         onChange={setDate}
                         value={date}
                     />
-                </div>
-                {date.length > 0 ? (
-                    <p>
-                        <span>Start:</span>{' '} {date[0].toDateString()}
-                        &nbsp; to &nbsp;
-                        <span>End:</span> {date[1].toDateString()}
-                    </p>
-                ) : (
-                    <p>
-                        <span>Selected date:</span>{' '} {date.toDateString()}
-                    </p>
-                )}
 
                 <div className="currentList">
                     <div className="listTitle">

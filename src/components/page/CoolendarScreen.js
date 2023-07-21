@@ -138,6 +138,7 @@ function CalendarScreen({ token }) {
         {date instanceof Date && (
           <div>
             <span>Selected date:</span> {format(date, 'yyyy-MM-dd')}
+            <h3>Today is {format(new Date(), 'yyyy-MM-dd')}</h3>
           </div>
         )}
 

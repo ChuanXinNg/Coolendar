@@ -3,7 +3,6 @@ import { supabase } from '../../../supabase';
 import PropTypes from 'prop-types';
 import Logo from "../Logo";
 import Navbar from "../Navbar";
-// import { useNavigate } from "react-router-dom";
 import '../../css/notePage.css';
 import { GlobalStyles } from '../../../theme/GlobalStyles';
 import { ThemeProvider } from "styled-components";
@@ -313,7 +312,7 @@ function NotePage({ token }) {
 
         Your Note :)
 
-        <div className="check">
+        <div className="noteList">
           {selectedNoteContent && (
             <div>
               <b>Selected Note Content:</b>

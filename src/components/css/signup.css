@@ -40,7 +40,7 @@
 .submit {
   margin: auto;
   margin-top: 5px;
-  background-color: white;
+  background-color: rgb(185, 185, 185);
   border-color: grey;
   border-style: solid;
   border-width: 2px;
