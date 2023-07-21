@@ -6,9 +6,9 @@ import CoolendarScreen from "./components/page/CoolendarScreen";
 import LoginScreen from "./components/page/authentication/loginScreen";
 import EventPage from "./components/page/EventPage";
 import NotePage from "./components/page/Note/NotePage";
-import TodoPage from "./components/page/TodoPage";
+import TodoPage from "./components/page/Todo/TodoPage";
 import DiaryPageWithCalendar from "./components/page/Diary/DiaryPageWithCalendar";
-import ProfilePage from "./components/page/ProfilePage";
+import ProfilePage from "./components/page/Profile/ProfilePage";
 import ForgotPassword from "./components/page/authentication/forgotpassword";
 
 

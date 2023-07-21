@@ -21,8 +21,7 @@
           "text": "#000000"
         },
         "navbar": {
-          "color": "#00FFFF",
-          "mode": "light"
+          "color": "#00FFFF"
         }
             },
       "font": "Roboto"
@@ -48,8 +47,7 @@
           "text": "#FFFFFF"
         },
         "navbar": {
-          "color": "#000000",
-          "mode": "dark"
+          "color": "#000000"
         }
             },
       "font": "Ubuntu"

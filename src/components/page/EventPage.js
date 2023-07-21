@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from '../../supabase';
 import PropTypes from 'prop-types';
 import Logo from "./Logo";
 import Navbar from "./Navbar";
-// import { format } from 'date-fns';
+import { GlobalStyles } from "../../theme/GlobalStyles";
+import { ThemeProvider } from "styled-components";
+import WebFont from 'webfontloader';
+import { useTheme } from '../../theme/useTheme';
 
 function EventPage({ token }) {
 
@@ -15,6 +18,9 @@ function EventPage({ token }) {
       }).isRequired
     }).isRequired
   };
+
+  const {theme, themeLoaded, getFonts} = useTheme();
+  const [selectedTheme, setSelectedTheme] = useState(theme);
 
   // const insert
   const [event, setEvent] = useState({
@@ -34,6 +40,19 @@ function EventPage({ token }) {
       [name]: value
     }));
   }
+
+  useEffect(() => {
+    setSelectedTheme(theme);
+   }, [themeLoaded]);
+
+  // 4: Load all the fonts
+  useEffect(() => {
+    WebFont.load({
+      google: {
+        families: getFonts()
+      }
+    });
+  });
 
   // button handler to Add Event or Edit Event
   async function handleEvent(e) {
@@ -70,6 +89,8 @@ function EventPage({ token }) {
     <div className="Coolendar-App">
       <Logo token={token}/>
       <div className="content">
+      {themeLoaded && <ThemeProvider theme={ selectedTheme }>
+        <GlobalStyles/>
 
         <div>
             <form className="form" onSubmit={handleEvent}>
@@ -108,6 +129,7 @@ function EventPage({ token }) {
             </form>
         </div>
 
+        </ThemeProvider>}
       </div>
       <React.Fragment>
         <Navbar />

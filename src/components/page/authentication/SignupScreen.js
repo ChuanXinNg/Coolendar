@@ -1,15 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import coolendarLogo from "../../images/Coolendar logo  removed background - light.png";
+import { useNavigate } from "react-router-dom";
+import coolendarLogo from "../../images/Coolendar logo  removed background - dark.png";
 import { supabase } from "../../../supabase";
 import "../../css/signup.css";
 
 
 export default function SignupScreen() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
+
+  
+  function toSignIn() {
+    navigate('/');
+  }
 
   function handleSignUp(event) {
     const { name, value } = event.target;
@@ -25,13 +32,17 @@ export default function SignupScreen() {
     try {
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
-        password: formData.password,
+        password: formData.password
       });
 
-      if (error) {
+      if (data?.user?.identities?.length === 0) {
+        alert("this user already exist");
+      } else if (error) {
         throw error;
+      } else {
+        alert("Check your email for verification link");
       }
-      alert("Check your email for verification link, if you did not recieve any email, then you already have an account under this email");
+
       console.log(data);
       reset();
 
@@ -62,8 +73,8 @@ export default function SignupScreen() {
         <button className="submit" type='submit'>Submit</button>
       </form>
       <div className="account">
-        Already have an account?
-        <span className="sign-in"> <Link to="/">Sign in</Link> </span>
+        Already have an account? {'     '}
+        <span className="sign-in" onClick={toSignIn}>Sign in</span>
       </div>
     </div>
   );

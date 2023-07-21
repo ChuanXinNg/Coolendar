@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import coolendarLogo from "../../images/Coolendar logo  removed background - light.png";
+import { useNavigate } from "react-router-dom";
+import coolendarLogo from "../../images/Coolendar logo  removed background - dark.png";
 import { supabase } from "../../../supabase";
 import "../../css/signup.css";
 
@@ -102,12 +102,12 @@ function loginScreen({ setToken }) {
             </span>
             <div className="account">
               Don&#39;t have an account?
-              <span className="sign-up"> <Link to="/signup">Sign up</Link></span>
+              <span className="sign-in" onClick={() => navigate('/signup')}> Sign up</span>
             </div>
           </div>
         </div>
       )}
-      
+    
     </div>
 
 
