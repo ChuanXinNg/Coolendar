@@ -3,6 +3,7 @@ import "../css/Navbar.css";
 import { useNavigate } from "react-router-dom";
 
 // Import your icon images
+import profileIcon from "../icons/black icons/profile black icon.png";
 import todoIcon from "../icons/black icons/todo black icon.png";
 import homeIcon from "../icons/black icons/home black icon.png";
 import noteIcon from "../icons/black icons/note black icon.png";
@@ -21,7 +22,7 @@ function Navbar() {
       <ul>
         <li>
           <button className="navbutton" onClick={() => handleNavigation("/ProfilePage")}>
-            <img className="navicon" src={todoIcon} alt="Todo" />
+            <img className="navicon" src={profileIcon} alt="Todo" />
           </button>
         </li>
         <li>

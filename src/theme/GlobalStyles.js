@@ -122,6 +122,7 @@ export const GlobalStyles = createGlobalStyle`
   .react-calendar__month-view__days__day--neighboringMonth {
     color: grey;
   }
+  
 
   button.btn {
     background-color: ${({ theme }) => theme.colors.button.background};

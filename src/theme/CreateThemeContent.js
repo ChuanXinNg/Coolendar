@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { generate } from 'shortid';
 import _ from 'lodash';
 import { useTheme } from '../theme/useTheme';
+import { getFromLS, setToLS } from '../utils/storage';
 
 const Container = styled.div`
     display: grid;
@@ -105,10 +106,27 @@ const CreateThemeContent = props => {
     }, [state]);    
 
     const createTheme = () => {
+        const existingData = getFromLS('all-themes'); // Step 1: Load existing data from local storage
+      
+        console.log(existingData);
+      
+        const newData = {
+          ...existingData.data, // Spread the existing data under the "data" property
+          ...newTheme
+        };
+      
+        const newThemeData = {
+          data: newData // Wrap the new data with the "data" property
+        };
+      
+        // Save the updated theme data to local storage
+        setToLS('all-themes', newThemeData); // Save only the "data" part of the object
+      
+        console.log(newThemeData);
+      
         setState({...defaultTheme});
-        console.log(state);
         props.create(newTheme);
-    }
+      };
 
     return(
     <>

@@ -29,13 +29,7 @@ const Container = styled.ul`
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(4, 1fr);
-    margin-top: 3rem;
     padding: 10px;
-`;
-
-const Header = styled.h2`
-    display: flex;
-    justify-content: space-around;
 `;
 
 export default (props) => {
@@ -82,8 +76,9 @@ export default (props) => {
     }
 
     return (
-        <div>
-            <Header>Select a Theme from below</Header>
+        <div style={{justifyContent: "center"}}>
+            <h3>Select a Theme</h3>
+            <div className="selectTheme">
             <Container>
             {
                 themes.length > 0 && 
@@ -92,6 +87,7 @@ export default (props) => {
                     ))
             }
             </Container>
+            </div>
         </div>
     )
 }

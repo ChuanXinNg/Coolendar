@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Logo from "./Logo";
 import PropTypes from "prop-types";
-import { supabase } from '../../supabase';
 import Profile from "./CoolendarList/Profile";
 import styled, { ThemeProvider } from "styled-components";
 import WebFont from 'webfontloader';
 import { GlobalStyles } from '../../theme/GlobalStyles';
 import {useTheme} from '../../theme/useTheme';
-
+import { useNavigate } from "react-router-dom";
 import ThemeSelector from '../../theme/themeSelector';
-
 import Dialog from '../../theme/Dialog';
 import CreateThemeContent from '../../theme/CreateThemeContent';
+import "../css/ProfilePage.css";
 
 const Container = styled.div`
   margin: 5px auto 5px auto;
@@ -20,7 +19,6 @@ const Container = styled.div`
 
 
 function ProfilePage({ token }) {
-    const { user } = token;
 
     ProfilePage.propTypes = {
         token: PropTypes.shape({
@@ -33,30 +31,8 @@ function ProfilePage({ token }) {
         }).isRequired
     };
 
-    // fetching data from profiletable
-    const [profileTable, setProfileTable] = useState([]);
     
-    useEffect(() => {
-        const fetchProfileTable = async () => {
-            try {
-                const user_id = user.id;
-                const { data, error } = await supabase
-                    .from('profiletable')
-                    .select()
-                    .eq('user_id', user_id);
-
-                if (error) {
-                    throw error;
-                }
-
-                setProfileTable(data);
-                console.log(data);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        fetchProfileTable();
-    }, [user]);
+    let navigate = useNavigate();
 
     const {theme, themeLoaded, getFonts} = useTheme();
     const [selectedTheme, setSelectedTheme] = useState(theme);
@@ -85,6 +61,11 @@ function ProfilePage({ token }) {
       setNewTheme(newTheme);
     }
 
+    function handleLogOut() {
+        sessionStorage.removeItem('token');
+        navigate('/');
+    
+      }
 
     return (
         <div className="Coolendar-App">
@@ -93,38 +74,33 @@ function ProfilePage({ token }) {
 
             <Profile token={token} />
 
-
-            {profileTable.map((x) => (
-                <div key={x.id}>
-                    <div>
-                        This is the end of your profile page.
-                        {/* <div> Your username is: {user.user_metadata.name} </div>
-                        <div> Your username is: {x.username} </div> */}
-                        {/* <div> Your birthday is: {x.birthday} </div> */}
-                    </div>
-                    {/* <button className="submit" type="button" onClick={() => handleDeleteProfile(x.id)}>
-                        Remove Whole Profile
-                    </button> */}
-                </div>
-            ))}
-
             </div>
 
+            
+
+            <div className="theme">
             {
             themeLoaded && <ThemeProvider theme={ selectedTheme }>
                 <GlobalStyles/>
                 <Container style={{fontFamily: selectedTheme.font}}>
-                <h1>Theming System</h1>
+                <ThemeSelector setter={ setSelectedTheme } newTheme={ newTheme }/>
                 <button className="btn" onClick={ manageDialog }>Create a Theme</button>
                 <Dialog 
                     header="Create a Theme"
                     body={ <CreateThemeContent create={ createTheme }/> }
                     open={ showDialog } 
                     callback = { manageDialog }/>
-                <ThemeSelector setter={ setSelectedTheme } newTheme={ newTheme }/>
                 </Container>
             </ThemeProvider>
             }
+            </div>
+
+            <div className="end">
+                This is the end of your profile page.
+                <div>
+                    <button className="submit" onClick={handleLogOut}>Log out</button>
+                </div>
+            </div>
 
             <div>
                 <React.Fragment>

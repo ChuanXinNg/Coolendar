@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { supabase } from '../../../supabase';
 import AddProfile from "./AddProfile";
+import "../../css/ProfilePage.css"
 
 function Profile({ token }) {
     Profile.propTypes = {

@@ -9,6 +9,7 @@
   text-align: center;
   display: flex;
   flex-direction: row;
+  top:0%;
 }
 
 .logo-img {

@@ -7,7 +7,6 @@ import "../../css/signup.css";
 
 export default function SignupScreen() {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: ""
   });
@@ -27,17 +26,12 @@ export default function SignupScreen() {
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
-        options: {
-          data: {
-            name: formData.name
-          }
-        }
       });
 
       if (error) {
         throw error;
       }
-      alert("Check your email for verification link");
+      alert("Check your email for verification link, if you did not recieve any email, then you already have an account under this email");
       console.log(data);
       reset();
 
@@ -49,11 +43,9 @@ export default function SignupScreen() {
   console.log(formData);
 
   function reset() {
-    document.getElementById("name").value = "";
     document.getElementById("email").value = "";
     document.getElementById("password").value = "";
     setFormData({
-      name: "",
       email: "",
       password: ""
     });
@@ -65,7 +57,6 @@ export default function SignupScreen() {
 
       <form className="form" onSubmit={handleSubmit}>
         <div className="title">Sign Up</div>
-        <input id="name" className="user-details" type='text' name="name" placeholder="Name" onChange={handleSignUp} />
         <input id="email" className="user-details" type='text' name="email" placeholder="Email" onChange={handleSignUp} />
         <input id="password" className="user-details" type='password' name="password" placeholder="Password" onChange={handleSignUp} />
         <button className="submit" type='submit'>Submit</button>
