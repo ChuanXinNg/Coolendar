@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import _ from 'lodash';
 import {useTheme} from './useTheme';
-import { getFromLS } from '../utils/storage';
+import { getFromLS, setToLS } from '../utils/storage';
+import originalThemesData from "./skema.json";
 
 const ThemedButton = styled.button`
     border: 0;
@@ -75,6 +76,22 @@ export default (props) => {
         )
     }
 
+    const handleResetThemes = () => {
+
+        setMode(originalThemesData.data.light);
+
+        // Step 1: Save the original themes data to local storage
+        setToLS('all-themes', originalThemesData);
+    
+        // Step 2: Update the state with the original data
+        setData(originalThemesData.data);
+    
+        // Step 3: Optionally, perform any other actions after resetting the themes
+        console.log("Themes reset to the original data.");
+
+        window.location.reload();
+      };
+
     return (
         <div style={{justifyContent: "center"}}>
             <h3>Select a Theme</h3>
@@ -87,7 +104,9 @@ export default (props) => {
                     ))
             }
             </Container>
+            
             </div>
+            <button className="small-button" onClick={handleResetThemes}>Reset All Themes</button>
         </div>
     )
 }
