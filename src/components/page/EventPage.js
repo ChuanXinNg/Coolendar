@@ -19,7 +19,7 @@ function EventPage({ token }) {
     }).isRequired
   };
 
-  const {theme, themeLoaded, getFonts} = useTheme();
+  const { theme, themeLoaded, getFonts } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
 
   // const insert
@@ -43,7 +43,7 @@ function EventPage({ token }) {
 
   useEffect(() => {
     setSelectedTheme(theme);
-   }, [themeLoaded]);
+  }, [themeLoaded]);
 
   // 4: Load all the fonts
   useEffect(() => {
@@ -58,8 +58,20 @@ function EventPage({ token }) {
   async function handleEvent(e) {
     e.preventDefault();
     try {
-      if (event.event_name == "") {
-        alert("Please enter event name");
+      if (event.event_name == "" && event.event_date == "" && event.event_time == "") {
+        alert("Please enter event name, event date and event time.");
+      } else if (event.event_name == "" && event.event_date == "") {
+        alert("Please enter event name and event date.");
+      } else if (event.event_name == "" && event.event_time == "") {
+        alert("Please enter event name and event time.");
+      } else if (event.event_date == "" && event.event_time == "") {
+        alert("Please enter event date and event time.");
+      } else if (event.event_name == "") {
+        alert("Please enter event name.");
+      } else if (event.event_date == "") {
+        alert("Please enter event date.");
+      } else if (event.event_time == "") {
+        alert("Please enter event time.");
       } else {
         // Add new task
         const { data, error } = await supabase
@@ -87,12 +99,12 @@ function EventPage({ token }) {
 
   return (
     <div className="Coolendar-App">
-      <Logo token={token}/>
+      <Logo token={token} />
       <div className="content">
-      {themeLoaded && <ThemeProvider theme={ selectedTheme }>
-        <GlobalStyles/>
+        {themeLoaded && <ThemeProvider theme={selectedTheme}>
+          <GlobalStyles />
 
-        <div>
+          <div>
             <form className="form" onSubmit={handleEvent}>
               <div className="title"> Add new Event </div>
               <div>
@@ -127,7 +139,7 @@ function EventPage({ token }) {
                 Add Event
               </button>
             </form>
-        </div>
+          </div>
 
         </ThemeProvider>}
       </div>
