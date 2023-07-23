@@ -8,6 +8,7 @@ import { GlobalStyles } from '../../../theme/GlobalStyles';
 import { ThemeProvider } from "styled-components";
 import WebFont from 'webfontloader';
 import { useTheme } from '../../../theme/useTheme';
+import { isEmpty } from "lodash";
 
 
 function NotePage({ token }) {
@@ -21,7 +22,7 @@ function NotePage({ token }) {
     }).isRequired
   };
 
-  const {theme, themeLoaded, getFonts} = useTheme();
+  const { theme, themeLoaded, getFonts } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
 
   // const select and delete
@@ -38,7 +39,7 @@ function NotePage({ token }) {
 
   useEffect(() => {
     setSelectedTheme(theme);
-   }, [themeLoaded]);
+  }, [themeLoaded]);
 
   // 4: Load all the fonts
   useEffect(() => {
@@ -92,7 +93,7 @@ function NotePage({ token }) {
         // Update existing task
         await handleUpdateNote(e);
       } else if (note.note_content == "") {
-        alert("Please insert content");
+        alert("Fail to update note. Please fill in all empty columns.");
       } else {
         // Add new task
         const { data, error } = await supabase
@@ -128,7 +129,7 @@ function NotePage({ token }) {
   async function handleUpdateNote(e) {
     e.preventDefault();
     if (note.note_content == "") {
-      alert("Please enter content");
+      alert("Fail to update note. Please fill in all empty columns.");
     } else {
 
       try {
@@ -225,14 +226,14 @@ function NotePage({ token }) {
 
       if (data.length > 0) {
         const { note_name, note_content, last_edited_at } = data[0];
-  
+
         const paragraphs = note_content.split('\n').map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
         ));
-  
+
         setSelectedNoteContent(
           <React.Fragment>
-            <div>Note: {note_name}</div>
+            <div>{note_name !== "" ? "Note: " + note_name : "Unnamed note"}</div>
             <div>Created on: {new Date(last_edited_at).toLocaleDateString()}, {new Date(last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
             {paragraphs}
           </React.Fragment>
@@ -251,131 +252,131 @@ function NotePage({ token }) {
 
   return (
     <div className="Coolendar-App">
-      <Logo token={token}/>
+      <Logo token={token} />
       <div className="content">
-      {themeLoaded && <ThemeProvider theme={ selectedTheme }>
-        <GlobalStyles/>
-      {editingNote ? (
-        <form className="form" onSubmit={handleUpdateNote}>
-          <div className="title"> Edit Note Task</div>
-          <div>
-            New Name:{" "}
-            <input type="text"
-              name="note_name"
-              placeholder="Enter your note name here!"
-              value={note.note_name}
-              onChange={handleNoteChange} />
-          </div>
-          <div>
-            New Content:{" "}
-            <textarea
-              name="note_content"
-              value={note.note_content}
-              onChange={handleNoteChange}
-            />
+        {themeLoaded && <ThemeProvider theme={selectedTheme}>
+          <GlobalStyles />
+          {editingNote ? (
+            <form className="form" onSubmit={handleUpdateNote}>
+              <div className="title"> Edit Note Task</div>
+              <div>
+                New Name:{" "}
+                <input type="text"
+                  name="note_name"
+                  placeholder="Enter note name!"
+                  value={note.note_name}
+                  onChange={handleNoteChange} />
+              </div>
+              <div>
+                New Content:{" "}
+                <textarea
+                  name="note_content"
+                  value={note.note_content}
+                  onChange={handleNoteChange}
+                />
 
-          </div>
-          <button className="submit" type="submit">
-            Edit Note
-          </button>
-        </form>
-      ) : (
-        <form className="form" onSubmit={handleNote}>
-          <div className="title"> Insert Note Here</div>
-          <div>
-            Name:{" "}
-            <input
-              type="text"
-              name="note_name"
-              placeholder="Enter your note name here!"
-              onChange={handleNoteChange} />
-          </div>
-          <div>
-            Content:{" "}
-            <textarea
-              name="note_content"
-              value={note.note_content}
-              onChange={handleNoteChange}
-            />
-            {/* <input type="text"
+              </div>
+              <button className="submit" type="submit">
+                Edit Note
+              </button>
+            </form>
+          ) : (
+            <form className="form" onSubmit={handleNote}>
+              <div className="title"> Insert Note Here</div>
+              <div>
+                Name:{" "}
+                <input
+                  type="text"
+                  name="note_name"
+                  placeholder="Enter note name!"
+                  onChange={handleNoteChange} />
+              </div>
+              <div>
+                Content:{" "}
+                <textarea
+                  name="note_content"
+                  value={note.note_content}
+                  onChange={handleNoteChange}
+                />
+                {/* <input type="text"
               name="note_content"
               value={note.note_content}
               onChange={handleNoteChange} /> */}
-          </div>
-          <button className="submit" type="submit">
-            Add Note
-          </button>
-        </form>
-      )}
-
-      <div className="yourNotes">
-
-        Your Note :)
-
-        <div className="noteList">
-          {selectedNoteContent && (
-            <div>
-              <b>Selected Note Content:</b>
-              <div>{selectedNoteContent}</div>
-              <button
-                className="noteButtons"
-                style={{ marginLeft: '12px' }}
-                onClick={handleCloseNote}
-                
-              >Close</button>
-            </div>
+              </div>
+              <button className="submit" type="submit">
+                Add Note
+              </button>
+            </form>
           )}
-        </div>
 
-        <div className="noteList">
-          <b>Bookmarked Notes:</b>
-          {noteTable.map(x => (
-            <div key={x.id}>
-              {x.pin ? (
-                <div className="noteBoxes">
-                  <div> Note: {x.note_name} </div>
+          <div className="yourNotes">
+
+            Your Note :)
+
+            <div className="noteList">
+              {selectedNoteContent && (
+                <div>
+                  <b>Selected Note Content:</b>
+                  <div>{selectedNoteContent}</div>
+                  <button
+                    className="noteButtons"
+                    style={{ marginLeft: '12px' }}
+                    onClick={handleCloseNote}
+
+                  >Close</button>
+                </div>
+              )}
+            </div>
+
+            <div className="noteList">
+              <b>Bookmarked Notes:</b>
+              {noteTable.map(x => (
+                <div key={x.id}>
+                  {x.pin ? (
+                    <div className="noteBoxes">
+                      <div> Note: {x.note_name} </div>
+                      <div>
+                        Created on: {new Date(x.last_edited_at).toLocaleDateString()}, {new Date(x.last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                      <div> {x.note_content.split('\n').map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
+                      ))} </div>
+
+                      <div> {x.pin ? "Bookmarked!" : ""} </div>
+
+                      <button className="small-button" id={x.id} onClick={checkNote}> Check </button>
+                      <button className="small-button" onClick={() => handleDeleteNote(x.id)}>Delete</button>
+                      <button className="small-button" onClick={() => handleEditNote(x)}>Edit</button>
+                      <button className="small-button" onClick={() => handleTogglePin(x.id, x.pin)}>
+                        {x.pin ? "Remove bookmark" : "Bookmark"}
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+
+            <div className="noteList">
+              <b>All Notes:</b>
+              {noteTable.map(x => (
+                <div key={x.id} className="noteBoxes">
+                  <div>{x.note_name !== "" ? "Note: " + x.note_name : "Unnamed note"}</div>
                   <div>
                     Created on: {new Date(x.last_edited_at).toLocaleDateString()}, {new Date(x.last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
-                  <div> {x.note_content.split('\n').map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))} </div>
-
                   <div> {x.pin ? "Bookmarked!" : ""} </div>
 
                   <button className="small-button" id={x.id} onClick={checkNote}> Check </button>
                   <button className="small-button" onClick={() => handleDeleteNote(x.id)}>Delete</button>
                   <button className="small-button" onClick={() => handleEditNote(x)}>Edit</button>
                   <button className="small-button" onClick={() => handleTogglePin(x.id, x.pin)}>
-                    {x.pin ? "Remove bookmark" : "Bookmark this"}
+                    {x.pin ? "Remove bookmark" : "Bookmark"}
                   </button>
                 </div>
-              ) : null}
+              ))}
             </div>
-          ))}
-        </div>
-
-        <div className="noteList">
-          <b>All Notes:</b>
-          {noteTable.map(x => (
-            <div key={x.id} className="noteBoxes">
-              <div> Note: {x.note_name} </div>
-              <div>
-                Created on: {new Date(x.last_edited_at).toLocaleDateString()}, {new Date(x.last_edited_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </div>
-              <div> {x.pin ? "Bookmarked!" : ""} </div>
-
-              <button className="small-button" id={x.id} onClick={checkNote}> Check </button>
-              <button className="small-button" onClick={() => handleDeleteNote(x.id)}>Delete</button>
-              <button className="small-button" onClick={() => handleEditNote(x)}>Edit</button>
-              <button className="small-button" onClick={() => handleTogglePin(x.id, x.pin)}>
-                {x.pin ? "Remove bookmark" : "Bookmark this"}
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-      </ThemeProvider>}
+          </div>
+        </ThemeProvider>}
       </div>
       <React.Fragment>
         <Navbar />
