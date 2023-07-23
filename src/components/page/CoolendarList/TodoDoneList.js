@@ -111,9 +111,9 @@ function TodoDoneList({ token, date }) {
                 ) : (todoTable.map(x => (
                     <div key={x.id} style={{margin:"5px", borderBottom:"solid", borderBottomWidth:"1px"}}>
                         <div> <span style={{fontSize:"18px"}}>{x.todo_task}</span>
-                        <input type="checkbox" onClick={() => handleToggleTodoDone(x.id, x.done)}/>
+                        <input type="checkbox" checked="true" onClick={() => handleToggleTodoDone(x.id, x.done)}/>
                         </div>
-                        <div> Due: {x.deadline_date}, {formatTime(x.deadline_time)} </div>
+                        <div> Due: {x.deadline_date}, {x.has_dueTime ? formatTime(x.deadline_time) : 'Time is not set.'} </div>
                     </div>
                 )))}
                 

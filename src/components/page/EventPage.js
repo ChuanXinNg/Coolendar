@@ -108,7 +108,7 @@ function EventPage({ token }) {
             <form className="form" onSubmit={handleEvent}>
               <div className="title"> Add new Event </div>
               <div>
-                Name:{" "}
+                *Name:{" "}
                 <input type="text"
                   name="event_name"
                   value={event.event_name}
@@ -122,19 +122,20 @@ function EventPage({ token }) {
                   onChange={handleEventChange} />
               </div>
               <div>
-                Date:{" "}
+                *Date:{" "}
                 <input type="date"
                   name="event_date"
                   value={event.event_date}
                   onChange={handleEventChange} />
               </div>
               <div>
-                Time:{" "}
+                *Time:{" "}
                 <input type="time"
                   name="event_time"
                   value={event.event_time}
                   onChange={handleEventChange} />
               </div>
+              <div style={{fontSize:"10px"}}>Areas marked with * are required to fill in</div>
               <button className="submit" type="submit">
                 Add Event
               </button>

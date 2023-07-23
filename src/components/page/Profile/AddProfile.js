@@ -35,32 +35,32 @@ function AddProfile({ token }) {
     // button handler to Add Profile
     async function handleAddProfile(e) {
         e.preventDefault();
-        if (profile.username === "") {
-            alert("Please insert username");
-        }
-
-        if (profile.birthday === "") {
-            alert("Please insert a birthday");
-        }
-
-        try {
-            // Add new profile
-            const { data, error } = await supabase
-                .from('profiletable')
-                .insert([
-                    {
-                        user_id: profile.user_id,
-                        username: profile.username,
-                        birthday: profile.birthday
-                    },
-                ]);
-            if (error) {
-                throw error;
+        if (profile.username === "" && profile.birthday == "") {
+            alert("Please insert username and birthday.");
+        } else if (profile.username === "") {
+            alert("Please insert username.");
+        } else if (profile.birthday === "") {
+            alert("Please insert a birthday.");
+        } else {
+            try {
+                // Add new profile
+                const { data, error } = await supabase
+                    .from('profiletable')
+                    .insert([
+                        {
+                            user_id: profile.user_id,
+                            username: profile.username,
+                            birthday: profile.birthday
+                        },
+                    ]);
+                if (error) {
+                    throw error;
+                }
+                console.log(data);
+                location.reload();
+            } catch (err) {
+                console.log(err);
             }
-            console.log(data);
-            location.reload();
-        } catch (err) {
-            console.log(err);
         }
     }
 

@@ -8,7 +8,7 @@ import { GlobalStyles } from '../../../theme/GlobalStyles';
 import { ThemeProvider } from "styled-components";
 import WebFont from 'webfontloader';
 import { useTheme } from '../../../theme/useTheme';
-import { isEmpty } from "lodash";
+// import { isEmpty } from "lodash";
 
 
 function NotePage({ token }) {
@@ -292,17 +292,14 @@ function NotePage({ token }) {
                   onChange={handleNoteChange} />
               </div>
               <div>
-                Content:{" "}
+                *Content:{" "}
                 <textarea
                   name="note_content"
                   value={note.note_content}
                   onChange={handleNoteChange}
                 />
-                {/* <input type="text"
-              name="note_content"
-              value={note.note_content}
-              onChange={handleNoteChange} /> */}
               </div>
+              <div style={{fontSize:"10px"}}>Areas marked with * are required to fill in</div>
               <button className="submit" type="submit">
                 Add Note
               </button>

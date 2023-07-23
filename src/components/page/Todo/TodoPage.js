@@ -276,7 +276,7 @@ function todoPage({ token }) {
         <form className="form" onSubmit={handleTodoTask}>
           <div className="title"> Add new Todo Task</div>
           <div>
-            Task:{" "}
+            *Task:{" "}
             <input
               type="text"
               name="todo_task"
@@ -285,7 +285,7 @@ function todoPage({ token }) {
             />
           </div>
           <div>
-            Due Date:{" "}
+            *Due Date:{" "}
             <input
               type="date"
               name="todo_deadline_date"
@@ -300,6 +300,7 @@ function todoPage({ token }) {
               onChange={handleTodoChange}
             />
           </div>
+          <div style={{fontSize:"10px"}}>Areas marked with * are required to fill in</div>
           <button className="submit" type="submit">
             Add Todo Task
           </button>
@@ -312,7 +313,7 @@ function todoPage({ token }) {
         <div className="undoneTodolist">
           <b>Incomplete tasks</b>
           {todoTable.map(x => (
-            <div key={x.id}>
+            <div key={x.id} style={{margin:"5px"}}>
               {x.done ? null : (
                 <div className="taskBoxes">
                   <p className="taskTitle"> {x.todo_task} </p>

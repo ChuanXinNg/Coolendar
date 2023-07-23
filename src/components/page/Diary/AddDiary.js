@@ -68,12 +68,13 @@ function AddDiary({ token, date }) {
             <form className="form" onSubmit={handleAddDiary}>
                 <div className="title"> Add New Diary </div>
                 <div className="AddDiary">
-                    New Diary: <textarea
+                    *New Diary: <textarea
                         name="diary_content"
                         value={diary.diary_content}
                         onChange={handleDiaryChange}
                         placeholder="Magnifiient day here!" />
                 </div>
+                <div style={{fontSize:"10px"}}>Areas marked with * are required to fill in</div>
                 <button className="submit" type="submit">
                     Add Diary
                 </button>

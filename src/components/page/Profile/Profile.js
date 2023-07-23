@@ -62,13 +62,12 @@ function Profile({ token }) {
         birthday: ""
     });
 
-    function handleEditProfile(d) {
-        console.log(d);
-        setEditingProfile(d);
+    function handleEditProfile(prof) {
+        setEditingProfile(prof);
         setProfile({
-            user_id: d.user_id,
-            username: d.username,
-            birthday: profile.birthday
+            user_id: prof.user_id,
+            username: prof.username,
+            birthday: prof.birthday
         });
     }
 
@@ -83,8 +82,12 @@ function Profile({ token }) {
 
     async function handleUpdateProfile(e) {
         e.preventDefault();
-        if (profile.username === "" || profile.birthday === "") {
-            alert("Please insert content");
+        if (profile.username === "" && profile.birthday === "") {
+            alert("Please insert username and birthday.");
+        } else if (profile.username === "") {
+            alert("Please insert username.");
+        } else if (profile.birthday === "") {
+            alert("Please insert birthday.");
         } else {
             try {
                 const { data, error } = await supabase

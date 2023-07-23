@@ -53,27 +53,6 @@ function EventTodayList({ token, date }) {
     fetchEventTable();
   }, [date])
 
-  async function handleDeleteEvent(id) {
-    try {
-      const { data, error } = await supabase
-        .from('eventtable')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        throw error;
-      }
-
-      console.log(data);
-      alert("This event will be deleted");
-
-      const updatedEvent = eventTable.filter(item => item.id !== id);
-      setEventTable(updatedEvent);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   function handleEditEvent(e) {
     setEditingEvent(e);
     setEvent({
@@ -259,7 +238,6 @@ function EventTodayList({ token, date }) {
             <div> Date: {x.event_date} </div>
             <div> Time: {formatTime(x.event_time)} </div>
             <button className="small-button" id={x.id} onClick={checkEvent}> Check </button>
-            <button className="small-button" onClick={() => handleDeleteEvent(x.id)}>Delete</button>
             <button className="small-button" onClick={() => handleEditEvent(x)}>Edit</button>
             <div>
               {selectedEventContent && (

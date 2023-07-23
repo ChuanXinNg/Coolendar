@@ -109,7 +109,7 @@ function TodoUndoneList({ token }) {
                             <div> <span style={{fontSize:"18px"}}>{x.todo_task}</span>
                             <input type="checkbox" onClick={() => handleToggleTodoDone(x.id, x.done)}/>
                             </div>
-                            <div> Due: {x.deadline_date}, {formatTime(x.deadline_time)} </div>
+                            <div> Due: {x.deadline_date}, {x.has_dueTime ? formatTime(x.deadline_time) : 'Time is not set.'} </div>
                         </div>
                     ))
                 )}
