@@ -8,9 +8,6 @@ import { useTheme } from '../theme/useTheme';
 import { getFromLS, setToLS } from '../utils/storage';
 
 const Container = styled.div`
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(2, 1fr);
     margin-top: 3rem;
     margin-bottom: 15rem;
 `;

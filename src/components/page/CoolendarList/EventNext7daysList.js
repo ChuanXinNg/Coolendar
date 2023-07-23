@@ -155,9 +155,9 @@ function EventNext7daysList({ token, date }) {
     
             setSelectedEventContent(
               <React.Fragment>
-                <div>Event Name: {event_name}</div>
-                <div> Date: {event_date}, {formattedTime} </div>
+                <div> {event_name}</div>
                 <div>{event_info}</div>
+                <div> {event_date}, {formattedTime} </div>
               </React.Fragment>
             );
           } else {
@@ -202,6 +202,17 @@ function EventNext7daysList({ token, date }) {
     return (
 
         <div className="eventTodayList">
+            {selectedEventContent && (
+            <div style={{border:"solid", borderWidth:"1px", padding:"5px"}}>
+              <b>Event info:</b>
+              <div>{selectedEventContent}</div>
+              <button
+                className="small-button"
+                style={{ marginLeft: '12px' }}
+                onClick={handleCloseEvent}
+              >Close</button>
+            </div>
+          )}
             {editingEvent ? (
           <form className="form" onSubmit={handleUpdateEvent}>
             <div className="title"> Edit Event</div>
@@ -245,28 +256,18 @@ function EventNext7daysList({ token, date }) {
             ) : (
                 eventTable.map(x => (
                     <div key={x.id} style={{margin: "5px", borderBottom:"solid", borderBottomWidth:"1px"}}>
-                        <div style={{fontSize: "18px"}}> {x.event_name} </div>
+                        <div style={{fontSize: "18px", fontWeight: "bold"}}> {x.event_name} </div>
                         <div> Date: {x.event_date} </div>
                         <div> Time: {formatTime(x.event_time)} </div>
                         <button className="small-button" id={x.id} onClick={checkEvent}> Check </button>
                         <button className="small-button" onClick={() => handleDeleteEvent(x.id)}>Delete</button>
                         <button className="small-button" onClick={() => handleEditEvent(x)}>Edit</button>
                         <div>
-          {selectedEventContent && (
-            <div>
-              <b>Event info:</b>
-              <div>{selectedEventContent}</div>
-              <button
-                className="small-button"
-                style={{ marginLeft: '12px' }}
-                onClick={handleCloseEvent}
-              >Close</button>
-            </div>
-          )}
         </div>
                     </div>
                 ))
             )}
+            
         </div>
     );
 

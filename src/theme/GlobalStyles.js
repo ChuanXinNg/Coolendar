@@ -42,7 +42,7 @@ export const GlobalStyles = createGlobalStyle`
 
   .taskBoxes {
     width: 300px;
-    margin: 10px;
+    margin: auto;
     border: solid;
     border-radius: 5px;
     border-width: 1px;
@@ -60,7 +60,9 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .noteBoxes {
-    margin: 10px;
+    width: 340px;
+    margin: auto;
+    margin-bottom: 10px;
     border: solid;
     border-radius: 5px;
     border-width: 1px;

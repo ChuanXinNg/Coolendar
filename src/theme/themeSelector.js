@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import _ from 'lodash';
 import {useTheme} from './useTheme';
-import { getFromLS } from '../utils/storage';
+import { setToLS, getFromLS } from '../utils/storage';
+import originalThemesData from "./skema.json";
 
 const ThemedButton = styled.button`
     border: 0;
@@ -75,6 +76,21 @@ export default (props) => {
         )
     }
 
+    const handleResetThemes = () => {
+
+        // Step 3: Switch to the light theme before reloading the page
+        setMode(originalThemesData.data.light);
+    
+        // Step 4: Optionally, perform any other actions after resetting the themes
+        console.log("Themes reset to the original data.");
+        
+        // Step 1: Save the original themes data to local storage
+        setToLS('all-themes', originalThemesData);
+    
+        // Step 5: Trigger a page reload for a full re-render
+        window.location.reload();
+    };
+
     return (
         <div style={{justifyContent: "center"}}>
             <h3>Select a Theme</h3>
@@ -88,6 +104,7 @@ export default (props) => {
             }
             </Container>
             </div>
+            <button onClick={handleResetThemes} className="btn">Reset All Theme</button>
         </div>
     )
 }

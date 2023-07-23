@@ -33,6 +33,8 @@ function CalendarScreen({ token }) {
 
   const {theme, themeLoaded, getFonts} = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
+
+  const [event, setEvent] = useState(true);
   
   // useEffect(() => {
   //   askForPermissionToReceiveNotifications();
@@ -109,6 +111,9 @@ function CalendarScreen({ token }) {
     }
   }  
   
+  function changeDisplay() {
+    setEvent(!event);
+  }
 
   function toTodoScreen() {
     navigate('/todo');
@@ -139,11 +144,37 @@ function CalendarScreen({ token }) {
           <div>
             <span>Selected date:</span> {format(date, 'yyyy-MM-dd')}
             <h3>Today is {format(new Date(), 'yyyy-MM-dd')}</h3>
+            {event ? (
+              <div>
+              <button className="small-button" onClick={changeDisplay}>Show Todo</button>
+            </div>
+            ) : (
+              <div>
+              <button className="small-button" onClick={changeDisplay}>Show Event</button>
+            </div>
+            )}
           </div>
         )}
 
         <div className="todayData">
-          <div className="taskBoxes" style={{flex:"1"}}>
+
+          {event ? (
+              <div className="noteBoxes" >
+          
+              <strong>Event list</strong>
+              <button className="small-button" onClick={toEventScreen}>Add Event</button>
+              <div className="listTitle">
+                <div><strong>{format(date, 'yyyy-MM-dd')}&apos;s Event</strong></div>
+                <EventTodayList token={token} date={date} />
+              </div>
+              <div className="listTitle">
+                <div><strong>Next 7 Day&apos;s Events</strong></div>
+                <EventNext7daysList token={token} date={date} />
+              </div>
+            </div>
+          ) : (
+            <div className="taskBoxes" >
+
             <strong>Todo list</strong>
             <button className="small-button" onClick={toTodoScreen}>To Todo</button>
             <div className="listTitle">
@@ -155,19 +186,8 @@ function CalendarScreen({ token }) {
               <TodoDoneList token={token} date={date} />
             </div>
           </div>
+          )}
 
-          <div className="noteBoxes" style={{flex:"1"}}>
-            <strong>Event list</strong>
-            <button className="small-button" onClick={toEventScreen}>Add Event</button>
-            <div className="listTitle">
-              <div><strong>{format(date, 'yyyy-MM-dd')}&apos;s Event</strong></div>
-              <EventTodayList token={token} date={date} />
-            </div>
-            <div className="listTitle">
-              <div><strong>Next 7 Day&apos;s Events</strong></div>
-              <EventNext7daysList token={token} date={date} />
-            </div>
-          </div>
         </div>
         </ThemeProvider>}
       </div>

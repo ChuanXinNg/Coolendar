@@ -36,10 +36,10 @@ input {
   background-color: pink;
 }
 
-.todayData {
+/* .todayData {
   display: flex;
   flex-direction: row;
-}
+} */
 
 .todoList {
   flex: 1;
